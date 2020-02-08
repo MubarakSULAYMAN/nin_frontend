@@ -1,17 +1,35 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-container class="main_app">
+      <b-row class="justify-content-md-center">
+        <b-col-md-6>
+          <b-card>
+          <!-- <b-card title="Card Title" body-class="text-center" header-tag="nav"> -->
+        
+          <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+          <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+        
+          <!-- <Nav/> -->
+          <Form/>
+
+          </b-card>
+        </b-col-md-6>
+      </b-row>
+    </b-container> 
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+// import Nav from './components/Nav'
+import Form from './components/Form'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    // HelloWorld
+    // Nav,
+    Form
   }
 }
 </script>
