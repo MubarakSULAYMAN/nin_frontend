@@ -3,8 +3,7 @@
         <b-row class="justify-content-md-center mt-5">
             <b-col md="6">
                 <b-form-group label="Inline switch style checkboxes">
-                    <b-form-checkbox-group :options="options" switches>
-                        <!-- <b-form-checkbox-group :options="options" @change="checked" switches> -->
+                    <b-form-checkbox-group :options="options" v-model="options" switches>
                     </b-form-checkbox-group>
                 </b-form-group>
             </b-col>
@@ -40,29 +39,8 @@
                 ],
             }
         },
-
-        // methods: {
-        //     checked(arrayItems) {
-        //         this.options.checked = true
-        //         this.options.disabled = true
-        //         this.selectedIndex = arrayItems.toString()
-        //         // eslint-disable-next-line no-console
-        //         console.log(this.selectedIndex)
-
-        //         // // eslint-disable-next-line no-console
-        //         // console.log(this.options)
-
-        //         this.options.forEach(function (arrayCollection) {
-        //             let x = arrayCollection.value
-
-        //             // eslint-disable-next-line no-console
-        //             console.log("Array: " + x)
-        //         })
-        //     }
-        // },
-
         watch: {
-            checked: function () {
+            options: function () {
                 // eslint-disable-next-line no-console
                 console.log("Hello")
             }
