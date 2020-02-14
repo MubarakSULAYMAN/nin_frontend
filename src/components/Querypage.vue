@@ -51,29 +51,29 @@
             checked(index) {
                 // this.options.checked = true
                 this.selectedIndex = index
-                let x = this.selectedIndex -1 
                 // eslint-disable-next-line no-console
                 console.log(this.selectedIndex)
-                // eslint-disable-next-line no-console
-                console.log(x)
-                // eslint-disable-next-line no-console
-                // console.log(this.options.checked)
                 
-                // let x = this.options
+                this.options.forEach(function(arrayCollection)
+                {
+                    // eslint-disable-next-line no-console
+                    console.log(arrayCollection.value)
+                })
+                // let a = [
+                //             this.options[0].value,
+                //             this.options[1].value,
+                //             this.options[2].value
+                //          ]
+
+                // if (this.selectedIndex === a['']) {
+                //     // eslint-disable-next-line no-console
+                //     console.log("Hello")
+                // }
+                
+
+                // let x = this.inde
                 // eslint-disable-next-line no-console
                 // console.log(x)
-                
-                // let y = this.options.length
-                // eslint-disable-next-line no-console
-                // console.log(y)
-
-                // eslint-disable-next-line no-console
-                // console.log(index.length)
-
-                // if(y!=y) {
-                //     this.disabled = true
-                // }
-
             }
         },
     }
