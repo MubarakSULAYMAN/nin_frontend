@@ -22,7 +22,7 @@
     export default {
         data() {
             return {
-                // selectedOption: [],
+                selectedOption: [],
                 options: [{
                         text: 'NIN',
                         value: 'nin',
@@ -45,11 +45,10 @@
             }
         },
         methods: {
-            checked(option, index) {
-                if (index === index) {
-                    // eslint-disable-next-line no-console
-                    console.log(option);
-                }
+            checked() {
+                // this.selectedOption = index
+                // eslint-disable-next-line no-console
+                console.log("Hello")
             }
         }
         // computed: {
