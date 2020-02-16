@@ -3,11 +3,13 @@
         <div>
             <div v-text="selectedOption"></div>
             <ul>
-                <li v-for="option in options" :key="option.value">
-                    <input type="checkbox" ref="" :id="option.name" :value="option.text" v-model="selectedOption" @change="checked">
+                <li v-for="option in options" :key="option.value" @change="checked">
+                    <input type="checkbox" ref="" :id="option.name" :value="option.value" v-model="selectedOption"
+                        @update:li="updatedLi">
                     <label :for="option.name">{{option.text}}</label>
                 </li>
             </ul>
+            <div @update:li="updatedLi"> </div>
             <button @click="clear">Clear</button>
         </div>
     </div>
@@ -43,22 +45,34 @@
         },
         methods: {
             checked() {
-                this.$emit('', this.selectedOption)
-                // this.selectedOption = this.index
+                this.$emit('update:li', this.selectedOption)
+                // if(this.selectedOption.value === this.options[0].value) {
 
-                // if(this.$refs.selectedOption =! this.selectedOption)
-                // if (!this.$refs.nin) {
-                //     // eslint-disable-next-line no-console
-                //     console.log("Hello")
-                // }
-            },
-            updateOption() {
                 // eslint-disable-next-line no-console
-                    console.log("Hello")
+                // console.log(this.options[0].value)
+
+                // eslint-disable-next-line no-console
+                // console.log(this.selectedOption)
+                // eslint-disable-next-line no-console
+                console.log(this.$refs[''])
+
+                // }
+                // eslint-disable-next-line no-console
+                // console.log(this.options[1].value)
+
+                // eslint-disable-next-line no-console
+                // console.log(this.options[2].value)
+            },
+            updatedLi(value) {
+                // eslint-disable-next-line no-console
+                console.log(value)
             },
             clear() {
                 this.selectedOption = []
             }
+        },
+        mounted() {
+            
         }
     }
 
