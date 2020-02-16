@@ -1,18 +1,15 @@
 <template>
     <div>
-        <b-row class="justify-content-md-center mt-5">
-            <b-col md="6">
-                <b-form-group>
-                    <!-- <b-form-group v-model="selectedOption"> -->
-                    <!-- <b-form-checkbox-group :options="options" v-model="options" switches> -->
-                    <b-form-checkbox v-for="(option, index) in options" :key="option.value" @change="checked" switch>
-                        <!-- <b-form-checkbox v-for="(option, index) in options" :key="option.value" switch> -->
-                        {{option.value}} {{index}}
-                    </b-form-checkbox>
-                    <!-- </b-form-checkbox-group> -->
-                </b-form-group>
-            </b-col>
-        </b-row>
+        <div>
+            <div v-text="selectedOption"></div>
+            <ul>
+                <li v-for="option in options" :key="option.value">
+                    <input type="checkbox" ref="" :id="option.name" :value="option.text" v-model="selectedOption" @change="checked">
+                    <label :for="option.name">{{option.text}}</label>
+                </li>
+            </ul>
+            <button @click="clear">Clear</button>
+        </div>
     </div>
 </template>
 
@@ -46,25 +43,23 @@
         },
         methods: {
             checked() {
-                // this.selectedOption = index
+                this.$emit('', this.selectedOption)
+                // this.selectedOption = this.index
+
+                // if(this.$refs.selectedOption =! this.selectedOption)
+                // if (!this.$refs.nin) {
+                //     // eslint-disable-next-line no-console
+                //     console.log("Hello")
+                // }
+            },
+            updateOption() {
                 // eslint-disable-next-line no-console
-                console.log("Hello")
+                    console.log("Hello")
+            },
+            clear() {
+                this.selectedOption = []
             }
         }
-        // computed: {
-        // selectedOption: function () {
-
-        // { return this.items.filter((item) => /* YOUR IF CONDITION */); }
-        // }
-        //     let a = "Hello"
-        //     return this.options(() => 
-        //    { if((a) === (a)) {
-        //         // return ("Hello")
-        //         // eslint-disable-next-line no-console
-        //         console.log("Hello")
-        //         }}
-        //     )}
-        // }
     }
 
 </script>
