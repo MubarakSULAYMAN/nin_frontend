@@ -48,13 +48,23 @@
             checked() {
                 // checked(event) {
                 // this.$emit('', this.selectedOption)
+
                 if (this.selectedOption[0] === this.$refs.optionRef[0].value) {
-                    // eslint-disable-next-line no-console
-                    console.log(this.selectedOption[0], this.$refs.optionRef[0].value)
+                    return (this.$refs.optionRef[1].disabled = true, this.$refs.optionRef[2].disabled = true)
                 }
 
-                // eslint-disable-next-line no-console
-                console.log(this.$refs.optionRef[1].value)
+                else if (this.selectedOption[0] === this.$refs.optionRef[1].value) {
+                    return (this.$refs.optionRef[0].disabled = true, this.$refs.optionRef[2].disabled = true)
+                }
+
+                else if (this.selectedOption[0] === this.$refs.optionRef[2].value) {
+                    return (this.$refs.optionRef[0].disabled = true, this.$refs.optionRef[1].disabled = true)
+                }
+                
+                else {
+                    // eslint-disable-next-line no-console
+                    console.log("A selection is required")
+                }
 
                 // // eslint-disable-next-line no-console
                 // console.log(event)
