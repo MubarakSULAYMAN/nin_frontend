@@ -3,13 +3,14 @@
         <div>
             <div v-text="selectedOption"></div>
             <ul>
-                <li v-for="option in options" :key="option.value" @change="checked($refs, $event)">
-                    <input type="checkbox" ref="" :id="option.name" :value="option.value" v-model="selectedOption"
-                        @update:li="updatedLi">
+                <li v-for="(option, index) in options" :key="option.value" @change="checked($refs, $event, index)">
+                    <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value"
+                        v-model="selectedOption">
+                    <!-- @update:li="updatedLi"> -->
                     <label :for="option.name">{{option.text}}</label>
                 </li>
             </ul>
-            <div @update:li="updatedLi"> </div>
+            <!-- <div @update:li="updatedLi"> </div> -->
             <button @click="clear">Clear</button>
         </div>
     </div>
@@ -44,43 +45,25 @@
             }
         },
         methods: {
-            checked(event) {
-                this.$emit('update:li', this.selectedOption)
-                // if(this.selectedOption.value === this.options[0].value) {
-
-                // eslint-disable-next-line no-console
-                // console.log(this.options[0].value)
-
-                // eslint-disable-next-line no-console
-                // console.log(this.selectedOption)
-                // eslint-disable-next-line no-console
-                // console.log(this.$refs[''])
-
-                // }
-                // eslint-disable-next-line no-console
-                // console.log(this.options[1].value)
-
-                // if(this.$refs[0].$refs[0].change()) {
+            checked() {
+                // checked(event) {
+                // this.$emit('', this.selectedOption)
+                if (this.selectedOption[0] === this.$refs.optionRef[0].value) {
                     // eslint-disable-next-line no-console
-                    console.log(this.$refs)
-                    
-                    // eslint-disable-next-line no-console
-                    console.log(event)
-                // }
+                    console.log(this.selectedOption[0], this.$refs.optionRef[0].value)
+                }
 
-                // this.$refs.checkbox.change()
-            },
-            updatedLi(value) {
                 // eslint-disable-next-line no-console
-                console.log(value)
+                console.log(this.$refs.optionRef[1].value)
+
+                // // eslint-disable-next-line no-console
+                // console.log(event)
             },
             clear() {
                 this.selectedOption = []
             }
         },
         mounted() {
-            // eslint-disable-next-line no-console
-            // console.log(this.$refs['nin'])
 
         }
     }
