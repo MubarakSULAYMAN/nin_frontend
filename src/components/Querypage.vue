@@ -6,11 +6,9 @@
                 <li v-for="(option, index) in options" :key="option.value" @change="checked($refs, $event, index)">
                     <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value"
                         v-model="selectedOption">
-                    <!-- @update:li="updatedLi"> -->
                     <label :for="option.name">{{option.text}}</label>
                 </li>
             </ul>
-            <!-- <div @update:li="updatedLi"> </div> -->
             <button @click="clear">Clear</button>
         </div>
     </div>
@@ -46,9 +44,6 @@
         },
         methods: {
             checked() {
-                // checked(event) {
-                // this.$emit('', this.selectedOption)
-
                 if (this.selectedOption[0] === this.$refs.optionRef[0].value) {
                     return (this.$refs.optionRef[1].disabled = true, this.$refs.optionRef[2].disabled = true)
                 }
@@ -65,16 +60,10 @@
                     // eslint-disable-next-line no-console
                     console.log("A selection is required")
                 }
-
-                // // eslint-disable-next-line no-console
-                // console.log(event)
             },
             clear() {
                 this.selectedOption = []
             }
-        },
-        mounted() {
-
         }
     }
 
