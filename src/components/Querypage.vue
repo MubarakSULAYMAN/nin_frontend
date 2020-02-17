@@ -9,8 +9,10 @@
                     <label :for="option.name">{{option.text}}</label>
                 </li>
             </ul>
-            <button @click="clear">Clear</button>
+            <button @click="reset">Reset</button>
         </div>
+
+        <div v-if="checked"> {{startMessage}} </div>
     </div>
 </template>
 
@@ -20,6 +22,7 @@
     export default {
         data() {
             return {
+                startMessage: '',
                 selectedOption: [],
                 options: [{
                         text: 'NIN',
@@ -44,6 +47,7 @@
         },
         methods: {
             checked() {
+                let startMessage = "A selection is required to begin a query."
                 let selector1 = this.selectedOption[0]
 
                 let ref1 = this.$refs.optionRef[0]
@@ -54,24 +58,26 @@
                 let checkbox2 = (selector1 === ref2.value)
                 let checkbox3 = (selector1 === ref3.value)
 
+                let disabled1  = (ref1.disabled = true)
+                let disabled2  = (ref2.disabled = true)
+                let disabled3  = (ref3.disabled = true)
+
                 // let route = 123.456.7890
 
                 if (checkbox1) {
-                    return (ref2.disabled = true, ref3.disabled = true)
+                    return (disabled2, disabled3)
                 } else if (checkbox2) {
-                    return (ref1.disabled = true, ref3.disabled = true)
+                    return (disabled1, disabled3)
                 } else if (checkbox3) {
-                    return (ref1.disabled = true, ref2.disabled = true)
-                }  else if ( !checkbox1  ||  checkbox2  ||  !checkbox3) {
-                    // eslint-disable-next-line no-console
-                    console.log("Make a selection please.")
+                    return (disabled1, disabled2)
                 } else {
                     // eslint-disable-next-line no-console
-                    console.log("A selection is required")
+                    return startMessage
                 }
             },
 
-            clear() {
+            reset(e) {
+                e.preventDefault()
                 this.selectedOption = []
             },
 
