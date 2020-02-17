@@ -10,22 +10,26 @@
         <div>
             <button @click="resetCheckbox"> Reset Checkbox </button>
             <button @click="resetAll"> Reset All </button>
-            <button @click="submitRequest"> Make Query </button>
+            <button @click="verifyInput"> Make Query </button>
         </div>
 
-        <div v-if="checked"> {{startMessage}} </div>
+        <!-- <div v-if="checked"> {{startMessage}} </div> -->
     </div>
 </template>
 
 
 
 <script>
+    let validNIN = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
+    // let validLastName = /^[a-zA-Z]{2,40}$/;
+
     export default {
         data() {
             return {
                 queryTerm: '',
-                startMessage: '',
+                startMessage: 'A selection is required to begin a query.',
                 selectedOption: [],
+
                 options: [{
                         text: 'NIN',
                         value: 'nin',
@@ -49,8 +53,9 @@
         },
         methods: {
 
-            checked() {
-                let startMessage = "A selection is required to begin a query."
+            checked(e) {
+                e.preventDefault()
+
                 let selector1 = this.selectedOption[0]
 
                 let ref1 = this.$refs.optionRef[0]
@@ -64,14 +69,22 @@
                 // let route = 123.456.7890
 
                 if (checkbox1) {
+                    // eslint-disable-next-line no-console
+                    console.log("NIN is selected.")
                     return (ref2.disabled = true, ref3.disabled = true)
                 } else if (checkbox2) {
+                    // eslint-disable-next-line no-console
+                    console.log("Issued Date is selected.")
                     return (ref1.disabled = true, ref3.disabled = true)
                 } else if (checkbox3) {
+                    // eslint-disable-next-line no-console
+                    console.log("Last Name is selected.")
                     return (ref1.disabled = true, ref2.disabled = true)
                 } else {
                     // eslint-disable-next-line no-console
-                    return startMessage
+                    console.log("No selection...")
+                    return ("Empty selection...")
+
                 }
             },
 
@@ -101,14 +114,43 @@
 
             },
 
-            submitRequest(e) {
+            verifyForm(e) {
                 e.preventDefault();
-                if(this.checked && this.queryTerm != '') {
+
+                let myQuery = this.queryTerm
+
+                if (this.checked && myQuery != '') {
                     // eslint-disable-next-line no-console
                     console.log("We are good to go.")
                 } else {
                     // eslint-disable-next-line no-console
                     console.log("Check a checkbox and input a valid query term to begin a query.")
+                }
+            },
+
+            verifyInput(e) {
+                e.preventDefault();
+
+                this.checked(e).checkbox1
+                this.verifyForm(e)
+
+                let myQuery = this.queryTerm
+
+                if (myQuery.match(validNIN)) {
+                    // eslint-disable-next-line no-console
+                    console.log("NIN is good to go.")
+                } else {
+                    // eslint-disable-next-line no-console
+                    console.log("NIN is invalid.")
+                }
+            },
+
+            submitRequest(e) {
+                e.preventDefault();
+
+                if (this.verifyInput) {
+                    // eslint-disable-next-line no-console
+                    console.log("Query will be successful.")
                 }
             }
         }
