@@ -4,7 +4,8 @@
         <p> Searching for <b>{{ queryTerm }}</b> from our records. </p>
         <div v-text="selectedOption"></div>
         <span v-for="option in options" :key="option.value" @change="checked">
-            <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value" v-model="selectedOption">
+            <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value" v-model="selectedOption"
+                @click="checked(e)">
             <label :for="option.name"> {{option.text}} </label>
         </span>
         <div>
@@ -21,7 +22,8 @@
 
 <script>
     let validNIN = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
-    // let validLastName = /^[a-zA-Z]{2,40}$/;
+    let validIssuedDate = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
+    let validLastName = /^[a-zA-Z]{2,40}$/;
 
     export default {
         data() {
@@ -129,20 +131,45 @@
             },
 
             verifyInput(e) {
-                e.preventDefault();
+                e.preventDefault()
 
-                this.checked(e).checkbox1
                 this.verifyForm(e)
 
-                let myQuery = this.queryTerm
+                if (this.checked(e).checkbox1) {
 
-                if (myQuery.match(validNIN)) {
-                    // eslint-disable-next-line no-console
-                    console.log("NIN is good to go.")
-                } else {
-                    // eslint-disable-next-line no-console
-                    console.log("NIN is invalid.")
-                }
+                    let myQuery = this.queryTerm
+
+                    if (myQuery.match(validNIN)) {
+                        // eslint-disable-next-line no-console
+                        console.log("NIN is good to go.")
+                    } else {
+                        // eslint-disable-next-line no-console
+                        console.log("NIN is invalid.")
+                    }
+                } else if (this.checked(e).checkbox2) {
+
+                    let myQuery = this.queryTerm
+
+                    if (myQuery.match(validIssuedDate)) {
+                        // eslint-disable-next-line no-console
+                        console.log("Issued Date is good to go.")
+                    } else {
+                        // eslint-disable-next-line no-console
+                        console.log("Issued Date is invalid.")
+                    }
+                } else if (this.checked(e).checkbox3) {
+
+                    let myQuery = this.queryTerm
+
+                    if (myQuery.match(validLastName)) {
+                        // eslint-disable-next-line no-console
+                        console.log("Last Name is good to go.")
+                    } else {
+                        // eslint-disable-next-line no-console
+                        console.log("Last Name is invalid.")
+                    }
+                } 
+
             },
 
             submitRequest(e) {
