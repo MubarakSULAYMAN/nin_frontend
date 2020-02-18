@@ -4,8 +4,7 @@
         <p> Searching for <b>{{ queryTerm }}</b> from our records. </p>
         <div v-text="selectedOption"></div>
         <span v-for="option in options" :key="option.value" @change="checked">
-            <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value" v-model="selectedOption"
-                @click="checked(e)">
+            <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value" v-model="selectedOption">
             <label :for="option.name"> {{option.text}} </label>
         </span>
         <div>
@@ -121,9 +120,9 @@
 
                 let myQuery = this.queryTerm
 
-                if (this.checked && myQuery != '') {
+                if (this.checked === true && myQuery != '') {
                     // eslint-disable-next-line no-console
-                    console.log("We are good to go.")
+                    console.log("We are good to go with the that.")
                 } else {
                     // eslint-disable-next-line no-console
                     console.log("Check a checkbox and input a valid query term to begin a query.")
