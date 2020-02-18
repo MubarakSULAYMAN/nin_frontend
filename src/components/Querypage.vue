@@ -3,7 +3,7 @@
         <input v-model="queryTerm" placeholder="Search...">
         <p> Searching for <b>{{ queryTerm }}</b> from our records. </p>
         <div v-text="selectedOption"></div>
-        <span v-for="option in options" :key="option.value" @change="checked">
+        <span v-for="option in options" :key="option.value">
             <input type="checkbox" ref="optionRef" :id="option.name" :value="option.value" v-model="selectedOption">
             <label :for="option.name"> {{option.text}} </label>
         </span>
@@ -67,25 +67,22 @@
                 let checkbox2 = (selector1 === ref2.value)
                 let checkbox3 = (selector1 === ref3.value)
 
-                // let route = 123.456.7890
-
                 if (checkbox1) {
                     // eslint-disable-next-line no-console
                     console.log("NIN is selected.")
-                    return (ref2.disabled = true, ref3.disabled = true)
+                    return (ref2.disabled = true, ref3.disabled = true, true)
                 } else if (checkbox2) {
                     // eslint-disable-next-line no-console
                     console.log("Issued Date is selected.")
-                    return (ref1.disabled = true, ref3.disabled = true)
+                    return (ref1.disabled = true, ref3.disabled = true, true)
                 } else if (checkbox3) {
                     // eslint-disable-next-line no-console
                     console.log("Last Name is selected.")
-                    return (ref1.disabled = true, ref2.disabled = true)
+                    return (ref1.disabled = true, ref2.disabled = true, true)
                 } else {
                     // eslint-disable-next-line no-console
                     console.log("No selection...")
-                    return ("Empty selection...")
-
+                    return false
                 }
             },
 
@@ -120,30 +117,32 @@
 
                 let myQuery = this.queryTerm
 
-                if (this.checked === true && myQuery != '') {
+                if (this.checked(e) && myQuery != '') {
                     // eslint-disable-next-line no-console
                     console.log("We are good to go with the that.")
+                    return true
                 } else {
                     // eslint-disable-next-line no-console
                     console.log("Check a checkbox and input a valid query term to begin a query.")
+                    return false
                 }
             },
 
             verifyInput(e) {
                 e.preventDefault()
 
-                this.verifyForm(e)
-
-                if (this.checked(e).checkbox1) {
+                if (this.verifyForm(e) && this.checked(e).checkbox1) {
 
                     let myQuery = this.queryTerm
 
                     if (myQuery.match(validNIN)) {
                         // eslint-disable-next-line no-console
                         console.log("NIN is good to go.")
+                        return true
                     } else {
                         // eslint-disable-next-line no-console
                         console.log("NIN is invalid.")
+                        return false
                     }
                 } else if (this.checked(e).checkbox2) {
 
@@ -152,9 +151,11 @@
                     if (myQuery.match(validIssuedDate)) {
                         // eslint-disable-next-line no-console
                         console.log("Issued Date is good to go.")
+                        return true
                     } else {
                         // eslint-disable-next-line no-console
                         console.log("Issued Date is invalid.")
+                        return true
                     }
                 } else if (this.checked(e).checkbox3) {
 
@@ -163,9 +164,11 @@
                     if (myQuery.match(validLastName)) {
                         // eslint-disable-next-line no-console
                         console.log("Last Name is good to go.")
+                        return true
                     } else {
                         // eslint-disable-next-line no-console
                         console.log("Last Name is invalid.")
+                        return false
                     }
                 } 
 
