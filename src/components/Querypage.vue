@@ -38,81 +38,28 @@
                         text: 'NIN',
                         value: 'nin',
                         name: 'nin',
-                        disabled: false
                     },
                     {
                         text: 'Issued Date',
                         value: 'issued_date',
                         name: 'issued_date',
-                        disabled: false
                     },
                     {
                         text: 'Last Name',
                         value: 'last_name',
                         name: 'last_name',
-                        disabled: false
                     }
                 ],
             }
         },
         methods: {
-
-            // checked(e) {
-            //     e.preventDefault()
-
-            //     let selector1 = this.selectedOption[0]
-
-            //     let ref1 = this.$refs.optionRef[0]
-            //     let ref2 = this.$refs.optionRef[1]
-            //     let ref3 = this.$refs.optionRef[2]
-
-            //     let checkbox1 = (selector1 === ref1.value)
-            //     let checkbox2 = (selector1 === ref2.value)
-            //     let checkbox3 = (selector1 === ref3.value)
-
-            //     if (checkbox1) {
-            //         // eslint-disable-next-line no-console
-            //         console.log('NIN is selected.')
-            //         return (ref2.disabled = true, ref3.disabled = true, true)
-            //     } else if (checkbox2) {
-            //         // eslint-disable-next-line no-console
-            //         console.log('Issued Date is selected.')
-            //         return (ref1.disabled = true, ref3.disabled = true, true)
-            //     } else if (checkbox3) {
-            //         // eslint-disable-next-line no-console
-            //         console.log('Last Name is selected.')
-            //         return (ref1.disabled = true, ref2.disabled = true, true)
-            //     } else {
-            //         // eslint-disable-next-line no-console
-            //         console.log('No selection...')
-            //         return false
-            //     }
-            // },
-
-            resetCheckbox(e) {
-                // let ref1 = this.$refs.optionRef[0]
-                // let ref2 = this.$refs.optionRef[1]
-                // let ref3 = this.$refs.optionRef[2]
-
-                e.preventDefault()
+            resetCheckbox() {
                 this.selectedOption = ''
-                // ref1.disabled = false
-                // ref2.disabled = false
-                // ref3.disabled = false
             },
 
-            resetAll(e) {
-                // let ref1 = this.$refs.optionRef[0]
-                // let ref2 = this.$refs.optionRef[1]
-                // let ref3 = this.$refs.optionRef[2]
-
-                e.preventDefault()
+            resetAll() {
                 this.queryTerm = ''
                 this.selectedOption = ''
-                // ref1.disabled = false
-                // ref2.disabled = false
-                // ref3.disabled = false
-
             },
 
             submitForm() {
@@ -157,6 +104,9 @@
 
             verifyInput(e) {
                 e.preventDefault()
+
+                this.checked(e).checkbox1
+                // this.verifyForm(e)
 
                 if (this.verifyForm(e) && this.checked(e).checkbox1) {
 
