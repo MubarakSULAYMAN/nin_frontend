@@ -1,14 +1,21 @@
 <template>
     <div>
         <div>
-            <b-form @submit="submitForm" @reset="resetAll" v-if="show">
-                <!-- <b-form @submit="onSubmit" @reset="onReset" v-if="show"> -->
+            <b-form @submit="submitForm" @reset="resetAll" v-if="show" @submit.stop.prevent>
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
                         <b-col sm-6>
                             <!-- <div class="col-sm-6 offset-3"> -->
                             <b-input v-model='queryTerm' placeholder='Search...'
-                                class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" />
+                                class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" :state="inputVet" />
+
+                            <b-form-invalid-feedback :state="inputVet">
+                                {{ infoMessage }}
+                            </b-form-invalid-feedback>
+                            <b-form-valid-feedback :state="inputVet">
+                                Input seems Good.
+                            </b-form-valid-feedback>
+
                             <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
                             <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
@@ -151,26 +158,19 @@
         },
 
         computed: {
-            validation() {
-                if (this.selectedOption === 'nin') {
-                    if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
+            inputVet() {
+                if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
                         this.infoMessage === 'Invalid NIN, NIN can only be 11 characters.'
                         this.info === false
                         return
-                    }
-
-                } else if (this.selectedOption === 'issued_date') {
-                    if (!this.queryTerm.match(validIssuedDate)) {
+                } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
                         this.infoMessage === 'Invalid Issued Date'
                         this.info === false
                         return
-                    }
-                } else if (this.selectedOption === 'last_name') {
-                    if (!(this.queryTerm.match(validLastName))) {
+                } else if (this.selectedOption === 'last_name' && !(this.queryTerm.match(validLastName))) {
                         this.infoMessage === 'Invalid Last Name, name can only be between 2 and 40 characters'
                         this.info === false
                         return
-                    }
                 }
                 return (this.info === true)
             }
