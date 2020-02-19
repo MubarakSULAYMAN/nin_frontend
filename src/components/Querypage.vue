@@ -57,7 +57,7 @@
     let validNIN = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
     let validIssuedDate = ''
     // let validIssuedDate = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
-    let validLastName = /^[a-zA-Z]{2,40}$/
+    let validTrackingID = /^[a-zA-Z]{2,40}$/
 
     export default {
         data() {
@@ -83,9 +83,9 @@
                         name: 'issued_date',
                     },
                     {
-                        text: 'Last Name',
-                        value: 'last_name',
-                        name: 'last_name',
+                        text: 'Tracking ID',
+                        value: 'tracking_id',
+                        name: 'tracking_id',
                     }
                 ],
 
@@ -115,7 +115,7 @@
                     this.queryInfo = false
                 } else if (this.selectedOption === '') {
                     this.infoMessage = 'Please select an option.'
-                    this.info = true
+                    this.info = false
                 } else if (this.queryTerm === '') {
                     this.infoMessage = 'Please enter a query term.'
                     this.info = false
@@ -130,7 +130,7 @@
                             return
                         }
 
-                        url = rootURL + 'lastNameExt/' + this.queryTerm
+                        url = rootURL + 'ninExt/' + this.queryTerm
                     } else if (this.selectedOption === 'issued_date') {
                         if (!this.queryTerm.match(validIssuedDate)) {
                             this.infoMessage = 'Invalid Issued Date'
@@ -139,14 +139,14 @@
                         }
 
                         url = rootURL + 'issuedDateExt/' + this.queryTerm
-                    } else if (this.selectedOption === 'last_name') {
-                        if (!(this.queryTerm.match(validLastName))) {
-                            this.infoMessage = 'Invalid Last Name, name can only be between 2 and 40 characters'
+                    } else if (this.selectedOption === 'tracking_id') {
+                        if (!(this.queryTerm.match(validTrackingID))) {
+                            this.infoMessage = 'Invalid Tracking ID, name can only be between 2 and 40 characters'
                             this.info = false
                             return
                         }
 
-                        url = rootURL + 'lastNameExt/' + this.queryTerm
+                        url = rootURL + 'trackingIDExt/' + this.queryTerm
                     }
 
                     this.queryMessage = 'The url is ' + url
@@ -159,40 +159,53 @@
 
         computed: {
             inputVet() {
-                if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
-                        this.infoMessage === 'Invalid NIN, NIN can only be 11 characters.'
-                        this.info === false
-                        return
-                } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
-                        this.infoMessage === 'Invalid Issued Date'
-                        this.info === false
-                        return
-                } else if (this.selectedOption === 'last_name' && !(this.queryTerm.match(validLastName))) {
-                        this.infoMessage === 'Invalid Last Name, name can only be between 2 and 40 characters'
-                        this.info === false
-                        return
-                }
-                return (this.info === true)
-            }
-        },
+                if (this.queryTerm === '' && this.selectedOption === '') {
+                    this.infoMessage === 'Please select an option and enter a query term.'
+                    this.info === false
+                    this.queryInfo === false
+                } else if (this.selectedOption === '') {
+                    this.infoMessage === 'Please select an option.'
+                    this.info === false
+                } else if (this.queryTerm === '') {
+                    this.infoMessage === 'Please enter a query term.'
+                    this.info === false
+                } else {
 
-        mounted: function () {
-            fetch('http://127.0.0.1:5000/restricted_raw', {
-                    method: 'get'
-                })
-                .then((response) => {
-                    // eslint-disable-next-line no-console
-                    // console.log(response.json)
-                    return response.json()
-                })
-                .then((jsonDataResponse) => {
-                    this.queries = jsonDataResponse.query_term
-                })
-            // .then(response => this.posts = response.data.query_term)
-            // .catch(error => this.posts = [{last_name: "No Query result found."}])
-            // .finally(() => console.log("Data loaded completely."));
+                    if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
+                            this.infoMessage === 'Invalid NIN, NIN can only be 11 characters.'
+                            this.info === false
+                            return
+                    } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
+                            this.infoMessage === 'Invalid Issued Date'
+                            this.info === false
+                            return
+                    } else if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(validTrackingID))) {
+                            this.infoMessage === 'Invalid Tracking ID, name can only be between 2 and 40 characters'
+                            this.info === false
+                            return
+                    }
+            }
+                    return (this.info === true)
+                }
+            },
+
+            mounted: function () {
+                fetch('http://127.0.0.1:5000/restricted_raw', {
+                        method: 'get'
+                    })
+                    .then((response) => {
+                        // eslint-disable-next-line no-console
+                        // console.log(response.json)
+                        return response.json()
+                    })
+                    .then((jsonDataResponse) => {
+                        this.queries = jsonDataResponse.query_term
+                    })
+                // .then(response => this.posts = response.data.query_term)
+                // .catch(error => this.posts = [{tracking_id: "No Query result found."}])
+                // .finally(() => console.log("Data loaded completely."));
+            }
         }
-    }
 
 </script>
 
