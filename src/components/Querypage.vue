@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <b-form @submit="submitForm" @reset="resetAll">
+            <b-form @submit="submitForm" @reset="resetAll" v-if="show">
                 <!-- <b-form @submit="onSubmit" @reset="onReset" v-if="show"> -->
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
@@ -28,9 +28,8 @@
                             </div>
 
                             <p class="hint"> Ensure you input the right detail. </p>
-                            <!-- 
-                        <p v-if="info === false" class="warningInfo"> {{ infoMessage }} </p>
-                        <p v-else-if="info === true" class="info"> Hope the results are helpful. </p> -->
+
+                            <p v-if="info === true" class="info"> Hope the results are helpful. </p>
 
                             <p v-if="queryInfo"> {{ queryMessage }} </p>
                         </b-col>
@@ -64,6 +63,7 @@
                 info: '',
                 queryInfo: false,
                 searching: false,
+                show: true,
 
                 options: [{
                         text: 'NIN',
@@ -95,6 +95,7 @@
 
             resetAll(e) {
                 e.preventDefault()
+                this.info = ''
                 this.queryTerm = ''
                 this.selectedOption = ''
             },
