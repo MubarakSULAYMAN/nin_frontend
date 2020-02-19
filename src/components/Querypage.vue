@@ -154,7 +154,27 @@
 
         computed: {
             validation() {
-                return (this.info === false)
+                if (this.selectedOption === 'nin') {
+                    if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
+                        this.infoMessage === 'Invalid NIN, NIN can only be 11 characters.'
+                        this.info === false
+                        return
+                    }
+
+                } else if (this.selectedOption === 'issued_date') {
+                    if (!this.queryTerm.match(validIssuedDate)) {
+                        this.infoMessage === 'Invalid Issued Date'
+                        this.info === false
+                        return
+                    }
+                } else if (this.selectedOption === 'last_name') {
+                    if (!(this.queryTerm.match(validLastName))) {
+                        this.infoMessage === 'Invalid Last Name, name can only be between 2 and 40 characters'
+                        this.info === false
+                        return
+                    }
+                }
+                return (this.info === true)
             }
         },
 
