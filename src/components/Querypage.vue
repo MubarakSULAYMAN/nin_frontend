@@ -1,48 +1,42 @@
 <template>
     <div>
         <div>
-            <b-container>
-                <b-row class="justify-content-lg-center mt-3">
-                    <b-col sm-6>
-                        <!-- <div class="col-sm-6 offset-3"> -->
-                        <b-input v-model='queryTerm' placeholder='Search...' :state="validation"
-                            class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" />
-                        <!-- <input v-model='queryTerm' placeholder='Search...'
-                            class="[ info === false ? 'badInput' ? 'goodInput' : '' ]"/> -->
+            <b-form @submit="submitForm" @reset="resetAll">
+                <!-- <b-form @submit="onSubmit" @reset="onReset" v-if="show"> -->
+                <b-container>
+                    <b-row class="justify-content-lg-center mt-3">
+                        <b-col sm-6>
+                            <!-- <div class="col-sm-6 offset-3"> -->
+                            <b-input v-model='queryTerm' placeholder='Search...'
+                                class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" />
+                            <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
+                            <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
-                        <b-form-invalid-feedback :state="validation">
-                            {{ infoMessage }}
-                        </b-form-invalid-feedback>
+                            <span>
+                                <p v-if="info === false" class="warningInfo"> {{ infoMessage }} </p>
+                                <p v-else-if="info === true" class="info"> Input seems good. </p>
+                            </span>
 
-                        <b-form-valid-feedback :state="validation">
-                            Good to go...
-                        </b-form-valid-feedback>
+                            <span v-for='option in options' :key='option.value'>
+                                <input type='radio' :id='option.name' class="radioBtn" name='eradio'
+                                    :value='option.value' v-model='selectedOption'>
+                                <label :for='option.name'> {{option.text}} </label>
+                            </span>
+                            <div class="">
+                                <b-button type="reset" pill variant="danger">Reset</b-button>
+                                <b-button type="submit" pill variant="primary" class="ml-3">Submit</b-button>
+                            </div>
 
-
-                        <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
-                        <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
-                        <span v-for='option in options' :key='option.value'>
-                            <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value'
-                                v-model='selectedOption'>
-                            <label :for='option.name'> {{option.text}} </label>
-                        </span>
-                        <div class="">
-                            <b-button pill variant="primary" @click='resetAll' href="url" class=""> RESET </b-button>
-                            <b-button pill variant="success" @click='submitForm' href="url" class="ml-3"> SEARCH
-                            </b-button>
-                            <!-- <button @click='resetAll'> Reset All </button>
-                        <button @click='submitForm'> Make Query </button> -->
-                        </div>
-
-                        <p class="hint"> Ensure you input the right detail. </p>
-
+                            <p class="hint"> Ensure you input the right detail. </p>
+                            <!-- 
                         <p v-if="info === false" class="warningInfo"> {{ infoMessage }} </p>
-                        <p v-else-if="info === true" class="info"> Hope the results are helpful. </p>
+                        <p v-else-if="info === true" class="info"> Hope the results are helpful. </p> -->
 
-                        <p v-if="queryInfo"> {{ queryMessage }} </p>
-                    </b-col>
-                </b-row>
-            </b-container>
+                            <p v-if="queryInfo"> {{ queryMessage }} </p>
+                        </b-col>
+                    </b-row>
+                </b-container>
+            </b-form>
         </div>
 
         <!-- <div :availableResults="queryResponses[index]">
@@ -94,16 +88,19 @@
         },
 
         methods: {
-            resetCheckbox() {
+            resetCheckbox(e) {
+                e.preventDefault()
                 this.selectedOption = ''
             },
 
-            resetAll() {
+            resetAll(e) {
+                e.preventDefault()
                 this.queryTerm = ''
                 this.selectedOption = ''
             },
 
-            submitForm() {
+            submitForm(e) {
+                e.preventDefault()
                 if (this.queryTerm === '' && this.selectedOption === '') {
                     this.infoMessage = 'Please select an option and enter a query term.'
                     this.info = false
@@ -120,7 +117,7 @@
 
                     if (this.selectedOption === 'nin') {
                         if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
-                            this.infoMessage = 'Invalid NIN, NIN can only be 11 characters.'
+                            this.infoMessage = 'Invalid NIN, NIN can only be 11 alphanumeric characters.'
                             this.info = false
                             return
                         }
