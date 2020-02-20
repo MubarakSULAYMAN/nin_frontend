@@ -2,21 +2,22 @@
   <div id="app">
     <b-container class="main_app">
 
-      <Querypage/>
+      <!-- <Querypage/> -->
+      <Nav/>
 
     </b-container> 
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 // import Querypage from './components/Querypage'
-import Querypage from './components/Querypage'
+import Nav from './components/Nav'
 
 export default {
   name: 'app',
   components: {
-    Querypage
+    // Querypage
+    Nav
   }
 }
 </script>

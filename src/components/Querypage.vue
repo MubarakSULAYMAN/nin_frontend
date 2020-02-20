@@ -55,16 +55,9 @@
 
 
 <script>
-    let validNIN = /^[0-9]/
-    // ^[0-9]*$
-    // let validNIN = /^\d/
-    // let validIssuedDate = ''
+    let validNIN = /^[0-9]*$/
     // let validIssuedDate = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
-    // let validTrackingID = /^\w/
-    let validTrackingID = ''
-    // let validTrackingID = /^([a-zA-Z0-9]*+)$/
-    // /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$
-    // let validTrackingID = /^[a-zA-Z0-9]*$/
+    let validTrackingID = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         data() {
