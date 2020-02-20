@@ -1,14 +1,12 @@
 <template>
     <div>
         <div>
-            <!-- <b-form @reset="resetAll" v-if="show" @submit.stop.prevent> -->
             <b-form @submit="submitForm" @reset="resetAll" v-if="show" @submit.stop.prevent>
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
                         <b-col sm-6>
-                            <!-- <div class="col-sm-6 offset-3"> -->
-                            <b-input v-model='queryTerm' placeholder='Search...'
-                                class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" :state="inputVet" />
+                                <!-- class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" -->
+                                <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" />
 
                             <b-form-invalid-feedback :state="inputVet">
                                 {{ infoMessage }}
@@ -19,11 +17,6 @@
 
                             <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
                             <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
-
-                            <!-- <span>
-                                <p v-if="info === false" class="warningInfo"> {{ infoMessage }} </p>
-                                <p v-else-if="info === true" class="info"> Input seems good. </p>
-                            </span> -->
 
                             <span v-for='option in options' :key='option.value'>
                                 <input type='radio' :id='option.name' class="radioBtn" name='eradio'
@@ -37,9 +30,9 @@
 
                             <p class="hint"> Ensure you input the right detail. </p>
 
-                            <p v-if="info === true" class="info"> Hope the results are helpful. </p>
+                            <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
 
-                            <p v-if="queryInfo"> {{ queryMessage }} </p>
+                            <p v-if="!queryInfo"> {{ queryMessage }} </p>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -64,10 +57,10 @@
             return {
                 queryTerm: '',
                 selectedOption: '',
-                infoMessage: '',
+                infoMessage: 'Hello',
                 queryMessage: '',
 
-                info: '',
+                info: false,
                 queryInfo: false,
                 searching: false,
                 show: true,
@@ -102,83 +95,83 @@
 
             resetAll(e) {
                 e.preventDefault()
-                this.info = ''
+                this.info = false
                 this.queryTerm = ''
                 this.selectedOption = ''
             },
 
-            submitForm(e) {
-                e.preventDefault()
-                if (this.queryTerm === '' && this.selectedOption === '') {
-                    this.infoMessage = 'Please select an option and enter a query term.'
-                    this.info = false
-                    this.queryInfo = false
-                } else if (this.selectedOption === '') {
-                    this.infoMessage = 'Please select an option.'
-                    this.info = false
-                } else if (this.queryTerm === '') {
-                    this.infoMessage = 'Please enter a query term.'
-                    this.info = false
-                } else {
-                    let rootURL = 'localhost://somethinghere/'
-                    let url = ''
+            // submitForm(e) {
+            //     e.preventDefault()
+            //     if (this.queryTerm === '' && this.selectedOption === '') {
+            //         this.infoMessage = 'Please select an option and enter a query term.'
+            //         this.info = false
+            //         this.queryInfo = false
+            //     } else if (this.selectedOption === '') {
+            //         this.infoMessage = 'Please select an option.'
+            //         this.info = false
+            //     } else if (this.queryTerm === '') {
+            //         this.infoMessage = 'Please enter a query term.'
+            //         this.info = false
+            //     } else {
+            //         let rootURL = 'localhost://somethinghere/'
+            //         let url = ''
 
-                    if (this.selectedOption === 'nin') {
-                        if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11 && this.queryTerm > 50000000000)) {
-                            this.infoMessage =
-                                'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
-                            this.info = false
-                            return
-                        }
+            //         if (this.selectedOption === 'nin') {
+            //             if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11 && this.queryTerm > 50000000000)) {
+            //                 this.infoMessage =
+            //                     'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
+            //                 this.info = false
+            //                 return
+            //             }
 
-                        url = rootURL + 'ninExt/' + this.queryTerm
-                    }
-                    //  else if (this.selectedOption === 'issued_date') {
-                    //     if (!this.queryTerm.match(validIssuedDate)) {
-                    //         this.infoMessage = 'Invalid Issued Date, check format'
-                    //         this.info = false
-                    //         return
-                    //     }
+            //             url = rootURL + 'ninExt/' + this.queryTerm
+            //         }
+            //         //  else if (this.selectedOption === 'issued_date') {
+            //         //     if (!this.queryTerm.match(validIssuedDate)) {
+            //         //         this.infoMessage = 'Invalid Issued Date, check format'
+            //         //         this.info = false
+            //         //         return
+            //         //     }
 
-                    //     url = rootURL + 'issuedDateExt/' + this.queryTerm
-                    // } 
-                    else if (this.selectedOption === 'tracking_id') {
-                        if (!(this.queryTerm.match(validTrackingID))) {
-                            this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                            this.info = false
-                            return
-                        }
+            //         //     url = rootURL + 'issuedDateExt/' + this.queryTerm
+            //         // } 
+            //         else if (this.selectedOption === 'tracking_id') {
+            //             if (!(this.queryTerm.match(validTrackingID))) {
+            //                 this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+            //                 this.info = false
+            //                 return
+            //             }
 
-                        url = rootURL + 'trackingIDExt/' + this.queryTerm
-                    }
+            //             url = rootURL + 'trackingIDExt/' + this.queryTerm
+            //         }
 
-                    this.queryMessage = 'The url is ' + url
-                    this.info = true
-                    this.queryInfo = true
-                    this.searching = true
-                }
-            }
+            //         this.queryMessage = 'The url is ' + url
+            //         this.info = true
+            //         this.queryInfo = true
+            //         this.searching = true
+            //     }
+            // }
         },
 
         computed: {
             inputVet() {
                 if (this.queryTerm === '' && this.selectedOption === '') {
-                    this.infoMessage === 'Please select an option and enter a query term.'
-                    this.info === false
-                    this.queryInfo === true
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    this.infoMessage = 'Please select an option and enter a query term.'
+                    return this.info
                 } else if (this.selectedOption === '') {
-                    this.infoMessage === 'Please select an option.'
-                    this.info === false
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    this.infoMessage = 'Please select an option.'
+                    return this.info
                 } else if (this.queryTerm === '') {
-                    this.infoMessage === 'Please enter a query term.'
-                    this.info === false
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    this.infoMessage = 'Please enter a query term.'
+                    return this.info
                 } else {
                     if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
-
-                        this.infoMessage ===
-                            'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
-                        this.info === false
-                        return
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                        this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
+                        return this.info
                     }
                     // else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
                     //     this.infoMessage === 'Invalid Issued Date'
@@ -186,12 +179,12 @@
                     //     return
                     // } 
                     else if (this.selectedOption === 'tracking_id' && !this.queryTerm.match(validTrackingID)) {
-                        this.infoMessage === 'Invalid Tracking ID, Tracking ID can only be between 2 and 40 characters'
-                        this.info === false
-                        return
+                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be between 2 and 40 characters'
+                        return this.info
                     }
                 }
-                return this.info === true
+                return this.info
             }
         },
 
