@@ -5,15 +5,16 @@
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
                         <b-col sm-6>
-                                <!-- class="[ info === false ? 'badInput' ? 'goodInput' : '' ]" -->
+                            <!-- <div v-if="!date">
                                 <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" />
+                                <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
+                                <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
+                            </div> -->
 
-                            <b-form-invalid-feedback :state="inputVet">
-                                {{ infoMessage }}
-                            </b-form-invalid-feedback>
-                            <b-form-valid-feedback :state="inputVet">
-                                Input seems Good.
-                            </b-form-valid-feedback>
+                            <!-- <div v-else> -->
+                            <div>
+                                <b-form-datepicker id="example-datepicker" class="mb-2"></b-form-datepicker>
+                            </div>
 
                             <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
                             <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
@@ -102,24 +103,24 @@
 
             submitForm(e) {
                 e.preventDefault()
-                    let rootURL = 'localhost://somethinghere/'
-                    let url = ''
+                let rootURL = 'localhost://somethinghere/'
+                let url = ''
 
-                    if (this.selectedOption === 'nin') {
-                        url = rootURL + 'ninExt/' + this.queryTerm
-                    }
-                    //  else if (this.selectedOption === 'issued_date') {
-                    //     url = rootURL + 'issuedDateExt/' + this.queryTerm
-                    // } 
-                    else if (this.selectedOption === 'tracking_id') {
-                        url = rootURL + 'trackingIDExt/' + this.queryTerm
-                    }
-
-
-                    this.searching = true
-                    this.info = true
-                    this.queryMessage = 'The url is ' + url
+                if (this.selectedOption === 'nin') {
+                    url = rootURL + 'ninExt/' + this.queryTerm
                 }
+                //  else if (this.selectedOption === 'issued_date') {
+                //     url = rootURL + 'issuedDateExt/' + this.queryTerm
+                // } 
+                else if (this.selectedOption === 'tracking_id') {
+                    url = rootURL + 'trackingIDExt/' + this.queryTerm
+                }
+
+
+                this.searching = true
+                this.info = true
+                this.queryMessage = 'The url is ' + url
+            }
         },
 
         computed: {
@@ -137,8 +138,9 @@
                     this.infoMessage = 'Please enter a query term.'
                     return this.info
                 } else {
-                    if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                    if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length ===
+                            11)) {
+                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
                         return this.info
                     }
@@ -148,7 +150,7 @@
                     //     return
                     // } 
                     else if (this.selectedOption === 'tracking_id' && !this.queryTerm.match(validTrackingID)) {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be between 2 and 40 characters'
                         return this.info
                     }
