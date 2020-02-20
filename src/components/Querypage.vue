@@ -1,6 +1,7 @@
 <template>
     <div>
         <div>
+            <!-- <b-form @reset="resetAll" v-if="show" @submit.stop.prevent> -->
             <b-form @submit="submitForm" @reset="resetAll" v-if="show" @submit.stop.prevent>
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
@@ -19,10 +20,10 @@
                             <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
                             <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
-                            <span>
+                            <!-- <span>
                                 <p v-if="info === false" class="warningInfo"> {{ infoMessage }} </p>
                                 <p v-else-if="info === true" class="info"> Input seems good. </p>
-                            </span>
+                            </span> -->
 
                             <span v-for='option in options' :key='option.value'>
                                 <input type='radio' :id='option.name' class="radioBtn" name='eradio'
@@ -54,10 +55,16 @@
 
 
 <script>
-    let validNIN = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
-    let validIssuedDate = ''
+    let validNIN = /^[0-9]/
+    // ^[0-9]*$
+    // let validNIN = /^\d/
+    // let validIssuedDate = ''
     // let validIssuedDate = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
-    let validTrackingID = /^[a-zA-Z]{2,40}$/
+    // let validTrackingID = /^\w/
+    let validTrackingID = ''
+    // let validTrackingID = /^([a-zA-Z0-9]*+)$/
+    // /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$
+    // let validTrackingID = /^[a-zA-Z0-9]*$/
 
     export default {
         data() {
@@ -124,24 +131,27 @@
                     let url = ''
 
                     if (this.selectedOption === 'nin') {
-                        if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
-                            this.infoMessage = 'Invalid NIN, NIN can only be 11 alphanumeric characters.'
+                        if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11 && this.queryTerm > 50000000000)) {
+                            this.infoMessage =
+                                'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
                             this.info = false
                             return
                         }
 
                         url = rootURL + 'ninExt/' + this.queryTerm
-                    } else if (this.selectedOption === 'issued_date') {
-                        if (!this.queryTerm.match(validIssuedDate)) {
-                            this.infoMessage = 'Invalid Issued Date'
-                            this.info = false
-                            return
-                        }
+                    }
+                    //  else if (this.selectedOption === 'issued_date') {
+                    //     if (!this.queryTerm.match(validIssuedDate)) {
+                    //         this.infoMessage = 'Invalid Issued Date, check format'
+                    //         this.info = false
+                    //         return
+                    //     }
 
-                        url = rootURL + 'issuedDateExt/' + this.queryTerm
-                    } else if (this.selectedOption === 'tracking_id') {
+                    //     url = rootURL + 'issuedDateExt/' + this.queryTerm
+                    // } 
+                    else if (this.selectedOption === 'tracking_id') {
                         if (!(this.queryTerm.match(validTrackingID))) {
-                            this.infoMessage = 'Invalid Tracking ID, name can only be between 2 and 40 characters'
+                            this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
                             this.info = false
                             return
                         }
@@ -162,7 +172,7 @@
                 if (this.queryTerm === '' && this.selectedOption === '') {
                     this.infoMessage === 'Please select an option and enter a query term.'
                     this.info === false
-                    this.queryInfo === false
+                    this.queryInfo === true
                 } else if (this.selectedOption === '') {
                     this.infoMessage === 'Please select an option.'
                     this.info === false
@@ -170,42 +180,45 @@
                     this.infoMessage === 'Please enter a query term.'
                     this.info === false
                 } else {
-
                     if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length === 11)) {
-                            this.infoMessage === 'Invalid NIN, NIN can only be 11 characters.'
-                            this.info === false
-                            return
-                    } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
-                            this.infoMessage === 'Invalid Issued Date'
-                            this.info === false
-                            return
-                    } else if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(validTrackingID))) {
-                            this.infoMessage === 'Invalid Tracking ID, name can only be between 2 and 40 characters'
-                            this.info === false
-                            return
-                    }
-            }
-                    return (this.info === true)
-                }
-            },
 
-            mounted: function () {
-                fetch('http://127.0.0.1:5000/restricted_raw', {
-                        method: 'get'
-                    })
-                    .then((response) => {
-                        // eslint-disable-next-line no-console
-                        // console.log(response.json)
-                        return response.json()
-                    })
-                    .then((jsonDataResponse) => {
-                        this.queries = jsonDataResponse.query_term
-                    })
-                // .then(response => this.posts = response.data.query_term)
-                // .catch(error => this.posts = [{tracking_id: "No Query result found."}])
-                // .finally(() => console.log("Data loaded completely."));
+                        this.infoMessage ===
+                            'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
+                        this.info === false
+                        return
+                    }
+                    // else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
+                    //     this.infoMessage === 'Invalid Issued Date'
+                    //     this.info === false
+                    //     return
+                    // } 
+                    else if (this.selectedOption === 'tracking_id' && !this.queryTerm.match(validTrackingID)) {
+                        this.infoMessage === 'Invalid Tracking ID, Tracking ID can only be between 2 and 40 characters'
+                        this.info === false
+                        return
+                    }
+                }
+                return this.info === true
             }
+        },
+
+        mounted: function () {
+            fetch('http://127.0.0.1:5000/restricted_raw', {
+                    method: 'get'
+                })
+                .then((response) => {
+                    // eslint-disable-next-line no-console
+                    // console.log(response.json)
+                    return response.json()
+                })
+                .then((jsonDataResponse) => {
+                    this.queries = jsonDataResponse.query_term
+                })
+            // .then(response => this.posts = response.data.query_term)
+            // .catch(error => this.posts = [{tracking_id: "No Query result found."}])
+            // .finally(() => console.log("Data loaded completely."));
         }
+    }
 
 </script>
 
