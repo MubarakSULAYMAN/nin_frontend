@@ -100,57 +100,26 @@
                 this.selectedOption = ''
             },
 
-            // submitForm(e) {
-            //     e.preventDefault()
-            //     if (this.queryTerm === '' && this.selectedOption === '') {
-            //         this.infoMessage = 'Please select an option and enter a query term.'
-            //         this.info = false
-            //         this.queryInfo = false
-            //     } else if (this.selectedOption === '') {
-            //         this.infoMessage = 'Please select an option.'
-            //         this.info = false
-            //     } else if (this.queryTerm === '') {
-            //         this.infoMessage = 'Please enter a query term.'
-            //         this.info = false
-            //     } else {
-            //         let rootURL = 'localhost://somethinghere/'
-            //         let url = ''
+            submitForm(e) {
+                e.preventDefault()
+                    let rootURL = 'localhost://somethinghere/'
+                    let url = ''
 
-            //         if (this.selectedOption === 'nin') {
-            //             if (!(this.queryTerm.match(validNIN) && this.queryTerm.length === 11 && this.queryTerm > 50000000000)) {
-            //                 this.infoMessage =
-            //                     'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
-            //                 this.info = false
-            //                 return
-            //             }
+                    if (this.selectedOption === 'nin') {
+                        url = rootURL + 'ninExt/' + this.queryTerm
+                    }
+                    //  else if (this.selectedOption === 'issued_date') {
+                    //     url = rootURL + 'issuedDateExt/' + this.queryTerm
+                    // } 
+                    else if (this.selectedOption === 'tracking_id') {
+                        url = rootURL + 'trackingIDExt/' + this.queryTerm
+                    }
 
-            //             url = rootURL + 'ninExt/' + this.queryTerm
-            //         }
-            //         //  else if (this.selectedOption === 'issued_date') {
-            //         //     if (!this.queryTerm.match(validIssuedDate)) {
-            //         //         this.infoMessage = 'Invalid Issued Date, check format'
-            //         //         this.info = false
-            //         //         return
-            //         //     }
 
-            //         //     url = rootURL + 'issuedDateExt/' + this.queryTerm
-            //         // } 
-            //         else if (this.selectedOption === 'tracking_id') {
-            //             if (!(this.queryTerm.match(validTrackingID))) {
-            //                 this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-            //                 this.info = false
-            //                 return
-            //             }
-
-            //             url = rootURL + 'trackingIDExt/' + this.queryTerm
-            //         }
-
-            //         this.queryMessage = 'The url is ' + url
-            //         this.info = true
-            //         this.queryInfo = true
-            //         this.searching = true
-            //     }
-            // }
+                    this.searching = true
+                    this.info = true
+                    this.queryMessage = 'The url is ' + url
+                }
         },
 
         computed: {
@@ -184,7 +153,7 @@
                         return this.info
                     }
                 }
-                return this.info
+                return !this.info
             }
         },
 
