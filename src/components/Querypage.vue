@@ -5,28 +5,21 @@
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
                         <b-col sm-6>
-                            <!-- <div v-if="!date">
-                                <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" />
-                                <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
-                                <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
-                            </div> -->
-
-                            <!-- <div v-else> -->
-                            <div>
-                                <b-form-datepicker id="example-datepicker" class="mb-2"></b-form-datepicker>
-                            </div>
+                            <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" />
+                            <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
+                            <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
                             <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
                             <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
                             <span v-for='option in options' :key='option.value'>
-                                <input type='radio' :id='option.name' class="radioBtn" name='eradio'
-                                    :value='option.value' v-model='selectedOption'>
+                                <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value' v-model='selectedOption'>
                                 <label :for='option.name'> {{option.text}} </label>
                             </span>
                             <div class="">
                                 <b-button type="reset" pill variant="danger">Reset</b-button>
                                 <b-button type="submit" pill variant="primary" class="ml-3">Submit</b-button>
+                                <!-- <b-button type="submit" pill variant="primary" class="ml-3" :disabled="disabled">Submit</b-button> -->
                             </div>
 
                             <p class="hint"> Ensure you input the right detail. </p>
@@ -65,6 +58,7 @@
                 queryInfo: false,
                 searching: false,
                 show: true,
+                disabled: true,
 
                 options: [{
                         text: 'NIN',
@@ -128,20 +122,24 @@
                 if (this.queryTerm === '' && this.selectedOption === '') {
                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.infoMessage = 'Please select an option and enter a query term.'
+                    this.disabled
                     return this.info
                 } else if (this.selectedOption === '') {
                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.infoMessage = 'Please select an option.'
+                    this.disabled
                     return this.info
                 } else if (this.queryTerm === '') {
                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.infoMessage = 'Please enter a query term.'
+                    this.disabled
                     return this.info
                 } else {
                     if (this.selectedOption === 'nin' && !(this.queryTerm.match(validNIN) && this.queryTerm.length ===
-                            11)) {
+                            11 && this.queryTerm > 12345678906)) {
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                        this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 50000000000.'
+                        this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
+                    this.disabled
                         return this.info
                     }
                     // else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
