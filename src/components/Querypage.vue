@@ -6,7 +6,7 @@
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
                         <b-col sm-6>
-                            <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" />
+                            <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 9 "/>
                             <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                             <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
@@ -56,12 +56,12 @@
                 selectedOption: '',
                 infoMessage: 'Hello',
                 queryMessage: '',
+                max: '',
 
                 info: false,
                 queryInfo: false,
                 searching: false,
                 show: true,
-                // disabled: true,
 
                 options: [{
                         text: 'NIN',
@@ -135,11 +135,14 @@
                     this.infoMessage = 'Please enter a query term.'
                     return this.info
                 } else {
-                    if (this.selectedOption === 'nin' && !this.queryTerm.match(validNIN) && this.queryTerm.length !==
-                        11) {
+                    if (this.selectedOption === 'nin' && !this.queryTerm.match(validNIN) 
+                    // && this.queryTerm.length !== 11
+                    ) {
                         //  && this.queryTerm > 12345678906
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
+                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                        // this.max = 11
                         return this.info
                     }
                     // else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
