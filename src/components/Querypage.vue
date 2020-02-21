@@ -20,9 +20,9 @@
                             </span>
                             <div class="">
                                 <b-button type="reset" pill variant="danger">Reset</b-button>
-                                <b-button type="submit" pill variant="primary" class="ml-3">Submit
-                                </b-button>
-                                <!-- <b-button type="submit" pill variant="primary" class="ml-3" :disabled="disabled">Submit</b-button> -->
+                                <!-- <b-button type="submit" pill variant="primary" class="ml-3">Submit
+                                </b-button> -->
+                                <b-button type="submit" pill variant="primary" class="ml-3" :disabled="inputVet ? disabled : !disabled">Submit</b-button>
                             </div>
 
                             <p class="hint"> Ensure you input the right detail. </p>
@@ -61,7 +61,7 @@
                 queryInfo: false,
                 searching: false,
                 show: true,
-                disabled: true,
+                // disabled: true,
 
                 options: [{
                         text: 'NIN',
@@ -125,17 +125,14 @@
                 if (this.queryTerm === '' && this.selectedOption === '') {
                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.infoMessage = 'Please select an option and enter a query term.'
-                    this.disabled
                     return this.info
                 } else if (this.selectedOption === '') {
                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.infoMessage = 'Please select an option.'
-                    this.disabled
                     return this.info
                 } else if (this.queryTerm === '') {
                     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                     this.infoMessage = 'Please enter a query term.'
-                    this.disabled
                     return this.info
                 } else {
                     if (this.selectedOption === 'nin' && !this.queryTerm.match(validNIN) && this.queryTerm.length !==
@@ -143,7 +140,6 @@
                         //  && this.queryTerm > 12345678906
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
-                        this.disabled
                         return this.info
                     }
                     // else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
@@ -154,10 +150,7 @@
                     else if (this.selectedOption === 'tracking_id' && !this.queryTerm.match(validTrackingID)) {
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be between 2 and 40 characters'
-                        this.disabled
                         return this.info
-                    } else {
-                        !this.disabled
                     }
                 }
                 return !this.info
