@@ -1,12 +1,19 @@
 <template>
     <div>
         <div>
-            <!-- <b-form @submit="submitForm" @reset="resetAll" v-if="show" @submit.stop.prevent> -->
+            <!-- <form
+  id="app"
+  @submit="checkForm"
+  action="https://vuejs.org/"
+  method="post"
+> -->
             <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
                 <b-container>
                     <b-row class="justify-content-lg-center mt-3">
                         <b-col sm-6>
-                            <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet" :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 9 "/>
+                            <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet"
+                                :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
+                                required="required" />
                             <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                             <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
@@ -22,7 +29,8 @@
                                 <b-button type="reset" pill variant="danger">Reset</b-button>
                                 <!-- <b-button type="submit" pill variant="primary" class="ml-3">Submit
                                 </b-button> -->
-                                <b-button type="submit" pill variant="primary" class="ml-3" :disabled="inputVet ? disabled : !disabled">Submit</b-button>
+                                <b-button type="submit" pill variant="primary" class="ml-3"
+                                    :disabled="inputVet ? disabled : !disabled">Submit</b-button>
                             </div>
 
                             <p class="hint"> Ensure you input the right detail. </p>
@@ -45,9 +53,11 @@
 
 
 <script>
-    let validNIN = /^[0-9]*$/
-    // let validIssuedDate = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
-    let validTrackingID = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+    let numFormat = /^[0-9]*$/
+
+    let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    let alphaNumFormat = /^[a-zA-Z0-9]+$/;
+    // /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         data() {
@@ -57,11 +67,13 @@
                 infoMessage: 'Hello',
                 queryMessage: '',
                 max: '',
+                // regs: '',
 
                 info: false,
                 queryInfo: false,
                 searching: false,
                 show: true,
+                disabled: false,
 
                 options: [{
                         text: 'NIN',
@@ -105,11 +117,11 @@
 
                 if (this.selectedOption === 'nin') {
                     url = rootURL + 'ninExt/' + this.queryTerm
-                }
-                //  else if (this.selectedOption === 'issued_date') {
-                //     url = rootURL + 'issuedDateExt/' + this.queryTerm
-                // } 
-                else if (this.selectedOption === 'tracking_id') {
+                    // eslint-disable-next-line no-console
+                    console.log(this.queryTerm.length)
+                } else if (this.selectedOption === 'issued_date') {
+                    url = rootURL + 'issuedDateExt/' + this.queryTerm
+                } else if (this.selectedOption === 'tracking_id') {
                     url = rootURL + 'trackingIDExt/' + this.queryTerm
                 }
 
@@ -135,24 +147,21 @@
                     this.infoMessage = 'Please enter a query term.'
                     return this.info
                 } else {
-                    if (this.selectedOption === 'nin' && !this.queryTerm.match(validNIN) 
-                    // && this.queryTerm.length !== 11
-                    ) {
-                        //  && this.queryTerm > 12345678906
+                    if (this.selectedOption === 'nin' && !this.queryTerm.match(numFormat) && this.queryTerm.length !==
+                        11 && this.queryTerm > 12345678906) {
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
-                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                        // this.max = 11
                         return this.info
-                    }
-                    // else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(validIssuedDate)) {
-                    //     this.infoMessage === 'Invalid Issued Date'
-                    //     this.info === false
-                    //     return
-                    // } 
-                    else if (this.selectedOption === 'tracking_id' && !this.queryTerm.match(validTrackingID)) {
+                    } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
+                            .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
+                            .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
+                            .getFullYear()))) {
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be between 2 and 40 characters'
+                        this.infoMessage === 'Invalid Issued Date'
+                        return this.info
+                    } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm.match(alphaNumFormat)) {
+                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
                         return this.info
                     }
                 }
@@ -190,7 +199,7 @@
     }
 
     .hint {
-        color: green;
+        color: #00933f;
         /* size: 5px */
     }
 
@@ -242,7 +251,7 @@
         width: 12px;
         height: 12px;
         /* background: #F87DA9; */
-        background: rgb(24, 218, 24);
+        background: #009340;
         position: absolute;
         top: 3px;
         left: 4px;
