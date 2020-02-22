@@ -1,6 +1,27 @@
 <template>
     <div>
         <div>
+            <!-- <b-navbar type="dark" variant="dark"> -->
+            <b-navbar type="light">
+                <b-navbar-nav class="ml-auto">
+                    <b-nav-item href="#">Home</b-nav-item>
+
+                    <!-- Navbar dropdowns -->
+                    <b-nav-item-dropdown text="Lang" right>
+                        <b-dropdown-item href="#">EN</b-dropdown-item>
+                        <b-dropdown-item href="#">ES</b-dropdown-item>
+                        <b-dropdown-item href="#">RU</b-dropdown-item>
+                        <b-dropdown-item href="#">FA</b-dropdown-item>
+                    </b-nav-item-dropdown>
+
+                    <b-nav-item-dropdown text="User" right>
+                        <b-dropdown-item href="#">Account</b-dropdown-item>
+                        <b-dropdown-item href="#">Settings</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                </b-navbar-nav>
+            </b-navbar>
+        </div>
+        <div>
             <!-- <form
   id="app"
   @submit="checkForm"
@@ -8,39 +29,39 @@
   method="post"
 > -->
             <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
-                <b-container>
-                    <b-row class="justify-content-lg-center mt-3">
-                        <b-col sm-6>
-                            <b-input v-model='queryTerm' placeholder='Search...' :state="inputVet"
-                                :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
-                                required="required" />
-                            <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
-                            <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
+                <!-- <b-row class="justify-content-lg-center justify-content-md-center justify-content-sm-center mt-3">
+                    <b-col align-self="center"> -->
+                <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
+                    <b-col sm="9" md="7" lg="4">
+                        <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
+                            :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
+                            required="required" autofocus />
+                        <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
+                        <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
-                            <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
-                            <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
+                        <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
+                        <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
-                            <span v-for='option in options' :key='option.value'>
-                                <input type='radio' :id='option.name' class="radioBtn" name='eradio'
-                                    :value='option.value' v-model='selectedOption'>
-                                <label :for='option.name'> {{option.text}} </label>
-                            </span>
-                            <div class="">
-                                <b-button type="reset" pill variant="danger">Reset</b-button>
-                                <!-- <b-button type="submit" pill variant="primary" class="ml-3">Submit
+                        <span v-for='option in options' :key='option.value'>
+                            <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value'
+                                v-model='selectedOption'>
+                            <label :for='option.name'> {{option.text}} </label>
+                        </span>
+                        <div align-v="center">
+                        <b-button type="reset" pill variant="danger">Reset</b-button>
+                        <!-- <b-button type="submit" pill variant="primary" class="ml-3">Submit
                                 </b-button> -->
-                                <b-button type="submit" pill variant="primary" class="ml-3"
-                                    :disabled="inputVet ? disabled : !disabled">Submit</b-button>
-                            </div>
+                        <b-button type="submit" pill variant="primary" class="ml-3"
+                            :disabled="inputVet ? disabled : !disabled">Submit</b-button>
+                        </div>
 
-                            <p class="hint"> Ensure you input the right detail. </p>
+                        <p class="hint"> Ensure you input the right detail. </p>
 
-                            <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
+                        <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
 
-                            <p v-if="!queryInfo"> {{ queryMessage }} </p>
-                        </b-col>
-                    </b-row>
-                </b-container>
+                        <p v-if="!queryInfo"> {{ queryMessage }} </p>
+                    </b-col>
+                </b-row>
             </b-form>
         </div>
 
@@ -159,7 +180,8 @@
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage === 'Invalid Issued Date'
                         return this.info
-                    } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm.match(alphaNumFormat)) {
+                    } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm
+                        .match(alphaNumFormat)) {
                         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                         this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
                         return this.info
@@ -195,7 +217,7 @@
     }
 
     .goodInput {
-        border-color: green
+        border-color: #009340;
     }
 
     .hint {

@@ -1,27 +1,47 @@
 <template>
   <div id="app">
-    <b-container class="main_app">
-
-      <Querypage/>
-      <!-- <Nav/> -->
-
-    </b-container> 
+    <b-container fluid class="main_app">
+      <b-row class="h-100 w-100">
+        <b-col sm="4" md="3" lg="2">
+          <Sidenav />
+        </b-col>
+        <b-col sm="8" md="9" lg="10" class="section ">
+          <Querypage />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import Querypage from './components/Querypage'
-// import Nav from './components/Nav'
+  import Querypage from './components/Querypage'
+  import Sidenav from './components/Sidenav'
+  // import Nav from './components/Nav'
 
-export default {
-  name: 'app',
-  components: {
-    Querypage
-    // Nav
+  export default {
+    name: 'app',
+    components: {
+      Querypage,
+      Sidenav,
+      // Nav,
+    }
   }
-}
+
 </script>
 
-<style>
+<style scoped>
+  .main_app {
+    height: 100vh;
+    /* height:100%; */
+    position: absolute;
+  }
+
+  /* .section {
+  height: 100%;  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
 
 </style>
