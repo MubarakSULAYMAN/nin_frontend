@@ -1,20 +1,31 @@
 <template>
 
   <div>
-    <div>
-      Title and other stuffs here, app image and name in particular. May require more space...
-    </div>
+    <b-icon icon="archive" rotate="45" class="border rounded-circle bg-success p-1 logo-icon align-items-center"
+      style="width: 100px; height: 100px;" variant="light"></b-icon>
+    <h4> The Query App </h4>
 
     <b-nav vertical justified class="w-30 sideNavContainer mt-3" pills>
-      <b-nav-item active>Active</b-nav-item>
-      <b-nav-item>Link</b-nav-item>
-      <b-nav-item>Another Link</b-nav-item>
-      <b-nav-item disabled>Disabled</b-nav-item>
-      <b-nav-item-dropdown id="my-nav-dropdown" text="Dropdown" toggle-class="nav-link-custom" right>
-        <b-dropdown-item>One</b-dropdown-item>
-        <b-dropdown-item>Two</b-dropdown-item>
+      <b-nav-item active>
+        <b-icon icon="columns-gutters"></b-icon> Activities
+      </b-nav-item>
+      <b-nav-item >
+        <b-icon icon="brush"></b-icon> Report
+      </b-nav-item>
+      <b-nav-item >
+        <b-icon icon="chat"></b-icon> Comments
+      </b-nav-item>
+      <b-nav-item-dropdown id="my-nav-dropdown" text="Analysis" toggle-class="nav-link-custom" right>
+        <b-dropdown-item>
+          <b-icon icon="graph-up"></b-icon> Graph
+        </b-dropdown-item>
+        <b-dropdown-item>
+          <b-icon icon="pie-chart"></b-icon> Pie Chart
+        </b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
-        <b-dropdown-item>Three</b-dropdown-item>
+        <b-dropdown-item>
+          <b-icon icon="bar-chart"></b-icon> Bar Chart
+        </b-dropdown-item>
       </b-nav-item-dropdown>
     </b-nav>
   </div>
@@ -23,6 +34,11 @@
 
 
 <style scoped>
+  /* .logo-icon {
+    display: flex;
+    justify-content: center;
+  } */
+
   .sideNavContainer {
     /* background: #00933f; */
     font-weight: bold;
@@ -30,7 +46,8 @@
     flex-direction: column;
   }
 
-  .nav-link.active {
+  .nav-pills .nav-link.active,
+  .nav-pills .show>.nav-link {
     background: #009340;
     /* background: #00933f; */
   }

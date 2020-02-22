@@ -16,14 +16,14 @@
 <script>
   import Querypage from './components/Querypage'
   import Sidenav from './components/Sidenav'
-  // import Nav from './components/Nav'
+  // import Topnav from './components/Topnav'
 
   export default {
     name: 'app',
     components: {
       Querypage,
       Sidenav,
-      // Nav,
+      // Topnav,
     }
   }
 

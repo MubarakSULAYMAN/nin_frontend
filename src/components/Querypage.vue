@@ -1,18 +1,9 @@
 <template>
     <div>
         <div>
-            <!-- <b-navbar type="dark" variant="dark"> -->
             <b-navbar type="light">
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item href="#">Home</b-nav-item>
-
-                    <!-- Navbar dropdowns -->
-                    <b-nav-item-dropdown text="Lang" right>
-                        <b-dropdown-item href="#">EN</b-dropdown-item>
-                        <b-dropdown-item href="#">ES</b-dropdown-item>
-                        <b-dropdown-item href="#">RU</b-dropdown-item>
-                        <b-dropdown-item href="#">FA</b-dropdown-item>
-                    </b-nav-item-dropdown>
 
                     <b-nav-item-dropdown text="User" right>
                         <b-dropdown-item href="#">Account</b-dropdown-item>
@@ -47,12 +38,11 @@
                                 v-model='selectedOption'>
                             <label :for='option.name'> {{option.text}} </label>
                         </span>
-                        <div align-v="center">
-                        <b-button type="reset" pill variant="danger">Reset</b-button>
-                        <!-- <b-button type="submit" pill variant="primary" class="ml-3">Submit
-                                </b-button> -->
-                        <b-button type="submit" pill variant="primary" class="ml-3"
-                            :disabled="inputVet ? disabled : !disabled">Submit</b-button>
+                        <div class="buttons align-center justify-center">
+                            <b-button type="reset" pill variant="danger"> <b-icon icon="bootstrap-reboot"></b-icon> Reset </b-button>
+
+                            <b-button type="submit" pill variant="primary" class="ml-3"
+                                :disabled="inputVet ? disabled : !disabled"> <b-icon icon="search"></b-icon> Search </b-button>
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
@@ -232,6 +222,11 @@
     /* .info {
         color: blue
     } */
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+    }
 
 
 
