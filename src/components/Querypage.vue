@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>
+        <div class="main_page">
             <b-navbar type="light">
                 <b-navbar-nav class="ml-auto">
                     <b-nav-item href="#">Home</b-nav-item>
@@ -39,10 +39,14 @@
                             <label :for='option.name'> {{option.text}} </label>
                         </span>
                         <div class="buttons align-center justify-center">
-                            <b-button type="reset" pill variant="danger"> <b-icon icon="bootstrap-reboot"></b-icon> Reset </b-button>
+                            <b-button type="reset" pill variant="danger">
+                                <b-icon icon="bootstrap-reboot"></b-icon> Reset
+                            </b-button>
 
                             <b-button type="submit" pill variant="primary" class="ml-3"
-                                :disabled="inputVet ? disabled : !disabled"> <b-icon icon="search"></b-icon> Search </b-button>
+                                :disabled="inputVet ? disabled : !disabled">
+                                <b-icon icon="search"></b-icon> Search
+                            </b-button>
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
@@ -202,6 +206,19 @@
 </script>
 
 <style scoped>
+    /* .main_page {
+        box-sizing: border-box;
+        color: rgb(133, 135, 150);
+        flex-basis: auto;
+        flex-grow: 1;
+        flex-shrink: 0;
+        font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: left;
+    } */
+
     .badInput {
         border-color: red
     }
