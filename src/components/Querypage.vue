@@ -1,17 +1,6 @@
 <template>
     <div>
-        <div class="main_page">
-            <b-navbar type="light">
-                <b-navbar-nav class="ml-auto">
-                    <b-nav-item href="#">Home</b-nav-item>
-
-                    <b-nav-item-dropdown text="User" right>
-                        <b-dropdown-item href="#">Account</b-dropdown-item>
-                        <b-dropdown-item href="#">Settings</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-            </b-navbar>
-        </div>
+        <Topnav />
         <div>
             <!-- <form
   id="app"
@@ -58,16 +47,14 @@
                 </b-row>
             </b-form>
         </div>
-
-        <!-- <div :availableResults="queryResponses[index]">
-            {{ availableResults.queryResponses }}
-        </div> -->
     </div>
 </template>
 
 
 
 <script>
+    import Topnav from './Topnav'
+
     let numFormat = /^[0-9]*$/
 
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -75,6 +62,10 @@
     // /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
+        components: {
+            Topnav,
+        },
+
         data() {
             return {
                 queryTerm: '',
@@ -106,9 +97,6 @@
                         name: 'tracking_id',
                     }
                 ],
-
-                queries: [],
-                index: 0
             }
         },
 
@@ -123,6 +111,36 @@
                 this.info = false
                 this.queryTerm = ''
                 this.selectedOption = ''
+            },
+
+            verifications() {
+                if (this.queryTerm === '' && this.selectedOption === '') {
+                    this.infoMessage = 'Please select an option and enter a query term.'
+                    return this.info
+                } else if (this.selectedOption === '') {
+                    this.infoMessage = 'Please select an option.'
+                    return this.info
+                } else if (this.queryTerm === '') {
+                    this.infoMessage = 'Please enter a query term.'
+                    return this.info
+                } else {
+                    if (this.selectedOption === 'nin' && !this.queryTerm.match(numFormat) && this.queryTerm.length !==
+                        11 && this.queryTerm > 12345678906) {
+                        this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
+                        return this.info
+                    } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
+                            .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
+                            .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
+                            .getFullYear()))) {
+                        this.infoMessage === 'Invalid Issued Date'
+                        return this.info
+                    } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm
+                        .match(alphaNumFormat)) {
+                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                        return this.info
+                    }
+                }
+
             },
 
             submitForm(e) {
@@ -144,62 +162,48 @@
                 this.searching = true
                 this.info = true
                 this.queryMessage = 'The url is ' + url
-            }
+            },
+
         },
 
         computed: {
             inputVet() {
-                if (this.queryTerm === '' && this.selectedOption === '') {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                    this.infoMessage = 'Please select an option and enter a query term.'
-                    return this.info
-                } else if (this.selectedOption === '') {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                    this.infoMessage = 'Please select an option.'
-                    return this.info
-                } else if (this.queryTerm === '') {
-                    // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                    this.infoMessage = 'Please enter a query term.'
-                    return this.info
-                } else {
-                    if (this.selectedOption === 'nin' && !this.queryTerm.match(numFormat) && this.queryTerm.length !==
-                        11 && this.queryTerm > 12345678906) {
-                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                        this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
-                        return this.info
-                    } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
-                            .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                            .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
-                            .getFullYear()))) {
-                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                        this.infoMessage === 'Invalid Issued Date'
-                        return this.info
-                    } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm
-                        .match(alphaNumFormat)) {
-                        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                        return this.info
-                    }
-                }
-                return !this.info
-            }
-        },
+                // if (this.queryTerm === '' && this.selectedOption === '') {
+                //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                //     this.infoMessage = 'Please select an option and enter a query term.'
+                //     return this.info
+                // } else if (this.selectedOption === '') {
+                //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                //     this.infoMessage = 'Please select an option.'
+                //     return this.info
+                // } else if (this.queryTerm === '') {
+                //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                //     this.infoMessage = 'Please enter a query term.'
+                //     return this.info
+                // } else {
+                //     if (this.selectedOption === 'nin' && !this.queryTerm.match(numFormat) && this.queryTerm.length !==
+                //         11 && this.queryTerm > 12345678906) {
+                //         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                //         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
+                //         return this.info
+                //     } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
+                //             .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
+                //             .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
+                //             .getFullYear()))) {
+                //         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                //         this.infoMessage === 'Invalid Issued Date'
+                //         return this.info
+                //     } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm
+                //         .match(alphaNumFormat)) {
+                //         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+                //         this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                //         return this.info
+                //     }
+                // }
 
-        mounted: function () {
-            fetch('http://127.0.0.1:5000/restricted_raw', {
-                    method: 'get'
-                })
-                .then((response) => {
-                    // eslint-disable-next-line no-console
-                    // console.log(response.json)
-                    return response.json()
-                })
-                .then((jsonDataResponse) => {
-                    this.queries = jsonDataResponse.query_term
-                })
-            // .then(response => this.posts = response.data.query_term)
-            // .catch(error => this.posts = [{tracking_id: "No Query result found."}])
-            // .finally(() => console.log("Data loaded completely."));
+                return this.verifications()
+                // return !this.info
+            }
         }
     }
 
