@@ -55,11 +55,9 @@
 <script>
     import Topnav from './Topnav'
 
-    // let numFormat = /^[0-9]*$/
-
+    let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-    let alphaNumFormat = /^[a-zA-Z0-9]+$/;
-    // /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+    let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         components: {
@@ -117,34 +115,52 @@
                 if (this.queryTerm === '' && this.selectedOption === '') {
                     this.infoMessage = 'Please select an option and enter a query term.'
                     return this.info
-                } else if (this.selectedOption === '') {
+                }
+
+                if (this.selectedOption === '') {
                     this.infoMessage = 'Please select an option.'
                     return this.info
-                } else if (this.queryTerm === '') {
+                }
+
+                if (this.queryTerm === '') {
                     this.infoMessage = 'Please enter a query term.'
                     return this.info
-                } else {
-                    if ((this.selectedOption === 'nin' && this.queryTerm < 12345678906) 
-                    // && (!this.queryTerm.match(numFormat)
-                     && (this.queryTerm.length !== 11)
-                    // && (!this.queryTerm.match(
-                    //         numFormat) === 'nin' && this.queryTerm < 12345678906)
-                            )
-                             {
-                        this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
-                        return this.info
-                    } else if ((this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat)) && !(((this
-                            .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                            .queryTerm[2] > 12)) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
-                            .getFullYear()))) {
-                        this.infoMessage === 'Invalid Issued Date'
-                        return this.info
-                    } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm
-                        .match(alphaNumFormat)) {
-                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                        return this.info
-                    }
                 }
+
+                if (this.selectedOption === 'nin' && !(this.queryTerm.match(numFormat))) {
+                    this.infoMessage = 'Invalid NIN, can only be digits.'
+                    return this.info
+                }
+
+                if (this.selectedOption === 'nin' && (this.queryTerm.length < 11 || this.queryTerm.length > 11)) {
+                    this.infoMessage = 'NIN can only be 11 digits.'
+                    return this.info
+                }
+
+                if (this.selectedOption === 'nin' && (parseInt(this.queryTerm) < 12345678901)) {
+                    this.infoMessage = 'NIN cannot be less than 12345678901.'
+                    return this.info
+                }
+
+                if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
+                        .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
+                        .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
+                        .getFullYear()))) {
+                    this.infoMessage === 'Invalid Issued Date'
+                    return this.info
+                }
+
+                if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(alphaNumFormat))) {
+                    this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                    return this.info
+                }
+
+                if (this.selectedOption === 'tracking_id' && (this.queryTerm.length < 15 || this.queryTerm.length >
+                        15)) {
+                    this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                    return this.info
+                }
+
                 return !this.info
             },
 
