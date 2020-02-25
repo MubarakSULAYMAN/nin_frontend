@@ -3,7 +3,6 @@
 
         <p v-if="loading_info">
             <Spinner />
-            <!-- Loading... -->
         </p>
         <div v-else>
             <h1 class="h3 mb-2 text-gray-800">Query Result</h1>
@@ -79,9 +78,7 @@
         },
 
         props: {
-            // data_fetched: Object,
             data_fetched: Array,
-            // loading_info: Boolean,
             loading_info: Boolean
         }
     }

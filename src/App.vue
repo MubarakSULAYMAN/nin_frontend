@@ -1,17 +1,22 @@
 <template>
   <div id="app">
     <b-container fluid class="main_app">
-      <!-- <Table :data_fetched="responses[index]"/> -->
-      <!-- <Table :data_fetched="queried_data" :loading_info="loading" /> -->
+      <p v-if="loading_info">
+        <Spinnergrow />
+      </p>
+      <div v-else>
+        <!-- <Table :data_fetched="responses[index]"/> -->
+        <!-- <Table :data_fetched="queried_data" :loading_info="loading" /> -->
 
-      <b-row class="h-100 w-100" no-gutters>
-        <b-col sm="4" md="3" lg="2">
-          <Sidenav />
-        </b-col>
-        <b-col sm="8" md="9" lg="10" class="section ">
-          <Querypage />
-        </b-col>
-      </b-row>
+        <b-row class="h-100 w-100" no-gutters>
+          <b-col sm="4" md="3" lg="2">
+            <Sidenav />
+          </b-col>
+          <b-col sm="8" md="9" lg="10" class="section ">
+            <Querypage />
+          </b-col>
+        </b-row>
+      </div>
     </b-container>
   </div>
 </template>
@@ -22,6 +27,7 @@
   // import Table from './components/Table'
   import Querypage from './components/Querypage'
   import Sidenav from './components/Sidenav'
+  import Spinnergrow from './components/Spinnergrow'
 
   export default {
     name: 'app',
@@ -29,6 +35,7 @@
       // Table,
       Querypage,
       Sidenav,
+      Spinnergrow
     },
 
     data() {
@@ -41,7 +48,7 @@
     mounted: function () {
       this.loading = true,
 
-      // let url = 'http://127.0.0.1:5000/filter_by_nin/44645520375'
+        // let url = 'http://127.0.0.1:5000/filter_by_nin/44645520375'
 
         axios
         // .get('http://127.0.0.1:5000/restricted_raw')
@@ -51,6 +58,11 @@
         // eslint-disable-next-line no-console
         .catch(error => console.log(error))
         .finally(() => this.loading = false)
+    },
+
+    props: {
+      data_fetched: Array,
+      loading_info: Boolean
     }
   }
 
