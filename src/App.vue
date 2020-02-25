@@ -42,7 +42,8 @@
       this.loading = true,
 
         axios
-        .get('http://127.0.0.1:5000/restricted_raw')
+        // .get('http://127.0.0.1:5000/restricted_raw')
+        .get('http://127.0.0.1:5000/filter_by_nin/44645520375 ')
         .then(response => (this.queried_data = response.data.query_term))
         // eslint-disable-next-line no-console
         .catch(error => console.log(error))
