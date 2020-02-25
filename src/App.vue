@@ -2,54 +2,51 @@
   <div id="app">
     <b-container fluid class="main_app">
       <!-- <Table :data_fetched="responses[index]"/> -->
+      <Table :data_fetched="queried_data" :loading_info="loading" />
 
-      <b-row class="h-100 w-100" no-gutters="false">
+      <!-- <b-row class="h-100 w-100" no-gutters>
         <b-col sm="4" md="3" lg="2">
           <Sidenav />
         </b-col>
         <b-col sm="8" md="9" lg="10" class="section ">
-          <Querypage :responses="responses[index]"/>
+          <Querypage />
         </b-col>
-      </b-row>
+      </b-row> -->
     </b-container>
   </div>
 </template>
 
 <script>
-  // import Table from './components/Table'
-  import Querypage from './components/Querypage'
-  import Sidenav from './components/Sidenav'
+  import axios from "axios";
+
+  import Table from './components/Table'
+  // import Querypage from './components/Querypage'
+  // import Sidenav from './components/Sidenav'
 
   export default {
     name: 'app',
     components: {
-      // Table,
-      Querypage,
-      Sidenav,
+      Table,
+      // Querypage,
+      // Sidenav,
     },
 
     data() {
       return {
-        responses: [],
-        index: 0
+        loading: false,
+        queried_data: null
       }
     },
 
     mounted: function () {
-      fetch('http://127.0.0.1:5000/restricted_raw', {
-          method: 'get'
-        })
-        .then((response) => {
-          // eslint-disable-next-line no-console
-          // console.log(response.json)
-          return response.json()
-        })
-        .then((dataResponse) => {
-          this.responses = dataResponse.query_term
-        })
-      // .then(response => this.posts = response.data.query_term)
-      // .catch(error => this.posts = [{tracking_id: "No Query result found."}])
-      // .finally(() => console.log("Data loaded completely."));
+      this.loading = true,
+
+        axios
+        .get('http://127.0.0.1:5000/restricted_raw')
+        .then(response => (this.queried_data = response.data.query_term))
+        // eslint-disable-next-line no-console
+        .catch(error => console.log(error))
+        .finally(() => this.loading = false)
     }
   }
 

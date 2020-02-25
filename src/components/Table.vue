@@ -5,9 +5,21 @@
         <p class="mb-4">Results are based on your search. For more information, please visit the <a target="_blank"
                 href="https://">official documentation</a>.</p>
 
+        <p v-if="loading_info">
+            <Spinner />
+            <!-- Loading... -->
+            </p>
+        <div v-else>
+
+            <span v-for="item in data_fetched" v-bind:key="item">
+                {{ item.last_name }}
+            </span>
+
+        </div>
+
         <!-- <div :key="data" v-for="data in data_fetched"> -->
 
-            {{ data_fetched.first_name }}
+        <!-- {{ data_fetched.first_name }} -->
         <!-- </div> -->
 
         <div class="card shadow mb-4">
@@ -114,7 +126,13 @@
 </template>
 
 <script>
+import Spinner from './Spinner'
+
     export default {
+        components: {
+            Spinner,
+        },
+
         data() {
             return {
                 last_name: 'Olatunbosun',
@@ -122,8 +140,12 @@
         },
 
         props: {
-            data_fetched: Object
+            // data_fetched: Object,
+            data_fetched: Array,
+            // loading_info: Boolean,
+            loading_info: Boolean
         }
     }
 
 </script>
+

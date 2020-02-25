@@ -55,7 +55,7 @@
 <script>
     import Topnav from './Topnav'
 
-    let numFormat = /^[0-9]*$/
+    // let numFormat = /^[0-9]*$/
 
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
     let alphaNumFormat = /^[a-zA-Z0-9]+$/;
@@ -124,13 +124,18 @@
                     this.infoMessage = 'Please enter a query term.'
                     return this.info
                 } else {
-                    if (this.selectedOption === 'nin' && !this.queryTerm.match(numFormat) && this.queryTerm.length !==
-                        11 && this.queryTerm > 12345678906) {
+                    if ((this.selectedOption === 'nin' && this.queryTerm < 12345678906) 
+                    // && (!this.queryTerm.match(numFormat)
+                     && (this.queryTerm.length !== 11)
+                    // && (!this.queryTerm.match(
+                    //         numFormat) === 'nin' && this.queryTerm < 12345678906)
+                            )
+                             {
                         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
                         return this.info
-                    } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
+                    } else if ((this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat)) && !(((this
                             .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                            .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
+                            .queryTerm[2] > 12)) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
                             .getFullYear()))) {
                         this.infoMessage === 'Invalid Issued Date'
                         return this.info
@@ -140,7 +145,7 @@
                         return this.info
                     }
                 }
-
+                return !this.info
             },
 
             submitForm(e) {
@@ -168,41 +173,7 @@
 
         computed: {
             inputVet() {
-                // if (this.queryTerm === '' && this.selectedOption === '') {
-                //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                //     this.infoMessage = 'Please select an option and enter a query term.'
-                //     return this.info
-                // } else if (this.selectedOption === '') {
-                //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                //     this.infoMessage = 'Please select an option.'
-                //     return this.info
-                // } else if (this.queryTerm === '') {
-                //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                //     this.infoMessage = 'Please enter a query term.'
-                //     return this.info
-                // } else {
-                //     if (this.selectedOption === 'nin' && !this.queryTerm.match(numFormat) && this.queryTerm.length !==
-                //         11 && this.queryTerm > 12345678906) {
-                //         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                //         this.infoMessage = 'Invalid NIN, NIN can only be 11 digits and cannot be less than 12345678907.'
-                //         return this.info
-                //     } else if (this.selectedOption === 'issued_date' && !this.queryTerm.match(dateFormat) && !((this
-                //             .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                //             .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
-                //             .getFullYear()))) {
-                //         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                //         this.infoMessage === 'Invalid Issued Date'
-                //         return this.info
-                //     } else if (this.selectedOption === 'tracking_id' && this.queryTerm.length !== 15 && this.queryTerm
-                //         .match(alphaNumFormat)) {
-                //         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                //         this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                //         return this.info
-                //     }
-                // }
-
                 return this.verifications()
-                // return !this.info
             }
         }
     }
