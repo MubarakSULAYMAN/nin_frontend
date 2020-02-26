@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import axios from "axios";
+  import axios from "axios"
 
   // import Table from './components/Table'
   import Querypage from './components/Querypage'

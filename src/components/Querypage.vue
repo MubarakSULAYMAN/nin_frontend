@@ -40,9 +40,9 @@
 
                         <p class="hint"> Ensure you input the right detail. </p>
 
-                        <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
+                        <!-- <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
 
-                        <p v-if="!queryInfo"> {{ queryMessage }} </p>
+                        <p v-if="!queryInfo"> {{ queryMessage }} </p> -->
                     </b-col>
                 </b-row>
             </b-form>
@@ -53,6 +53,8 @@
 
 
 <script>
+    import axios from 'axios'
+
     import Topnav from './Topnav'
 
     let numFormat = /^[0-9]*$/
@@ -165,29 +167,64 @@
                     return this.info
                 }
 
+                // if (this.selectedOption === !this.selectedOption) {
+                //     return this.resetAll
+                // }
+
                 return !this.info
             },
 
             submitForm(e) {
                 e.preventDefault()
-                let rootURL = 'localhost://somethinghere/'
+
+                // export const HTTP = axios.create({
+                //     baseURL: `http://jsonplaceholder.typicode.com/`,
+                //     headers: {
+                //         Authorization: 'Bearer {token}'
+                //     }
+                // })
+
+                let baseURL = 'http://127.0.0.1:5000/'
                 let url = ''
 
                 if (this.selectedOption === 'nin') {
-                    url = rootURL + 'ninExt/' + this.queryTerm
+                    url = baseURL + 'filter_by_nin/' + this.queryTerm
                     // eslint-disable-next-line no-console
                     console.log(this.queryTerm.length)
                 } else if (this.selectedOption === 'issued_date') {
-                    url = rootURL + 'issuedDateExt/' + this.queryTerm
+                    url = baseURL + 'filter_by_date/' + this.queryTerm
                 } else if (this.selectedOption === 'tracking_id') {
-                    url = rootURL + 'trackingIDExt/' + this.queryTerm
+                    url = baseURL + 'filter_by_id/' + this.queryTerm
                 }
 
 
                 this.searching = true
                 this.info = true
                 this.queryMessage = 'The url is ' + url
+
+                return axios
+                    // .get(url).then(function (response) {
+                    //     // eslint-disable-next-line no-console
+                    //     console.log(response)
+                    // })
+                    .get(url)
+                    // eslint-disable-next-line no-console
+                    .then(response => console.log(response))
+                    // eslint-disable-next-line no-console
+                    .catch(error => console.log(error))
+                    .finally(() => this.loading = false)
             },
+
+            // getQuery: async function() {
+            //     let self = this
+            //     const uri = 'url'
+            //     try {
+            //         const { data } = await axios.get(uri)
+            //         self.query = data
+            //     } catch (error) {
+            //         console.log(error.queryMessage)
+            //     }
+            // }
 
         },
 
@@ -195,7 +232,15 @@
             inputVet() {
                 return this.verifications()
             }
-        }
+        },
+
+        // watch: {
+        //     queryTerm() {
+        //         this.queryTerm = this.queryTerm.replace(/[^0-9]/g, '')
+        //             .replace(/^(\d{4}) (\d{3}) (\d{4})/g, '$1 - $2 - $3');
+        //             // .replace(/^(\d{4}) ? (\d{3}) ? (\d{4}) ? /g, '($1) - $2 - $3');
+        //     }
+        // }
     }
 
 </script>
