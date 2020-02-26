@@ -10,9 +10,9 @@
             <!-- Loading... -->
             </p>
         <div v-else>
-            <span v-for="item in data_fetched" v-bind:key="item.anyX">
+            <!-- <span v-for="item in data_fetched" v-bind:key="item.anyX">
                 {{ item.last_name }}
-            </span>
+            </span> -->
         </div>
         
         <div class="card shadow mb-4">

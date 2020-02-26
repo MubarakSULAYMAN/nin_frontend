@@ -10,9 +10,9 @@
                     href="https://">official documentation</a>.</p>
 
             <div class="card shadow mb-4">
-                <div class="card-header py-3" v-for="item in data_fetched" :key="item.anything">
+                <!-- <div class="card-header py-3" v-for="item in data_fetched" :key="item.anything">
                     <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ item.nin }}" </h6>
-                </div>
+                </div> -->
 
                 <!-- <b-table-simple sticky-header no-border-collapse bordered outlined small hover :items="items" -->
                 <b-table-simple sticky-header no-border-collapse bordered outlined small hover head-variant="light"
@@ -29,7 +29,7 @@
                             <b-th> Issued Date </b-th>
                         </b-tr>
                     </b-thead>
-                    <b-tbody>
+                    <!-- <b-tbody>
                         <b-tr class="text-center" v-for="(item, index) in data_fetched" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
@@ -46,7 +46,7 @@
                                 Total Rows: <b> {{ data_fetched.length }} </b>
                             </b-td>
                         </b-tr>
-                    </b-tfoot>
+                    </b-tfoot> -->
 
                 </b-table-simple>
 
@@ -78,7 +78,7 @@
         },
 
         props: {
-            data_fetched: Array,
+            // data_fetched: Array,
             loading_info: Boolean
         }
     }

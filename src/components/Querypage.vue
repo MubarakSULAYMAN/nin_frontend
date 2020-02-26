@@ -43,6 +43,10 @@
                         <!-- <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
 
                         <p v-if="!queryInfo"> {{ queryMessage }} </p> -->
+
+                        <div v-if="!queryInfo">
+                            <Table />
+                        </div>
                     </b-col>
                 </b-row>
             </b-form>
@@ -54,8 +58,11 @@
 
 <script>
     import axios from 'axios'
+    // import { queryTermField } from 'vuex'
+
 
     import Topnav from './Topnav'
+    import Table from './Table'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -63,7 +70,8 @@
 
     export default {
         components: {
-            Topnav
+            Topnav,
+            Table
         },
 
         data() {
@@ -120,32 +128,32 @@
 
                 if (this.selectedOption === '') {
                     this.infoMessage = 'Please select an option.'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.queryTerm === '') {
                     this.infoMessage = 'Please enter a query term.'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'nin' && !(this.queryTerm.match(numFormat))) {
                     this.infoMessage = 'Invalid NIN, can only be digits.'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'nin' && (this.queryTerm.length < 11 || this.queryTerm.length > 11)) {
                     this.infoMessage = 'NIN can only be 11 digits.'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'nin' && (parseInt(this.queryTerm) < 12345678901)) {
                     this.infoMessage = 'NIN cannot be less than 12345678901.'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'issued_date' && !(this.queryTerm.match(dateFormat))) {
                     this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'issued_date' && !((this
@@ -153,25 +161,25 @@
                         .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
                         .getFullYear()))) {
                     this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(alphaNumFormat))) {
                     this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 if (this.selectedOption === 'tracking_id' && (this.queryTerm.length < 15 || this.queryTerm.length >
                         15)) {
                     this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                    return this.info
+                    return this.info, this.queryInfo
                 }
 
                 // if (this.selectedOption === !this.selectedOption) {
                 //     return this.resetAll
                 // }
 
-                return !this.info
+                return !this.info, this.queryInfo
             },
 
             submitForm(e) {
@@ -200,6 +208,7 @@
 
                 this.searching = true
                 this.info = true
+                this.queryInfo = !this.queryInfo
                 this.queryMessage = 'The url is ' + url
 
                 return axios
@@ -231,6 +240,12 @@
         computed: {
             inputVet() {
                 return this.verifications()
+            },
+
+            queryTermField: {
+                get() {
+                    return this.$store.state.form.queryTerm
+                }
             }
         },
 

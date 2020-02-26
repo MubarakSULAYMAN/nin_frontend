@@ -1,14 +1,15 @@
 <template>
   <div id="app">
     <b-container fluid class="main_app">
-      <p v-if="loading_info">
+      <!-- <p v-if="loading_info">
         <Spinnergrow />
-      </p>
-      <div v-else>
-        <!-- <Table :data_fetched="responses[index]"/> -->
-        <!-- <Table :data_fetched="queried_data" :loading_info="loading" /> -->
+      </p> -->
+      <!-- <div v-else> -->
+        <div>
+          <!-- <Table :data_fetched="responses[index]"/> -->
+          <!-- <Table :data_fetched="queried_data" :loading_info="loading" /> -->
 
-        <b-row class="h-100 w-100" no-gutters>
+          <b-row class="h-100 w-100" no-gutters>
           <b-col sm="4" md="3" lg="2">
             <Sidenav />
           </b-col>
@@ -16,18 +17,19 @@
             <Querypage />
           </b-col>
         </b-row>
-      </div>
+        </div>
+      <!-- </div> -->
     </b-container>
   </div>
 </template>
 
 <script>
-  import axios from "axios"
+  // import axios from "axios"
 
   // import Table from './components/Table'
   import Querypage from './components/Querypage'
   import Sidenav from './components/Sidenav'
-  import Spinnergrow from './components/Spinnergrow'
+  // import Spinnergrow from './components/Spinnergrow'
 
   export default {
     name: 'app',
@@ -35,35 +37,35 @@
       // Table,
       Querypage,
       Sidenav,
-      Spinnergrow
+      // Spinnergrow
     },
 
     data() {
       return {
         loading: false,
-        queried_data: null
+        // queried_data: null
       }
     },
 
-    mounted: function () {
-      this.loading = true,
+    // mounted: function () {
+    //   this.loading = true,
 
-        // let url = 'http://127.0.0.1:5000/filter_by_nin/44645520375'
+    //     // let url = 'http://127.0.0.1:5000/filter_by_nin/44645520375'
 
-        axios
-        // .get('http://127.0.0.1:5000/restricted_raw')
-        .get('http://127.0.0.1:5000/filter_by_nin/44645520375')
-        // .get(url)
-        .then(response => (this.queried_data = response.data.query_term))
-        // eslint-disable-next-line no-console
-        .catch(error => console.log(error))
-        .finally(() => this.loading = false)
-    },
+    //     axios
+    //     // .get('http://127.0.0.1:5000/restricted_raw')
+    //     .get('http://127.0.0.1:5000/filter_by_nin/44645520375')
+    //     // .get(url)
+    //     .then(response => (this.queried_data = response.data.query_term))
+    //     // eslint-disable-next-line no-console
+    //     .catch(error => console.log(error))
+    //     .finally(() => this.loading = false)
+    // },
 
-    props: {
-      data_fetched: Array,
-      loading_info: Boolean
-    }
+    // props: {
+    //   data_fetched: Array,
+    //   loading_info: Boolean
+    // }
   }
 
 </script>

@@ -5,6 +5,11 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// import router from '.router'
+import store from './store'
+
+// import Vuex from 'vuex'
+
 // import VueRouter from 'vue-router'
 
 // import Querypage from './components/Querypage.vue'
@@ -12,6 +17,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+// Vue.use(Vuex)
 
 // Vue.use(VueRouter); 
 
@@ -27,5 +33,6 @@ Vue.config.productionTip = false
 
 new Vue({
   // router,
+  store,
   render: h => h(App),
 }).$mount('#app')
