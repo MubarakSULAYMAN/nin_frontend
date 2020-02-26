@@ -44,9 +44,9 @@
 
                         <p v-if="!queryInfo"> {{ queryMessage }} </p> -->
 
-                        <div v-if="!queryInfo">
+                        <!-- <div v-if="!info">
                             <Table />
-                        </div>
+                        </div> -->
                     </b-col>
                 </b-row>
             </b-form>
@@ -57,12 +57,13 @@
 
 
 <script>
-    import axios from 'axios'
+import Api from '@/Api'
+    // import axios from 'axios'
     // import { queryTermField } from 'vuex'
 
 
     import Topnav from './Topnav'
-    import Table from './Table'
+    // import Table from './Table'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -71,7 +72,7 @@
     export default {
         components: {
             Topnav,
-            Table
+            // Table
         },
 
         data() {
@@ -128,32 +129,32 @@
 
                 if (this.selectedOption === '') {
                     this.infoMessage = 'Please select an option.'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.queryTerm === '') {
                     this.infoMessage = 'Please enter a query term.'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'nin' && !(this.queryTerm.match(numFormat))) {
                     this.infoMessage = 'Invalid NIN, can only be digits.'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'nin' && (this.queryTerm.length < 11 || this.queryTerm.length > 11)) {
                     this.infoMessage = 'NIN can only be 11 digits.'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'nin' && (parseInt(this.queryTerm) < 12345678901)) {
                     this.infoMessage = 'NIN cannot be less than 12345678901.'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'issued_date' && !(this.queryTerm.match(dateFormat))) {
                     this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'issued_date' && !((this
@@ -161,62 +162,61 @@
                         .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
                         .getFullYear()))) {
                     this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(alphaNumFormat))) {
                     this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 if (this.selectedOption === 'tracking_id' && (this.queryTerm.length < 15 || this.queryTerm.length >
                         15)) {
                     this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                    return this.info, this.queryInfo
+                    return this.info
                 }
 
                 // if (this.selectedOption === !this.selectedOption) {
                 //     return this.resetAll
                 // }
 
-                return !this.info, this.queryInfo
+                return !this.info
             },
 
             submitForm(e) {
                 e.preventDefault()
 
-                // export const HTTP = axios.create({
-                //     baseURL: `http://jsonplaceholder.typicode.com/`,
-                //     headers: {
-                //         Authorization: 'Bearer {token}'
-                //     }
-                // })
+                // let baseURL = 'http://127.0.0.1:5000/'
 
-                let baseURL = 'http://127.0.0.1:5000/'
-                let url = ''
+                // let url = ''
+                let ext = ''
 
                 if (this.selectedOption === 'nin') {
-                    url = baseURL + 'filter_by_nin/' + this.queryTerm
+                    // url = baseURL + 'filter_by_nin/' + this.queryTerm
+                    ext = 'filter_by_nin/' + this.queryTerm
                     // eslint-disable-next-line no-console
                     console.log(this.queryTerm.length)
                 } else if (this.selectedOption === 'issued_date') {
-                    url = baseURL + 'filter_by_date/' + this.queryTerm
+                    // url = baseURL + 'filter_by_date/' + this.queryTerm
+                    ext = 'filter_by_date/' + this.queryTerm
                 } else if (this.selectedOption === 'tracking_id') {
-                    url = baseURL + 'filter_by_id/' + this.queryTerm
+                    // url = baseURL + 'filter_by_id/' + this.queryTerm
+                    ext = 'filter_by_id/' + this.queryTerm
                 }
 
 
                 this.searching = true
                 this.info = true
-                this.queryInfo = !this.queryInfo
-                this.queryMessage = 'The url is ' + url
+                // this.queryMessage = 'The url is ' + url
 
-                return axios
+                // return axios
+                return Api()
                     // .get(url).then(function (response) {
                     //     // eslint-disable-next-line no-console
                     //     console.log(response)
                     // })
-                    .get(url)
+                    // .get(url)
+                    .get(ext)
                     // eslint-disable-next-line no-console
                     .then(response => console.log(response))
                     // eslint-disable-next-line no-console
