@@ -3,32 +3,23 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-// export default new Vuex.Store({
-//     state: {
-//         something: 'So little'
-//     },
-
-//     mutations: {
-
-//     },
-
-//     actions:{
-
-//     }
-// })
-
 export const store = new Vuex.Store({
     state: {
-        output: ''
+        // output: ''
+        queryTerm: []
     },
 
     mutations: {
-        formSubmit(state, output) {
-            state.output = output
+        formSubmit(state, queryTerm) {
+            state.queryTerm = queryTerm
         }
     },
 
+    // actions: {
+    //     searchRequest
+    // }
+
     getters: {
-        output: state => state.output
+        output: state => state.queryTerm
     }
 })

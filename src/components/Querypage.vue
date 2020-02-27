@@ -9,8 +9,6 @@
   method="post"
 > -->
             <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
-                <!-- <b-row class="justify-content-lg-center justify-content-md-center justify-content-sm-center mt-3">
-                    <b-col align-self="center"> -->
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
                         <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
@@ -39,14 +37,6 @@
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
-
-                        <!-- <p v-if="info" class="successMessage"> Hope the results are helpful. </p>
-
-                        <p v-if="!queryInfo"> {{ queryMessage }} </p> -->
-
-                        <!-- <div v-if="!info">
-                            <Table />
-                        </div> -->
                     </b-col>
                 </b-row>
             </b-form>
@@ -57,16 +47,9 @@
 
 
 <script>
-import Api from '@/Api'
-
-// import { store } from './store/store'
-
-    // import axios from 'axios'
-    // import { queryTermField } from 'vuex'
-
-
+    import Api from '@/Api'
+    // import router from '../router'
     import Topnav from './Topnav'
-    // import Table from './Table'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -193,8 +176,6 @@ import Api from '@/Api'
 
                 if (this.selectedOption === 'nin') {
                     ext = 'filter_by_nin/' + this.queryTerm
-                    // eslint-disable-next-line no-console
-                    console.log(this.queryTerm.length)
                 } else if (this.selectedOption === 'issued_date') {
                     ext = 'filter_by_date/' + this.queryTerm
                 } else if (this.selectedOption === 'tracking_id') {
@@ -203,17 +184,22 @@ import Api from '@/Api'
 
                 this.searching = true
                 this.info = true
-                // this.queryMessage = 'The url is ' + url
 
-                return this.$store.commit('formSubmit', Api()
+                return this.$store.dispatch('formSubmit', Api()
                     .get(ext)
-                    // eslint-disable-next-line no-console
-                    .then(response => console.log(response))
-                    // eslint-disable-next-line no-console
-                    .then($store => console.log($store))
+                    .then(response => (this.state.queryTerm = response.queryTerm))
                     // eslint-disable-next-line no-console
                     .catch(error => console.log(error))
                     .finally(() => this.loading = false))
+
+                    
+
+                // router.push({
+                //     name: "Table"
+                // })
+                // this.router.push({
+                //     name: "Table"
+                // })
             },
 
         },
@@ -221,12 +207,6 @@ import Api from '@/Api'
         computed: {
             inputVet() {
                 return this.verifications()
-            },
-
-            queryTermField: {
-                get() {
-                    return this.$store.state.form.queryTerm
-                }
             }
         },
 
