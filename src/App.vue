@@ -8,15 +8,16 @@
         <div>
           <!-- <Table :data_fetched="responses[index]"/> -->
           <!-- <Table :data_fetched="queried_data" :loading_info="loading" /> -->
+          <Table :loading_info="loading" />
 
-          <b-row class="h-100 w-100" no-gutters>
+          <!-- <b-row class="h-100 w-100" no-gutters>
           <b-col sm="4" md="3" lg="2">
             <Sidenav />
           </b-col>
           <b-col sm="8" md="9" lg="10" class="section ">
             <Querypage />
           </b-col>
-        </b-row>
+        </b-row> -->
         </div>
       <!-- </div> -->
     </b-container>
@@ -24,19 +25,21 @@
 </template>
 
 <script>
+// import { store } from './store/store'
+
   // import axios from "axios"
 
-  // import Table from './components/Table'
-  import Querypage from './components/Querypage'
-  import Sidenav from './components/Sidenav'
+  import Table from './components/Table'
+  // import Querypage from './components/Querypage'
+  // import Sidenav from './components/Sidenav'
   // import Spinnergrow from './components/Spinnergrow'
 
   export default {
     name: 'app',
     components: {
-      // Table,
-      Querypage,
-      Sidenav,
+      Table,
+      // Querypage,
+      // Sidenav,
       // Spinnergrow
     },
 

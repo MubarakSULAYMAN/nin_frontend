@@ -29,8 +29,17 @@
                             <b-th> Issued Date </b-th>
                         </b-tr>
                     </b-thead>
-                    <!-- <b-tbody>
-                        <b-tr class="text-center" v-for="(item, index) in data_fetched" :key="item.anyX">
+                    <b-tbody>
+                        <!-- <b-tr class="text-center" v-for="(item, index) in data_fetched" :key="item.anyX">
+                            <b-td variant="danger"> {{ ++index }} </b-td>
+                            <b-td> {{ item.first_name }} </b-td>
+                            <b-td> {{ item.last_name }} </b-td>
+                            <b-td> {{ item.middle_name }} </b-td>
+                            <b-td variant="success"> {{ item.tracking_id }} </b-td>
+                            <b-td variant="primary"> {{ item.nin }} </b-td>
+                            <b-td variant="warning"> {{ item.issued_date }} </b-td>
+                        </b-tr> -->
+                        <b-tr class="text-center" v-for="(item, index) in $store.getters.output" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
                             <b-td> {{ item.last_name }} </b-td>
@@ -46,7 +55,7 @@
                                 Total Rows: <b> {{ data_fetched.length }} </b>
                             </b-td>
                         </b-tr>
-                    </b-tfoot> -->
+                    </b-tfoot>
 
                 </b-table-simple>
 

@@ -6,8 +6,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // import router from '.router'
-import store from './store'
+// import store from './store/store'
+import { store } from './store/store'
 
+// import Router from 'vue-router'
+// import Querypage from '@/components/Querypage'
+// import Table from '@/components/Table'
 // import Vuex from 'vuex'
 
 // import VueRouter from 'vue-router'
@@ -17,6 +21,8 @@ import store from './store'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+// Vue.use(Router)
+
 // Vue.use(Vuex)
 
 // Vue.use(VueRouter); 

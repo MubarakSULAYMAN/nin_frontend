@@ -8,7 +8,10 @@ export default () => {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer {token}',
-            'Owner': 'Mubarak SULAYMAN'
+            'Owner': 'Mubarak SULAYMAN',
+            'Access-Control-Allow-Methods' : 'GET',
+            'Access-Control-Allow-Origin' : 'http://localhost:8080',
+            "Allow": 'HEAD, OPTIONS, GET'
         }
     })
 }

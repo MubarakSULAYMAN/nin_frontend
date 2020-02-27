@@ -58,6 +58,9 @@
 
 <script>
 import Api from '@/Api'
+
+// import { store } from './store/store'
+
     // import axios from 'axios'
     // import { queryTermField } from 'vuex'
 
@@ -186,54 +189,32 @@ import Api from '@/Api'
             submitForm(e) {
                 e.preventDefault()
 
-                // let baseURL = 'http://127.0.0.1:5000/'
-
-                // let url = ''
                 let ext = ''
 
                 if (this.selectedOption === 'nin') {
-                    // url = baseURL + 'filter_by_nin/' + this.queryTerm
                     ext = 'filter_by_nin/' + this.queryTerm
                     // eslint-disable-next-line no-console
                     console.log(this.queryTerm.length)
                 } else if (this.selectedOption === 'issued_date') {
-                    // url = baseURL + 'filter_by_date/' + this.queryTerm
                     ext = 'filter_by_date/' + this.queryTerm
                 } else if (this.selectedOption === 'tracking_id') {
-                    // url = baseURL + 'filter_by_id/' + this.queryTerm
                     ext = 'filter_by_id/' + this.queryTerm
                 }
-
 
                 this.searching = true
                 this.info = true
                 // this.queryMessage = 'The url is ' + url
 
-                // return axios
-                return Api()
-                    // .get(url).then(function (response) {
-                    //     // eslint-disable-next-line no-console
-                    //     console.log(response)
-                    // })
-                    // .get(url)
+                return this.$store.commit('formSubmit', Api()
                     .get(ext)
                     // eslint-disable-next-line no-console
                     .then(response => console.log(response))
                     // eslint-disable-next-line no-console
+                    .then($store => console.log($store))
+                    // eslint-disable-next-line no-console
                     .catch(error => console.log(error))
-                    .finally(() => this.loading = false)
+                    .finally(() => this.loading = false))
             },
-
-            // getQuery: async function() {
-            //     let self = this
-            //     const uri = 'url'
-            //     try {
-            //         const { data } = await axios.get(uri)
-            //         self.query = data
-            //     } catch (error) {
-            //         console.log(error.queryMessage)
-            //     }
-            // }
 
         },
 
