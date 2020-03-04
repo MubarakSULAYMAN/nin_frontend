@@ -18,7 +18,7 @@
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
-                        <p v-if='!searching'> Search for <b>{{ queryTermValue }}</b> from our records. </p>
+                        <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
                         <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
                         <span v-for='option in options' :key='option.value'>
@@ -204,13 +204,9 @@
                 return this.verifications()
             },
 
-            ...mapState(
-                ['queryTerm']
-                //     {
-                //     // queryTerm: state => state.queryTerm
-                //     queryTerm: 'queryTerm'
-                // }
-            ),
+            ...mapState([
+                'queryTerm'
+            ]),
 
             ...mapMutations([
 
@@ -221,16 +217,16 @@
             ]),
 
             ...mapGetters([
-
+                'getQueryTerm'
             ]),
 
             queryTermValue: {
-                get () {
-                    return this.queryTerm
+                get() {
+                    return this.getQueryTerm
                 },
 
                 set () {
-                    this.queryTerm
+                    this.getQueryTerm
                 }
             }
         },

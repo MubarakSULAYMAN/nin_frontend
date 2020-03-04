@@ -19,6 +19,6 @@ export const store = new Vuex.Store({
     },
 
     getters: {
-        // getQueryTerm: state => state.queryTerm,
+        getQueryTerm: state => state.queryTerm,
     }
 })
