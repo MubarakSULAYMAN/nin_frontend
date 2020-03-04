@@ -11,13 +11,14 @@
             <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
-                        <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
+                        <!-- <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet" -->
+                        <b-input v-model='queryTermValue' size="sm" placeholder='Search...' :state="inputVet"
                             :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
                             required="required" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
-                        <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
+                        <p v-if='!searching'> Search for <b>{{ queryTermValue }}</b> from our records. </p>
                         <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
                         <span v-for='option in options' :key='option.value'>
@@ -47,9 +48,15 @@
 
 
 <script>
-    import Api from '@/Api'
+    // import Api from '@/Api'
     // import router from '../router'
     import Topnav from './Topnav'
+    import {
+        mapState,
+        mapMutations,
+        mapActions,
+        mapGetters
+    } from 'vuex'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -63,7 +70,7 @@
 
         data() {
             return {
-                queryTerm: '',
+                // queryTerm: '',
                 selectedOption: '',
                 infoMessage: '',
                 queryMessage: '',
@@ -95,15 +102,11 @@
         },
 
         methods: {
-            resetCheckbox(e) {
-                e.preventDefault()
-                this.selectedOption = ''
-            },
-
             resetAll(e) {
                 e.preventDefault()
                 this.info = false
                 this.queryTerm = ''
+                // this.$store.state.queryTerm = ''
                 this.selectedOption = ''
             },
 
@@ -162,44 +165,36 @@
                     return this.info
                 }
 
-                // if (this.selectedOption === !this.selectedOption) {
-                //     return this.resetAll
-                // }
-
                 return !this.info
             },
 
             submitForm(e) {
                 e.preventDefault()
 
-                let ext = ''
+                // let ext = ''
 
-                if (this.selectedOption === 'nin') {
-                    ext = 'filter_by_nin/' + this.queryTerm
-                } else if (this.selectedOption === 'issued_date') {
-                    ext = 'filter_by_date/' + this.queryTerm
-                } else if (this.selectedOption === 'tracking_id') {
-                    ext = 'filter_by_id/' + this.queryTerm
-                }
+                // if (this.selectedOption === 'nin') {
+                //     ext = 'filter_by_nin/' + this.queryTerm
+                // } else if (this.selectedOption === 'issued_date') {
+                //     ext = 'filter_by_date/' + this.queryTerm
+                // } else if (this.selectedOption === 'tracking_id') {
+                //     ext = 'filter_by_id/' + this.queryTerm
+                // }
 
                 this.searching = true
                 this.info = true
 
-                return this.$store.dispatch('formSubmit', Api()
-                    .get(ext)
-                    .then(response => (this.state.queryTerm = response.queryTerm))
-                    // eslint-disable-next-line no-console
-                    .catch(error => console.log(error))
-                    .finally(() => this.loading = false))
+                // eslint-disable-next-line no-console
+                console.log(this.$store.state.queryTerm)
 
-                    
+                // return this.$store.dispatch('formSubmit', Api()
+                //     .get(ext)
+                //     .then(response => (this.state.queryTerm = response.queryTerm))
+                //     // eslint-disable-next-line no-console
+                //     .catch(error => console.log(error))
+                //     .finally(() => this.loading = false))
 
-                // router.push({
-                //     name: "Table"
-                // })
-                // this.router.push({
-                //     name: "Table"
-                // })
+                // return this.resetAll()
             },
 
         },
@@ -207,8 +202,42 @@
         computed: {
             inputVet() {
                 return this.verifications()
+            },
+
+            ...mapState(
+                ['queryTerm']
+                //     {
+                //     // queryTerm: state => state.queryTerm
+                //     queryTerm: 'queryTerm'
+                // }
+            ),
+
+            ...mapMutations([
+
+            ]),
+
+            ...mapActions([
+                'routeLocator'
+            ]),
+
+            ...mapGetters([
+
+            ]),
+
+            queryTermValue: {
+                get () {
+                    return this.queryTerm
+                },
+
+                set () {
+                    this.queryTerm
+                }
             }
         },
+
+        created: {
+            // this.$store.dispach
+        }
 
         // watch: {
         //     queryTerm() {
@@ -287,11 +316,11 @@
         position: absolute;
         left: 0;
         top: 0;
-        width: 18px;
-        height: 18px;
-        border: 1px solid #ddd;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ddd;
         border-radius: 100%;
-        background: #fff;
+        /* background: #fff; */
         margin-left: 5px;
     }
 
@@ -303,11 +332,11 @@
         /* background: #F87DA9; */
         background: #009340;
         position: absolute;
-        top: 3px;
-        left: 4px;
+        top: 4px;
+        left: 5px;
         border-radius: 100%;
         -webkit-transition: all 0.2s ease;
-        transition: all 0.2s ease;
+        transition: all 0.1s ease;
         margin-left: 4px;
     }
 

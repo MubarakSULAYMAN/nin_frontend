@@ -1,25 +1,24 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+// import Api from '../Api'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
     state: {
-        // output: ''
-        queryTerm: []
+        queryTerm: '',
     },
 
     mutations: {
-        formSubmit(state, queryTerm) {
-            state.queryTerm = queryTerm
+        changeQueryTerm(state, payload) {
+            state.queryTerm = payload
         }
     },
 
-    // actions: {
-    //     searchRequest
-    // }
+    actions: {
+    },
 
     getters: {
-        output: state => state.queryTerm
+        // getQueryTerm: state => state.queryTerm,
     }
 })
