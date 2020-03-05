@@ -10,15 +10,15 @@ export const store = new Vuex.Store({
     },
 
     mutations: {
-        changeQueryTerm(state, payload) {
-            state.queryTerm = payload
+        submitForm(state, queryTerm) {
+            state.queryTerm = queryTerm
         }
     },
 
-    actions: {
-    },
+    // actions: {
+    // },
 
-    getters: {
-        getQueryTerm: state => state.queryTerm,
-    }
+    // getters: {
+    //     getQueryTerm: state => state.queryTerm,
+    // }
 })

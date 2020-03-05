@@ -10,7 +10,7 @@ import Table from '@/components/Table'
 Vue.use(VueRouter)
 
 export default new VueRouter({
-    node: 'history',
+    // node: 'history',
     base: process.env.BASE_URL,
 
     routes: [{

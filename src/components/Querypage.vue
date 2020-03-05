@@ -11,7 +11,7 @@
             <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
-                        <!-- <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet" -->
+                        <!-- <b-input :value="queryTerm" @input="submitForm" size="sm" placeholder='Search...' :state="inputVet" -->
                         <b-input v-model='queryTermValue' size="sm" placeholder='Search...' :state="inputVet"
                             :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
                             required="required" autofocus />
@@ -53,9 +53,9 @@
     import Topnav from './Topnav'
     import {
         mapState,
-        mapMutations,
-        mapActions,
-        mapGetters
+        // mapMutations,
+        // mapActions,
+        // mapGetters
     } from 'vuex'
 
     let numFormat = /^[0-9]*$/
@@ -184,8 +184,7 @@
                 this.searching = true
                 this.info = true
 
-                // eslint-disable-next-line no-console
-                console.log(this.$store.state.queryTerm)
+                // this.$store.commit('submitForm', e.target.value)
 
                 // return this.$store.dispatch('formSubmit', Api()
                 //     .get(ext)
@@ -205,28 +204,29 @@
             },
 
             ...mapState([
-                'queryTerm'
+                'queryTerm',
             ]),
 
-            ...mapMutations([
+            // ...mapMutations([
 
-            ]),
+            // ]),
 
-            ...mapActions([
-                'routeLocator'
-            ]),
+            // ...mapActions([
+            //     'routeLocator'
+            // ]),
 
-            ...mapGetters([
-                'getQueryTerm'
-            ]),
+            // ...mapGetters([
+            //     'getQueryTerm'
+            // ]),
 
             queryTermValue: {
                 get() {
                     return this.getQueryTerm
                 },
 
-                set () {
-                    this.getQueryTerm
+                set (value) {
+                    // this.getQueryTerm
+                    this.$store.commit('submitForm', value)
                 }
             }
         },
