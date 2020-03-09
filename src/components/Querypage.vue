@@ -11,8 +11,8 @@
             <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
-                        <!-- <b-input :value="queryTerm" @input="submitForm" size="sm" placeholder='Search...' :state="inputVet" -->
-                        <b-input v-model='queryTermValue' size="sm" placeholder='Search...' :state="inputVet"
+                        <!-- <b-input v-model='queryTermValue' size="sm" placeholder='Search...' :state="inputVet" -->
+                        <b-input :value="queryTerm" @input="submitForm" size="sm" placeholder='Search...' :state="inputVet"
                             :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
                             required="required" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
@@ -51,12 +51,9 @@
     // import Api from '@/Api'
     // import router from '../router'
     import Topnav from './Topnav'
-    import {
-        mapState,
-        // mapMutations,
-        // mapActions,
-        // mapGetters
-    } from 'vuex'
+    import { mapState, mapGetters, } from 'vuex'
+
+    import store from '../store/store';
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -205,35 +202,13 @@
 
             ...mapState([
                 'queryTerm',
+                // 'selectedOption',
             ]),
 
-            // ...mapMutations([
-
-            // ]),
-
-            // ...mapActions([
-            //     'routeLocator'
-            // ]),
-
-            // ...mapGetters([
-            //     'getQueryTerm'
-            // ]),
-
-            queryTermValue: {
-                get() {
-                    return this.getQueryTerm
-                },
-
-                set (value) {
-                    // this.getQueryTerm
-                    this.$store.commit('submitForm', value)
-                }
-            }
+            ...mapGetters([
+                'getSubmitForm'
+            ])
         },
-
-        created: {
-            // this.$store.dispach
-        }
 
         // watch: {
         //     queryTerm() {
@@ -243,6 +218,9 @@
         //     }
         // }
     }
+
+    // eslint-disable-next-line no-console
+    console.log(store.getters.getSubmitForm)
 
 </script>
 

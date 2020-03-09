@@ -7,18 +7,24 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     state: {
         queryTerm: '',
+        selectedOption: '',
     },
 
-    mutations: {
-        submitForm(state, queryTerm) {
-            state.queryTerm = queryTerm
-        }
-    },
+    // mutations: {
+    //     submitForm(state, queryTerm, selectedOption) {
+    //         state.queryTerm = queryTerm
+    //         state.selectedOption = selectedOption
+    //     }
+    // },
 
     // actions: {
     // },
 
-    // getters: {
-    //     getQueryTerm: state => state.queryTerm,
-    // }
+    getters: {
+        // getSubmitForm: state => state.queryTerm,
+
+        getSubmitForm: state => {
+            return state.queryTerm
+        },
+    }
 })
