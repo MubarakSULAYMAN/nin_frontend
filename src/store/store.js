@@ -10,21 +10,27 @@ export const store = new Vuex.Store({
         selectedOption: '',
     },
 
-    // mutations: {
-    //     submitForm(state, queryTerm, selectedOption) {
-    //         state.queryTerm = queryTerm
-    //         state.selectedOption = selectedOption
-    //     }
-    // },
+    mutations: {
+        SET_QUERY_TERM (state, queryTerm) {
+            state.queryTerm = queryTerm
+        },
 
-    // actions: {
-    // },
+        SET_SELECTED_OPTION (state, option) {
+            state.selectedOption = option
+        }
+    },
+
+    actions: {
+        setQueryTerm ({ commit }, queryTerm) {
+            commit('SET_QUERY_TERM', queryTerm)
+        },
+
+        setSelectedOption ({ commit }, option) {
+            commit('SET_SELECTED_OPTION', option)
+        }
+    },
 
     getters: {
-        // getSubmitForm: state => state.queryTerm,
-
-        getSubmitForm: state => {
-            return state.queryTerm
-        },
+        queryTerm: (state) => state.queryTerm
     }
 })

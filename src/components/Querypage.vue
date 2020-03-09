@@ -8,7 +8,7 @@
   action="https://vuejs.org/"
   method="post"
 > -->
-            <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
+            <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
                         <!-- <b-input v-model='queryTermValue' size="sm" placeholder='Search...' :state="inputVet" -->
@@ -51,9 +51,6 @@
     // import Api from '@/Api'
     // import router from '../router'
     import Topnav from './Topnav'
-    import { mapState, mapGetters, } from 'vuex'
-
-    import store from '../store/store';
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -165,8 +162,7 @@
                 return !this.info
             },
 
-            submitForm(e) {
-                e.preventDefault()
+            submitForm() {
 
                 // let ext = ''
 
@@ -200,14 +196,14 @@
                 return this.verifications()
             },
 
-            ...mapState([
-                'queryTerm',
-                // 'selectedOption',
-            ]),
-
-            ...mapGetters([
-                'getSubmitForm'
-            ])
+            queryTerm: {
+                set (term) {
+                    this.$store.dispatch('setQueryTerm', term)
+                },
+                get () {
+                    return this.$store.getters.queryTerm
+                }
+            }
         },
 
         // watch: {
@@ -217,10 +213,7 @@
         //             // .replace(/^(\d{4}) ? (\d{3}) ? (\d{4}) ? /g, '($1) - $2 - $3');
         //     }
         // }
-    }
-
-    // eslint-disable-next-line no-console
-    console.log(store.getters.getSubmitForm)
+}
 
 </script>
 
