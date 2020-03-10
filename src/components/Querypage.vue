@@ -6,7 +6,7 @@
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
                         <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
-                            :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
+                            :maxlength="this.$store.getters.selectedOption === 'tracking_id' ? 15 : this.$store.getters.selectedOption === 'nin' ? 11 : 10 "
                             required="required" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
@@ -24,8 +24,8 @@
                                 <b-icon icon="bootstrap-reboot"></b-icon> Reset
                             </b-button>
 
-                            <b-button type="submit" pill variant="primary" class="ml-3">
-                                <!-- :disabled="inputVet ? disabled : !disabled" -->
+                            <b-button type="submit" pill variant="primary" class="ml-3"
+                                :disabled="inputVet ? disabled : !disabled">
 
                                 <b-icon icon="search"></b-icon> Search
                             </b-button>
@@ -42,13 +42,13 @@
 
 
 <script>
-    // import Api from '@/Api'
+    import Api from '@/Api'
     // import router from '../router'
     import Topnav from './Topnav'
 
-    // let numFormat = /^[0-9]*$/
-    // let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-    // let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+    let numFormat = /^[0-9]*$/
+    let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         components: {
@@ -96,87 +96,99 @@
             },
 
             verifications() {
-                if (this.queryTerm === '' && this.selectedOption === '') {
+                if (this.$store.getters.queryTerm === '' && this.$store.getters.selectedOption === '') {
                     this.infoMessage = 'Please select an option and enter a query term.'
                     return this.info
                 }
 
-                // if (this.selectedOption === '') {
-                //     this.infoMessage = 'Please select an option.'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === '') {
+                    this.infoMessage = 'Please select an option.'
+                    return this.info
+                }
 
-                // if (this.queryTerm === '') {
-                //     this.infoMessage = 'Please enter a query term.'
-                //     return this.info
-                // }
+                if (this.$store.getters.queryTerm === '') {
+                    this.infoMessage = 'Please enter a query term.'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'nin' && !(this.queryTerm.match(numFormat))) {
-                //     this.infoMessage = 'Invalid NIN, can only be digits.'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'nin' && !(this.$store.getters.queryTerm.match(numFormat))) {
+                    this.infoMessage = 'Invalid NIN, can only be digits.'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'nin' && (this.queryTerm.length < 11 || this.queryTerm.length > 11)) {
-                //     this.infoMessage = 'NIN can only be 11 digits.'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'nin' && (this.$store.getters.queryTerm.length < 11 || this
+                        .$store.getters.queryTerm.length > 11)) {
+                    this.infoMessage = 'NIN can only be 11 digits.'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'nin' && (parseInt(this.queryTerm) < 12345678901)) {
-                //     this.infoMessage = 'NIN cannot be less than 12345678901.'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'nin' && (parseInt(this.$store.getters.queryTerm) <
+                        12345678901)) {
+                    this.infoMessage = 'NIN cannot be less than 12345678901.'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'issued_date' && !(this.queryTerm.match(dateFormat))) {
-                //     this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'issued_date' && !(this.$store.getters.queryTerm.match(
+                        dateFormat))) {
+                    this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'issued_date' && !((this
-                //         .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                //         .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
-                //         .getFullYear()))) {
-                //     this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'issued_date' && !((this
+                        .queryTerm[1] < 1 || this.$store.getters.queryTerm[1] > 31) && (this.$store.getters
+                        .queryTerm[2] < 1 || this.$store.getters
+                        .queryTerm[2] > 12) && (this.$store.getters.queryTerm[3] < 2007 || this.$store.getters
+                        .queryTerm[3] > (new Date())
+                        .getFullYear()))) {
+                    this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(alphaNumFormat))) {
-                //     this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'tracking_id' && !(this.$store.getters.queryTerm.match(
+                        alphaNumFormat))) {
+                    this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                    return this.info
+                }
 
-                // if (this.selectedOption === 'tracking_id' && (this.queryTerm.length < 15 || this.queryTerm.length >
-                //         15)) {
-                //     this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                //     return this.info
-                // }
+                if (this.$store.getters.selectedOption === 'tracking_id' && (this.$store.getters.queryTerm.length <
+                        15 || this.$store.getters.queryTerm.length >
+                        15)) {
+                    this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                    return this.info
+                }
 
                 return !this.info
             },
 
             submitForm() {
-                // let ext = ''
+                let ext = ''
 
-                // if (this.selectedOption === 'nin') {
-                //     ext = 'filter_by_nin/' + this.queryTerm
-                // } else if (this.selectedOption === 'issued_date') {
-                //     ext = 'filter_by_date/' + this.queryTerm
-                // } else if (this.selectedOption === 'tracking_id') {
-                //     ext = 'filter_by_id/' + this.queryTerm
-                // }
+                if (this.selectedOption === 'nin') {
+                    ext = 'filter_by_nin/' + this.queryTerm
+                } else if (this.selectedOption === 'issued_date') {
+                    ext = 'filter_by_date/' + this.queryTerm
+                } else if (this.selectedOption === 'tracking_id') {
+                    ext = 'filter_by_id/' + this.queryTerm
+                }
 
                 this.searching = true
                 this.info = true
 
-                // this.$store.commit('submitForm', e.target.value)
-
-                // return this.$store.dispatch('formSubmit', Api()
-                //     .get(ext)
-                //     .then(response => (this.state.queryTerm = response.queryTerm))
-                //     // eslint-disable-next-line no-console
-                //     .catch(error => console.log(error))
-                //     .finally(() => this.loading = false))
-
-                // return this.resetAll()
+                return Api()
+                    .get(ext)
+                    // eslint-disable-next-line no-console
+                    // .then((response) => console.log(this.$store.getters.queryResult = response.data.query_term))
+                    .then((response) => {
+                    // eslint-disable-next-line no-console
+                        console.log(response.data.query_term)
+                        this.$store.getters.queryResult = response.data.query_term
+                    })
+                // // eslint-disable-next-line no-console
+                // .then(response => console.log(response.data.query_term))
+                // // eslint-disable-next-line no-console
+                // .catch(error => console.log(error))
+                // .finally(() => this.loading = false)
+                // // resetAll()
             },
 
         },
@@ -201,6 +213,15 @@
                 },
                 get() {
                     return this.$store.getters.selectedOption
+                }
+            },
+
+            queryResult: {
+                set(results) {
+                    this.$store.dispatch('setQueryResult', results)
+                },
+                get() {
+                    return this.$store.getters.queryResult
                 }
             }
         }
