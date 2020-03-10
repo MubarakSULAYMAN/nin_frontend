@@ -39,7 +39,7 @@
                             <b-td variant="primary"> {{ item.nin }} </b-td>
                             <b-td variant="warning"> {{ item.issued_date }} </b-td>
                         </b-tr> -->
-                        <b-tr class="text-center" v-for="(item, index) in $store.getters.output" :key="item.anyX">
+                        <b-tr class="text-center" v-for="(item, index) in $store.getters.outpute" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
                             <b-td> {{ item.last_name }} </b-td>

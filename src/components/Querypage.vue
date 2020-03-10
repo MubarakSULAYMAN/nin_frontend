@@ -2,17 +2,10 @@
     <div>
         <Topnav />
         <div>
-            <!-- <form
-  id="app"
-  @submit="checkForm"
-  action="https://vuejs.org/"
-  method="post"
-> -->
-            <b-form @reset="resetAll" v-if="show" @submit.stop.prevent="submitForm">
+            <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
-                        <!-- <b-input v-model='queryTermValue' size="sm" placeholder='Search...' :state="inputVet" -->
-                        <b-input :value="queryTerm" @input="submitForm" size="sm" placeholder='Search...' :state="inputVet"
+                        <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
                             :maxlength="selectedOption === 'tracking_id' ? 15 : selectedOption === 'nin' ? 11 : 10 "
                             required="required" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
@@ -31,8 +24,9 @@
                                 <b-icon icon="bootstrap-reboot"></b-icon> Reset
                             </b-button>
 
-                            <b-button type="submit" pill variant="primary" class="ml-3"
-                                :disabled="inputVet ? disabled : !disabled">
+                            <b-button type="submit" pill variant="primary" class="ml-3">
+                                <!-- :disabled="inputVet ? disabled : !disabled" -->
+
                                 <b-icon icon="search"></b-icon> Search
                             </b-button>
                         </div>
@@ -51,13 +45,10 @@
     // import Api from '@/Api'
     // import router from '../router'
     import Topnav from './Topnav'
-    import { mapState, mapGetters, } from 'vuex'
 
-    import store from '../store/store';
-
-    let numFormat = /^[0-9]*$/
-    let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-    let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
+    // let numFormat = /^[0-9]*$/
+    // let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    // let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         components: {
@@ -67,8 +58,6 @@
 
         data() {
             return {
-                // queryTerm: '',
-                selectedOption: '',
                 infoMessage: '',
                 queryMessage: '',
                 max: '',
@@ -103,7 +92,6 @@
                 e.preventDefault()
                 this.info = false
                 this.queryTerm = ''
-                // this.$store.state.queryTerm = ''
                 this.selectedOption = ''
             },
 
@@ -113,61 +101,59 @@
                     return this.info
                 }
 
-                if (this.selectedOption === '') {
-                    this.infoMessage = 'Please select an option.'
-                    return this.info
-                }
+                // if (this.selectedOption === '') {
+                //     this.infoMessage = 'Please select an option.'
+                //     return this.info
+                // }
 
-                if (this.queryTerm === '') {
-                    this.infoMessage = 'Please enter a query term.'
-                    return this.info
-                }
+                // if (this.queryTerm === '') {
+                //     this.infoMessage = 'Please enter a query term.'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'nin' && !(this.queryTerm.match(numFormat))) {
-                    this.infoMessage = 'Invalid NIN, can only be digits.'
-                    return this.info
-                }
+                // if (this.selectedOption === 'nin' && !(this.queryTerm.match(numFormat))) {
+                //     this.infoMessage = 'Invalid NIN, can only be digits.'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'nin' && (this.queryTerm.length < 11 || this.queryTerm.length > 11)) {
-                    this.infoMessage = 'NIN can only be 11 digits.'
-                    return this.info
-                }
+                // if (this.selectedOption === 'nin' && (this.queryTerm.length < 11 || this.queryTerm.length > 11)) {
+                //     this.infoMessage = 'NIN can only be 11 digits.'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'nin' && (parseInt(this.queryTerm) < 12345678901)) {
-                    this.infoMessage = 'NIN cannot be less than 12345678901.'
-                    return this.info
-                }
+                // if (this.selectedOption === 'nin' && (parseInt(this.queryTerm) < 12345678901)) {
+                //     this.infoMessage = 'NIN cannot be less than 12345678901.'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'issued_date' && !(this.queryTerm.match(dateFormat))) {
-                    this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
-                    return this.info
-                }
+                // if (this.selectedOption === 'issued_date' && !(this.queryTerm.match(dateFormat))) {
+                //     this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'issued_date' && !((this
-                        .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                        .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
-                        .getFullYear()))) {
-                    this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
-                    return this.info
-                }
+                // if (this.selectedOption === 'issued_date' && !((this
+                //         .queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
+                //         .queryTerm[2] > 12) && (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date())
+                //         .getFullYear()))) {
+                //     this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(alphaNumFormat))) {
-                    this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                    return this.info
-                }
+                // if (this.selectedOption === 'tracking_id' && !(this.queryTerm.match(alphaNumFormat))) {
+                //     this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                //     return this.info
+                // }
 
-                if (this.selectedOption === 'tracking_id' && (this.queryTerm.length < 15 || this.queryTerm.length >
-                        15)) {
-                    this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                    return this.info
-                }
+                // if (this.selectedOption === 'tracking_id' && (this.queryTerm.length < 15 || this.queryTerm.length >
+                //         15)) {
+                //     this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                //     return this.info
+                // }
 
                 return !this.info
             },
 
-            submitForm(e) {
-                e.preventDefault()
-
+            submitForm() {
                 // let ext = ''
 
                 // if (this.selectedOption === 'nin') {
@@ -200,27 +186,25 @@
                 return this.verifications()
             },
 
-            ...mapState([
-                'queryTerm',
-                // 'selectedOption',
-            ]),
+            queryTerm: {
+                set(term) {
+                    this.$store.dispatch('setQueryTerm', term)
+                },
+                get() {
+                    return this.$store.getters.queryTerm
+                }
+            },
 
-            ...mapGetters([
-                'getSubmitForm'
-            ])
-        },
-
-        // watch: {
-        //     queryTerm() {
-        //         this.queryTerm = this.queryTerm.replace(/[^0-9]/g, '')
-        //             .replace(/^(\d{4}) (\d{3}) (\d{4})/g, '$1 - $2 - $3');
-        //             // .replace(/^(\d{4}) ? (\d{3}) ? (\d{4}) ? /g, '($1) - $2 - $3');
-        //     }
-        // }
+            selectedOption: {
+                set(option) {
+                    this.$store.dispatch('setSelectedOption', option)
+                },
+                get() {
+                    return this.$store.getters.selectedOption
+                }
+            }
+        }
     }
-
-    // eslint-disable-next-line no-console
-    console.log(store.getters.getSubmitForm)
 
 </script>
 
