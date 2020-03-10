@@ -42,9 +42,10 @@
 
 
 <script>
-    import Api from '@/Api'
+    // import Api from '@/Api'
     // import router from '../router'
     import Topnav from './Topnav'
+    import { mapState } from 'vuex'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -68,22 +69,22 @@
                 show: true,
                 disabled: false,
 
-                options: [{
-                        text: 'NIN',
-                        value: 'nin',
-                        name: 'nin',
-                    },
-                    {
-                        text: 'Issued Date',
-                        value: 'issued_date',
-                        name: 'issued_date',
-                    },
-                    {
-                        text: 'Tracking ID',
-                        value: 'tracking_id',
-                        name: 'tracking_id',
-                    }
-                ],
+                // options: [{
+                //         text: 'NIN',
+                //         value: 'nin',
+                //         name: 'nin',
+                //     },
+                //     {
+                //         text: 'Issued Date',
+                //         value: 'issued_date',
+                //         name: 'issued_date',
+                //     },
+                //     {
+                //         text: 'Tracking ID',
+                //         value: 'tracking_id',
+                //         name: 'tracking_id',
+                //     }
+                // ],
             }
         },
 
@@ -161,28 +162,29 @@
             },
 
             submitForm() {
-                let ext = ''
+                this.$store.dispatch('loadQueryResult')
+                // let ext = ''
 
-                if (this.selectedOption === 'nin') {
-                    ext = 'filter_by_nin/' + this.queryTerm
-                } else if (this.selectedOption === 'issued_date') {
-                    ext = 'filter_by_date/' + this.queryTerm
-                } else if (this.selectedOption === 'tracking_id') {
-                    ext = 'filter_by_id/' + this.queryTerm
-                }
+                // if (this.selectedOption === 'nin') {
+                //     ext = 'filter_by_nin/' + this.queryTerm
+                // } else if (this.selectedOption === 'issued_date') {
+                //     ext = 'filter_by_date/' + this.queryTerm
+                // } else if (this.selectedOption === 'tracking_id') {
+                //     ext = 'filter_by_id/' + this.queryTerm
+                // }
 
-                this.searching = true
-                this.info = true
+                // this.searching = true
+                // this.info = true
 
-                return Api()
-                    .get(ext)
-                    // eslint-disable-next-line no-console
-                    // .then((response) => console.log(this.$store.getters.queryResult = response.data.query_term))
-                    .then((response) => {
-                    // eslint-disable-next-line no-console
-                        console.log(response.data.query_term)
-                        this.$store.getters.queryResult = response.data.query_term
-                    })
+                // return Api()
+                //     .get(ext)
+                //     // eslint-disable-next-line no-console
+                //     // .then((response) => console.log(this.$store.getters.queryResult = response.data.query_term))
+                //     .then((response) => {
+                //     // eslint-disable-next-line no-console
+                //         console.log(response.data.query_term)
+                //         this.$store.getters.queryResult = response.data.query_term
+                //     })
                 // // eslint-disable-next-line no-console
                 // .then(response => console.log(response.data.query_term))
                 // // eslint-disable-next-line no-console
@@ -216,14 +218,19 @@
                 }
             },
 
-            queryResult: {
-                set(results) {
-                    this.$store.dispatch('setQueryResult', results)
+            loadQueryResult: {
+                set(result) {
+                    this.$store.dispatch('setQueryResult', result)
                 },
                 get() {
                     return this.$store.getters.queryResult
                 }
-            }
+            },
+
+            ...mapState([
+                'queryResult',
+                'loading'
+            ])
         }
     }
 

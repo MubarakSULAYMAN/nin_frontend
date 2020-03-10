@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import Api from '../Api'
 import Api from '@/Api'
 
 Vue.use(Vuex)
 
 let ext = ''
-let term = this.$store.getters.queryTerm
-let selected = this.$store.getters.selectedOption
+const term = this.$store.getters.queryTerm
+const selected = this.$store.getters.selectedOption
 
 if (selected === 'nin') {
     ext = 'filter_by_nin' + term
@@ -24,7 +23,23 @@ export const store = new Vuex.Store({
         queryTerm: '',
         selectedOption: '',
         queryResult: '',
-        loading: true
+        loading: true,
+        options: [{
+                text: 'NIN',
+                value: 'nin',
+                name: 'nin',
+            },
+            {
+                text: 'Issued Date',
+                value: 'issued_date',
+                name: 'issued_date',
+            },
+            {
+                text: 'Tracking ID',
+                value: 'tracking_id',
+                name: 'tracking_id',
+            }
+        ],
     },
 
     mutations: {
@@ -35,17 +50,17 @@ export const store = new Vuex.Store({
         SET_SELECTED_OPTION(state, selectedOption) {
             state.selectedOption = selectedOption
         },
-        
-        // SET_QUERY_RESULT(state, queryResult) {
-        //     state.queryResult = queryResult
-        // },
-        
+
         SET_QUERY_RESULT(state, queryResult) {
             state.queryResult = queryResult
         },
 
         CHANGE_LOADING_STATE(state, loading) {
             state.loading = loading
+        },
+
+        SET_OPTION(state, options) {
+            state.options = options
         }
     },
 
@@ -64,20 +79,16 @@ export const store = new Vuex.Store({
 
         loadQueryResult({
             commit
-        // }, queryResult) {
-        //     commit('SET_QUERY_RESULT', queryResult)
-        // },
-
-        // loadData({
-        //     commit
-          }) {
+        }) {
             Api().get(ext).then((response) => {
-              // console.log(response.data, this)
-              commit('SET_QUERY_RESULT', response.data)
-              commit('CHANGE_LOADING_STATE', false)
+                // eslint-disable-next-line no-console
+                console.log(response.data, this)
+                commit('SET_QUERY_RESULT', response.data)
+                commit('CHANGE_LOADING_STATE', false)
             })
-          }
-        // }
+        },
+
+        setOptions({ commit }, options)
     },
 
     getters: {
