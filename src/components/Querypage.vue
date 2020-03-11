@@ -37,7 +37,6 @@
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
-                        <!-- <p> {{ $route.params.id }} </p> -->
                     </b-col>
                 </b-row>
             </b-form>
@@ -49,9 +48,7 @@
 
 <script>
     import Api from '@/Api'
-    // import router from '../router'
     import Topnav from './Topnav'
-    // import { mapState } from 'vuex'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -168,7 +165,6 @@
             },
 
             submitForm() {
-                // this.$store.dispatch('loadQueryResult')
                 let ext = ''
 
                 if (this.selectedOption === 'nin') {
@@ -189,14 +185,14 @@
                     .then((response) => {
                         // eslint-disable-next-line no-console
                         console.log(response.data.query_term)
-                        this.$store.getters.queryResult = response.data.query_term
+                        // this.$store.getters.queryResult = response.data.query_term
                     })
-                    // eslint-disable-next-line no-console
-                    .then(response => console.log(response.data.query_term))
-                    // eslint-disable-next-line no-console
-                    .catch(error => console.log(error))
-                    .finally(() => this.loading = false)
-                // resetAll()
+                //     // eslint-disable-next-line no-console
+                //     .then(response => console.log(response.data.query_term))
+                //     // eslint-disable-next-line no-console
+                //     .catch(error => console.log(error))
+                //     .finally(() => this.loading = false)
+                // // resetAll()
             },
 
         },
@@ -233,15 +229,6 @@
                 }
             },
 
-            // options: {
-            //     set(item) {
-            //         this.$store.dispatch('setOption', item)
-            //     },
-            //     get() {
-            //         return this.$store.getters.options
-            //     }
-            // },
-
             loading: {
                 set(loader) {
                     this.$store.dispatch('setLoading', loader)
@@ -250,17 +237,7 @@
                     return this.$store.getters.loading
                 }
             }
-
-            // ...mapState([
-            //     'queryResult',
-            //     'loading'
-            // ])
         },
-
-        // created() {
-        //     //console.log(this.$store)
-        //     this.$store.dispatch('loadQueryResult') // dispatch loading
-        // }
     }
 
 </script>
