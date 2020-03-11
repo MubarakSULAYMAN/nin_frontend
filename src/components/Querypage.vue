@@ -227,6 +227,15 @@
                 }
             },
 
+            options: {
+                set(item) {
+                    this.$store.dispatch('setOption', item)
+                },
+                get() {
+                    return this.$store.getters.options
+                }
+            },
+
             ...mapState([
                 'queryResult',
                 'loading'

@@ -5,16 +5,16 @@ import Api from '@/Api'
 Vue.use(Vuex)
 
 let ext = ''
-const term = this.$store.getters.queryTerm
-const selected = this.$store.getters.selectedOption
+// const term = this.$store.getters.queryTerm
+// const selected = this.$store.getters.selectedOption
 
-if (selected === 'nin') {
-    ext = 'filter_by_nin' + term
-} else if (selected === 'issued_date') {
-    ext = 'filter_by_date' + term
-} else if (selected == 'tracking_id') {
-    ext = 'filter_by_id' + term
-}
+// if (this.$store.getters.selectedOption === 'nin') {
+//     ext = 'filter_by_nin' + this.$store.getters.queryTerm
+// } else if (this.$store.getters.selectedOption === 'issued_date') {
+//     ext = 'filter_by_date' + this.$store.getters.queryTerm
+// } else if (this.$store.getters.selectedOption == 'tracking_id') {
+//     ext = 'filter_by_id' + this.$store.getters.queryTerm
+// }
 
 
 
@@ -59,7 +59,7 @@ export const store = new Vuex.Store({
             state.loading = loading
         },
 
-        SET_OPTION(state, options) {
+        SET_OPTIONS(state, options) {
             state.options = options
         }
     },
@@ -88,12 +88,15 @@ export const store = new Vuex.Store({
             })
         },
 
-        setOptions({ commit }, options)
+        setOptions({ commit }, options) {
+            commit('SET_OPTIONS', options)
+        }
     },
 
     getters: {
         queryTerm: (state) => state.queryTerm,
         selectedOption: (state) => state.selectedOption,
-        queryResult: (state) => state.queryResult
+        queryResult: (state) => state.queryResult,
+        options: (state) => state.options
     }
 })
