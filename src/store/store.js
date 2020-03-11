@@ -24,22 +24,22 @@ export const store = new Vuex.Store({
         selectedOption: '',
         queryResult: '',
         loading: true,
-        options: [{
-                text: 'NIN',
-                value: 'nin',
-                name: 'nin',
-            },
-            {
-                text: 'Issued Date',
-                value: 'issued_date',
-                name: 'issued_date',
-            },
-            {
-                text: 'Tracking ID',
-                value: 'tracking_id',
-                name: 'tracking_id',
-            }
-        ],
+        // options: [{
+        //         text: 'NIN',
+        //         value: 'nin',
+        //         name: 'nin',
+        //     },
+        //     {
+        //         text: 'Issued Date',
+        //         value: 'issued_date',
+        //         name: 'issued_date',
+        //     },
+        //     {
+        //         text: 'Tracking ID',
+        //         value: 'tracking_id',
+        //         name: 'tracking_id',
+        //     }
+        // ],
     },
 
     mutations: {
@@ -59,9 +59,9 @@ export const store = new Vuex.Store({
             state.loading = loading
         },
 
-        SET_OPTIONS(state, options) {
-            state.options = options
-        }
+        // SET_OPTIONS(state, options) {
+        //     state.options = options
+        // }
     },
 
     actions: {
@@ -94,11 +94,11 @@ export const store = new Vuex.Store({
             commit('CHANGE_LOADING_STATE', loading)
         },
 
-        setOptions({
-            commit
-        }, options) {
-            commit('SET_OPTIONS', options)
-        }
+        // setOptions({
+        //     commit
+        // }, options) {
+        //     commit('SET_OPTIONS', options)
+        // }
     },
 
     getters: {
@@ -106,6 +106,6 @@ export const store = new Vuex.Store({
         selectedOption: (state) => state.selectedOption,
         queryResult: (state) => state.queryResult,
         loading: (state) => state.loading,
-        options: (state) => state.options
+        // options: (state) => state.options
     }
 })

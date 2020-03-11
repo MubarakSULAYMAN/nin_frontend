@@ -24,14 +24,20 @@
                                 <b-icon icon="bootstrap-reboot"></b-icon> Reset
                             </b-button>
 
+                            <!-- <router-link to='table'> -->
                             <b-button type="submit" pill variant="primary" class="ml-3"
                                 :disabled="inputVet ? disabled : !disabled">
+                                <!-- <b-link> -->
 
                                 <b-icon icon="search"></b-icon> Search
+
+                                <!-- </b-link> -->
                             </b-button>
+                            <!-- </router-link> -->
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
+                        <!-- <p> {{ $route.params.id }} </p> -->
                     </b-col>
                 </b-row>
             </b-form>
@@ -181,15 +187,15 @@
                     // eslint-disable-next-line no-console
                     // .then((response) => console.log(this.$store.getters.queryResult = response.data.query_term))
                     .then((response) => {
-                    // eslint-disable-next-line no-console
+                        // eslint-disable-next-line no-console
                         console.log(response.data.query_term)
                         this.$store.getters.queryResult = response.data.query_term
                     })
-                // eslint-disable-next-line no-console
-                .then(response => console.log(response.data.query_term))
-                // eslint-disable-next-line no-console
-                .catch(error => console.log(error))
-                .finally(() => this.loading = false)
+                    // eslint-disable-next-line no-console
+                    .then(response => console.log(response.data.query_term))
+                    // eslint-disable-next-line no-console
+                    .catch(error => console.log(error))
+                    .finally(() => this.loading = false)
                 // resetAll()
             },
 
@@ -249,7 +255,12 @@
             //     'queryResult',
             //     'loading'
             // ])
-        }
+        },
+
+        // created() {
+        //     //console.log(this.$store)
+        //     this.$store.dispatch('loadQueryResult') // dispatch loading
+        // }
     }
 
 </script>
