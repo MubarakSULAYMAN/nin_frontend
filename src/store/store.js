@@ -88,7 +88,15 @@ export const store = new Vuex.Store({
             })
         },
 
-        setOptions({ commit }, options) {
+        setLoading({
+            commit
+        }, loading) {
+            commit('CHANGE_LOADING_STATE', loading)
+        },
+
+        setOptions({
+            commit
+        }, options) {
             commit('SET_OPTIONS', options)
         }
     },
@@ -97,6 +105,7 @@ export const store = new Vuex.Store({
         queryTerm: (state) => state.queryTerm,
         selectedOption: (state) => state.selectedOption,
         queryResult: (state) => state.queryResult,
+        loading: (state) => state.loading,
         options: (state) => state.options
     }
 })
