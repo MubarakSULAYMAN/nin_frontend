@@ -180,12 +180,10 @@
 
                 return Api()
                     .get(ext)
-                    // eslint-disable-next-line no-console
-                    // .then((response) => console.log(this.$store.getters.queryResult = response.data.query_term))
                     .then((response) => {
+                        this.$store.getters.queryResult = response.data.query_term
                         // eslint-disable-next-line no-console
-                        console.log(response.data.query_term)
-                        // this.$store.getters.queryResult = response.data.query_term
+                        console.log(this.$store.getters.queryResult)
                     })
                 //     // eslint-disable-next-line no-console
                 //     .then(response => console.log(response.data.query_term))
@@ -220,9 +218,9 @@
                 }
             },
 
-            loadQueryResult: {
+            queryResult: {
                 set(result) {
-                    this.$store.dispatch('setQueryResult', result)
+                    this.$store.dispatch('loadQueryResult', result)
                 },
                 get() {
                     return this.$store.getters.queryResult
@@ -237,7 +235,7 @@
                     return this.$store.getters.loading
                 }
             }
-        },
+        }
     }
 
 </script>

@@ -7,6 +7,7 @@ export const store = new Vuex.Store({
     state: {
         queryTerm: '',
         selectedOption: '',
+        queryResult: null,
         loading: true
     },
 
@@ -17,6 +18,10 @@ export const store = new Vuex.Store({
 
         SET_SELECTED_OPTION(state, selectedOption) {
             state.selectedOption = selectedOption
+        },
+
+        LOAD_QUERY_RESULT(state, queryResult) {
+            state.queryResult = queryResult
         },
 
         CHANGE_LOADING_STATE(state, loading) {
@@ -37,6 +42,12 @@ export const store = new Vuex.Store({
             commit('SET_SELECTED_OPTION', selectedOption)
         },
 
+        loadQueryResult({
+            commit
+        }, queryResult) {
+            commit('LOAD_QUERY_RESULT', queryResult)
+        },
+
         setLoading({
             commit
         }, loading) {
@@ -47,6 +58,7 @@ export const store = new Vuex.Store({
     getters: {
         queryTerm: (state) => state.queryTerm,
         selectedOption: (state) => state.selectedOption,
+        queryResult: (state) => state.queryResult,
         loading: (state) => state.loading
     }
 })
