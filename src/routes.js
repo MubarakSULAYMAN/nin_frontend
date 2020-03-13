@@ -1,12 +1,15 @@
-import QueryPage from './components/Querypage.vue'
-import Table from './components/Table.vue'
+import QueryPage from '@/pages/Querypage'
+import Table from '@/pages/Table'
 
-const routes = [{
-    path: '/',
-    component: QueryPage
-}, {
-    path: '/table/:nin',
-    component: Table
-}]
+const routes = [
+    {
+        path: '/',
+        component: QueryPage
+    },
+    {
+        path: '/search/:nin',
+        component: Table
+    }
+]
 
 export default routes

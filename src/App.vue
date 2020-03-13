@@ -7,7 +7,8 @@
             <Sidenav />
           </b-col>
           <b-col sm="8" md="9" lg="10" class="section ">
-            <Querypage />
+            <!-- <Querypage /> -->
+            <router-view></router-view>
           </b-col>
         </b-row>
       </div>
@@ -17,13 +18,13 @@
 </template>
 
 <script>
-  import Querypage from './components/Querypage'
-  import Sidenav from './components/Sidenav'
+  // import Querypage from '@/pages/Querypage'
+  import Sidenav from '@/components/Sidenav'
 
   export default {
     name: 'app',
     components: {
-      Querypage,
+      // Querypage,
       Sidenav
     },
 
