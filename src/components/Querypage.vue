@@ -49,6 +49,7 @@
 <script>
     import Api from '@/Api'
     import Topnav from './Topnav'
+    // import { mapGetter } from 'vuex'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -181,15 +182,15 @@
                 return Api()
                     .get(ext)
                     .then((response) => {
-                        this.$store.getters.queryResult = response.data.query_term
-                        // eslint-disable-next-line no-console
-                        console.log(this.$store.getters.queryResult)
+                        // this.$store.commit('queryResult', response.data.query_term)
+                        this.$store.commit('loadQueryResult', response.data.query_term)
+
+                        // // eslint-disable-next-line no-console
+                        // console.log(this.$store.dispatch('loadQueryResult'))
                     })
-                //     // eslint-disable-next-line no-console
-                //     .then(response => console.log(response.data.query_term))
-                //     // eslint-disable-next-line no-console
-                //     .catch(error => console.log(error))
-                //     .finally(() => this.loading = false)
+                // // eslint-disable-next-line no-console
+                // .catch(error => console.log(error))
+                // .finally(() => this.loading = false)
                 // // resetAll()
             },
 
@@ -199,6 +200,13 @@
             inputVet() {
                 return this.verifications()
             },
+
+            // ...mapGetter([
+            //     'queryTerm',
+            //     'selectedOption',
+            //     'queryResult',
+            //     'loading'
+            // ]),
 
             queryTerm: {
                 set(term) {

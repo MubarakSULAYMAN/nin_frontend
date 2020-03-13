@@ -44,8 +44,12 @@ export const store = new Vuex.Store({
 
         loadQueryResult({
             commit
-        }, queryResult) {
-            commit('LOAD_QUERY_RESULT', queryResult)
+        }) {
+            commit('CHANGE_LOADING_STATE', false)
+            // return get('').then((response) => {
+            //     commit('', response.data.query_term)
+            //     commit('CHANGE_LOADING_STATE', true)
+            // })
         },
 
         setLoading({
