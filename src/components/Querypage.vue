@@ -6,7 +6,7 @@
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
                         <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
-                            :maxlength="this.$store.getters.selectedOption === 'tracking_id' ? 15 : this.$store.getters.selectedOption === 'nin' ? 11 : 10 "
+                            :maxlength="$store.getters.selectedOption === 'tracking_id' ? 15 : $store.getters.selectedOption === 'nin' ? 11 : 10 "
                             required="required" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
