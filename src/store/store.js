@@ -1,45 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Api from '@/Api'
 
 Vue.use(Vuex)
-
-let ext = ''
-// const term = this.$store.getters.queryTerm
-// const selected = this.$store.getters.selectedOption
-
-// if (this.$store.getters.selectedOption === 'nin') {
-//     ext = 'filter_by_nin' + this.$store.getters.queryTerm
-// } else if (this.$store.getters.selectedOption === 'issued_date') {
-//     ext = 'filter_by_date' + this.$store.getters.queryTerm
-// } else if (this.$store.getters.selectedOption == 'tracking_id') {
-//     ext = 'filter_by_id' + this.$store.getters.queryTerm
-// }
-
-
 
 export const store = new Vuex.Store({
     state: {
         queryTerm: '',
         selectedOption: '',
-        queryResult: '',
-        loading: true,
-        options: [{
-                text: 'NIN',
-                value: 'nin',
-                name: 'nin',
-            },
-            {
-                text: 'Issued Date',
-                value: 'issued_date',
-                name: 'issued_date',
-            },
-            {
-                text: 'Tracking ID',
-                value: 'tracking_id',
-                name: 'tracking_id',
-            }
-        ],
+        queryResult: null,
+        loading: true
     },
 
     mutations: {
@@ -51,16 +20,12 @@ export const store = new Vuex.Store({
             state.selectedOption = selectedOption
         },
 
-        SET_QUERY_RESULT(state, queryResult) {
+        LOAD_QUERY_RESULT(state, queryResult) {
             state.queryResult = queryResult
         },
 
         CHANGE_LOADING_STATE(state, loading) {
             state.loading = loading
-        },
-
-        SET_OPTIONS(state, options) {
-            state.options = options
         }
     },
 
@@ -79,17 +44,14 @@ export const store = new Vuex.Store({
 
         loadQueryResult({
             commit
-        }) {
-            Api().get(ext).then((response) => {
-                // eslint-disable-next-line no-console
-                console.log(response.data, this)
-                commit('SET_QUERY_RESULT', response.data)
-                commit('CHANGE_LOADING_STATE', false)
-            })
+        }, queryResult) {
+            commit('LOAD_QUERY_RESULT', queryResult)
         },
 
-        setOptions({ commit }, options) {
-            commit('SET_OPTIONS', options)
+        setLoading({
+            commit
+        }, loading) {
+            commit('CHANGE_LOADING_STATE', loading)
         }
     },
 
@@ -97,6 +59,6 @@ export const store = new Vuex.Store({
         queryTerm: (state) => state.queryTerm,
         selectedOption: (state) => state.selectedOption,
         queryResult: (state) => state.queryResult,
-        options: (state) => state.options
+        loading: (state) => state.loading
     }
 })

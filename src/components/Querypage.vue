@@ -24,11 +24,16 @@
                                 <b-icon icon="bootstrap-reboot"></b-icon> Reset
                             </b-button>
 
+                            <!-- <router-link to='table'> -->
                             <b-button type="submit" pill variant="primary" class="ml-3"
                                 :disabled="inputVet ? disabled : !disabled">
+                                <!-- <b-link> -->
 
                                 <b-icon icon="search"></b-icon> Search
+
+                                <!-- </b-link> -->
                             </b-button>
+                            <!-- </router-link> -->
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
@@ -42,10 +47,9 @@
 
 
 <script>
-    // import Api from '@/Api'
-    // import router from '../router'
+    import Api from '@/Api'
     import Topnav from './Topnav'
-    import { mapState } from 'vuex'
+    // import { mapGetter } from 'vuex'
 
     let numFormat = /^[0-9]*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
@@ -69,22 +73,22 @@
                 show: true,
                 disabled: false,
 
-                // options: [{
-                //         text: 'NIN',
-                //         value: 'nin',
-                //         name: 'nin',
-                //     },
-                //     {
-                //         text: 'Issued Date',
-                //         value: 'issued_date',
-                //         name: 'issued_date',
-                //     },
-                //     {
-                //         text: 'Tracking ID',
-                //         value: 'tracking_id',
-                //         name: 'tracking_id',
-                //     }
-                // ],
+                options: [{
+                        text: 'NIN',
+                        value: 'nin',
+                        name: 'nin',
+                    },
+                    {
+                        text: 'Issued Date',
+                        value: 'issued_date',
+                        name: 'issued_date',
+                    },
+                    {
+                        text: 'Tracking ID',
+                        value: 'tracking_id',
+                        name: 'tracking_id',
+                    }
+                ],
             }
         },
 
@@ -162,31 +166,28 @@
             },
 
             submitForm() {
-                this.$store.dispatch('loadQueryResult')
-                // let ext = ''
+                let ext = ''
 
-                // if (this.selectedOption === 'nin') {
-                //     ext = 'filter_by_nin/' + this.queryTerm
-                // } else if (this.selectedOption === 'issued_date') {
-                //     ext = 'filter_by_date/' + this.queryTerm
-                // } else if (this.selectedOption === 'tracking_id') {
-                //     ext = 'filter_by_id/' + this.queryTerm
-                // }
+                if (this.selectedOption === 'nin') {
+                    ext = 'filter_by_nin/' + this.queryTerm
+                } else if (this.selectedOption === 'issued_date') {
+                    ext = 'filter_by_date/' + this.queryTerm
+                } else if (this.selectedOption === 'tracking_id') {
+                    ext = 'filter_by_id/' + this.queryTerm
+                }
 
-                // this.searching = true
-                // this.info = true
+                this.searching = true
+                this.info = true
 
-                // return Api()
-                //     .get(ext)
-                //     // eslint-disable-next-line no-console
-                //     // .then((response) => console.log(this.$store.getters.queryResult = response.data.query_term))
-                //     .then((response) => {
-                //     // eslint-disable-next-line no-console
-                //         console.log(response.data.query_term)
-                //         this.$store.getters.queryResult = response.data.query_term
-                //     })
-                // // eslint-disable-next-line no-console
-                // .then(response => console.log(response.data.query_term))
+                return Api()
+                    .get(ext)
+                    .then((response) => {
+                        // this.$store.commit('queryResult', response.data.query_term)
+                        this.$store.commit('loadQueryResult', response.data.query_term)
+
+                        // // eslint-disable-next-line no-console
+                        // console.log(this.$store.dispatch('loadQueryResult'))
+                    })
                 // // eslint-disable-next-line no-console
                 // .catch(error => console.log(error))
                 // .finally(() => this.loading = false)
@@ -199,6 +200,13 @@
             inputVet() {
                 return this.verifications()
             },
+
+            // ...mapGetter([
+            //     'queryTerm',
+            //     'selectedOption',
+            //     'queryResult',
+            //     'loading'
+            // ]),
 
             queryTerm: {
                 set(term) {
@@ -218,28 +226,23 @@
                 }
             },
 
-            loadQueryResult: {
+            queryResult: {
                 set(result) {
-                    this.$store.dispatch('setQueryResult', result)
+                    this.$store.dispatch('loadQueryResult', result)
                 },
                 get() {
                     return this.$store.getters.queryResult
                 }
             },
 
-            options: {
-                set(item) {
-                    this.$store.dispatch('setOption', item)
+            loading: {
+                set(loader) {
+                    this.$store.dispatch('setLoading', loader)
                 },
                 get() {
-                    return this.$store.getters.options
+                    return this.$store.getters.loading
                 }
-            },
-
-            ...mapState([
-                'queryResult',
-                'loading'
-            ])
+            }
         }
     }
 
