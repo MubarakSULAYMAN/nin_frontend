@@ -1,9 +1,14 @@
 <template>
     <div class="container-fluid mt-3">
 
-        <p v-if="loading_info">
-            <Spinner />
-        </p>
+        <div v-if="loading_info">
+            <b-button type="danger" @click="$router.back()"> Go Back </b-button>
+            <h5> Searching for <strong> {{ options.value }} by {{ filter }} </h5>
+            <Spinner :size="2" />
+        </div>
+
+        <!-- <p v-if="loading_info">
+        </p> -->
         <div v-else>
             <h1 class="h3 mb-2 text-gray-800">Query Result</h1>
             <p class="mb-4">Results are based on your search. For more information, please visit the <a target="_blank"
@@ -72,24 +77,63 @@
 </template>
 
 <script>
-    import Spinner from './Spinner'
+    import Spinner from '@/components/Spinner'
+    import $api from '@/Api'
+
+    // var filterMap = {
+    //     nin: 'nin',
+    //     tracking_id: 'id',
+    //     issued_date: 'date'
+    // }
 
     export default {
         components: {
             Spinner,
         },
 
+        async mounted() {
+            var response = await this.search()
+            this.matches = response.data.query_term
+            this.loading_info = false
+        },
+
         data() {
             return {
                 s_n: 0,
-                last_name: 'Olatunbosun',
+                // last_name: 'Olatunbosun',
+                loading_info: true,
+                matches: []
             }
         },
 
-        props: {
-            // data_fetched: Array,
-            loading_info: Boolean
+        computed: {
+            nin () {
+                return this.$route.params.nin || ''
+            },
+
+            date () {
+                return this.$route.params.date || ''
+            },
+
+            id () {
+                return this.$route.params.id || ''
+            },
+
+            filter () {
+                return this.$router.query.filter || ''
+            }
+        },
+
+        methods: {
+            search () {
+                return $api.get(`/filter_by_${this.filter}/${this.options.value}`)
+            }
         }
+
+        // props: {
+        //     // data_fetched: Array,
+        //     loading_info: Boolean
+        // }
     }
 
 </script>

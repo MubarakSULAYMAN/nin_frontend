@@ -5,9 +5,11 @@
             <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
+                        <!-- <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
+                            :maxlength="$store.getters.selectedOption === 'tracking_id' ? 15 : $store.getters.selectedOption === 'nin' ? 11 : 10 "
+                            required="required" autofocus /> -->
                         <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
-                            :maxlength="this.$store.getters.selectedOption === 'tracking_id' ? 15 : this.$store.getters.selectedOption === 'nin' ? 11 : 10 "
-                            required="required" autofocus />
+                            :maxlength="maxlength" required="selectedOption === options.value" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
@@ -25,8 +27,7 @@
                             </b-button>
 
                             <!-- <router-link to='table'> -->
-                            <b-button type="submit" pill variant="primary" class="ml-3"
-                                :disabled="inputVet ? disabled : !disabled">
+                            <b-button type="submit" pill variant="primary" class="ml-3" :disabled="!inputVet">
                                 <!-- <b-link> -->
 
                                 <b-icon icon="search"></b-icon> Search
@@ -47,11 +48,11 @@
 
 
 <script>
-    import Api from '@/Api'
-    import Topnav from './Topnav'
+    // import Api from '@/Api'
+    import Topnav from '@/components/Topnav'
     // import { mapGetter } from 'vuex'
 
-    let numFormat = /^[0-9]*$/
+    // let numFormat = /^[0-9]{11}*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
     let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
@@ -80,12 +81,12 @@
                     },
                     {
                         text: 'Issued Date',
-                        value: 'issued_date',
+                        value: 'date',
                         name: 'issued_date',
                     },
                     {
                         text: 'Tracking ID',
-                        value: 'tracking_id',
+                        value: 'id',
                         name: 'tracking_id',
                     }
                 ],
@@ -103,91 +104,95 @@
             verifications() {
                 if (this.$store.getters.queryTerm === '' && this.$store.getters.selectedOption === '') {
                     this.infoMessage = 'Please select an option and enter a query term.'
-                    return this.info
+                    // return this.info
                 }
 
                 if (this.$store.getters.selectedOption === '') {
                     this.infoMessage = 'Please select an option.'
-                    return this.info
+                    // return this.info
                 }
 
                 if (this.$store.getters.queryTerm === '') {
                     this.infoMessage = 'Please enter a query term.'
-                    return this.info
+                    // return this.info
                 }
 
-                if (this.$store.getters.selectedOption === 'nin' && !(this.$store.getters.queryTerm.match(numFormat))) {
-                    this.infoMessage = 'Invalid NIN, can only be digits.'
-                    return this.info
+                if (this.selectedOption === 'nin') {
+                    if (isNaN(this.queryTerm)) {
+                        this.infoMessage = 'Invalid NIN, can only be digits'
+                        // return this.info
+                    } else if (this.queryTerm.length !== 11) {
+                        this.infoMessage = 'This is not a number, NIN can only be 11 digits.'
+                        // return this.info
+                    }
+
+                    // if (this.queryTerm.match(
+                    //         numFormat)) {
+                    //     this.infoMessage = 'Invalid NIN, can only be digits.'
+                    //     return this.info
+                    // }
+
+                    if (this.$store.getters.selectedOption === 'nin' && (parseInt(this.$store.getters.queryTerm) <
+                            12345678901)) {
+                        this.infoMessage = 'NIN cannot be less than 12345678901.'
+                        // return this.info
+                    }
+                } else if (this.selectedOption === 'issued_date') {
+
+                    if (!(this.queryTerm.match(
+                            dateFormat))) {
+                        this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
+                        return this.info
+                    } else if (!((
+                                this.queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
+                                .queryTerm[2] > 12) &&
+                            (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date()).getFullYear()))) {
+                        this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
+                        // return this.info
+                    }
+                } else if (this.selectedOption === 'tracking_id') {
+                    if (!(this.queryTerm.match(alphaNumFormat))) {
+                        this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                        // return this.info
+                    } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
+                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                        // return this.info
+                    }
+
+                } else {
+                    this.infoMessage = ''
+                    return true
                 }
 
-                if (this.$store.getters.selectedOption === 'nin' && (this.$store.getters.queryTerm.length < 11 || this
-                        .$store.getters.queryTerm.length > 11)) {
-                    this.infoMessage = 'NIN can only be 11 digits.'
-                    return this.info
-                }
-
-                if (this.$store.getters.selectedOption === 'nin' && (parseInt(this.$store.getters.queryTerm) <
-                        12345678901)) {
-                    this.infoMessage = 'NIN cannot be less than 12345678901.'
-                    return this.info
-                }
-
-                if (this.$store.getters.selectedOption === 'issued_date' && !(this.$store.getters.queryTerm.match(
-                        dateFormat))) {
-                    this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
-                    return this.info
-                }
-
-                if (this.$store.getters.selectedOption === 'issued_date' && !((this
-                        .queryTerm[1] < 1 || this.$store.getters.queryTerm[1] > 31) && (this.$store.getters
-                        .queryTerm[2] < 1 || this.$store.getters
-                        .queryTerm[2] > 12) && (this.$store.getters.queryTerm[3] < 2007 || this.$store.getters
-                        .queryTerm[3] > (new Date())
-                        .getFullYear()))) {
-                    this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
-                    return this.info
-                }
-
-                if (this.$store.getters.selectedOption === 'tracking_id' && !(this.$store.getters.queryTerm.match(
-                        alphaNumFormat))) {
-                    this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                    return this.info
-                }
-
-                if (this.$store.getters.selectedOption === 'tracking_id' && (this.$store.getters.queryTerm.length <
-                        15 || this.$store.getters.queryTerm.length >
-                        15)) {
-                    this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                    return this.info
-                }
-
-                return !this.info
+                return false
+                // return !this.info
             },
 
             submitForm() {
-                let ext = ''
+                this.$router.push(`/search/${this.queryTerm}?filter=${this.selectedOption}`)
 
-                if (this.selectedOption === 'nin') {
-                    ext = 'filter_by_nin/' + this.queryTerm
-                } else if (this.selectedOption === 'issued_date') {
-                    ext = 'filter_by_date/' + this.queryTerm
-                } else if (this.selectedOption === 'tracking_id') {
-                    ext = 'filter_by_id/' + this.queryTerm
-                }
+                // let ext = ''
 
-                this.searching = true
-                this.info = true
+                // if (this.selectedOption === 'nin') {
+                //     ext = 'filter_by_nin/' + this.queryTerm
+                // } else if (this.selectedOption === 'issued_date') {
+                //     ext = 'filter_by_date/' + this.queryTerm
+                // } else if (this.selectedOption === 'tracking_id') {
+                //     ext = 'filter_by_id/' + this.queryTerm
+                // }
 
-                return Api()
-                    .get(ext)
-                    .then((response) => {
-                        // this.$store.commit('queryResult', response.data.query_term)
-                        this.$store.commit('loadQueryResult', response.data.query_term)
+                // this.searching = true
+                // this.info = true
 
-                        // // eslint-disable-next-line no-console
-                        // console.log(this.$store.dispatch('loadQueryResult'))
-                    })
+                // return Api()
+                //     .get(ext)
+                //     .then((response) => {
+                //         // this.$store.commit('queryResult', response.data.query_term)
+                //         this.$store.commit('loadQueryResult', response.data.query_term)
+
+                //         // // eslint-disable-next-line no-console
+                //         // console.log(this.$store.dispatch('loadQueryResult'))
+                //     })
                 // // eslint-disable-next-line no-console
                 // .catch(error => console.log(error))
                 // .finally(() => this.loading = false)
@@ -199,6 +204,10 @@
         computed: {
             inputVet() {
                 return this.verifications()
+            },
+
+            maxLength() {
+                return this.selectedOption === 'tracking_id' ? 15 : (this.selectedOption === 'nin' ? 11 : 10)
             },
 
             // ...mapGetter([

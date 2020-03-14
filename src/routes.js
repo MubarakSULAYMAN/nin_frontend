@@ -1,11 +1,11 @@
-import QueryPage from './components/Querypage.vue'
-import Table from './components/Table.vue'
+import QueryPage from '@/pages/Querypage'
+import Table from '@/pages/Table'
 
 const routes = [{
     path: '/',
     component: QueryPage
 }, {
-    path: '/table/:nin',
+    path: '/search/:options.value',
     component: Table
 }]
 
