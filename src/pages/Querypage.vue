@@ -5,15 +5,14 @@
             <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
-                        <!-- <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
-                            :maxlength="$store.getters.selectedOption === 'tracking_id' ? 15 : $store.getters.selectedOption === 'nin' ? 11 : 10 "
-                            required="required" autofocus /> -->
-                        <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
-                            :maxlength="maxlength" required="selectedOption === options.value" autofocus />
+                        <b-input v-model='queryTerm' size="sm" placeholder='Search...' class="mb-2" :state="inputVet"
+                            :maxlength="maxLength" :required="selectedOption === this.options.value" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
+                        <!-- <b-form-valid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback> -->
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
-                        <p v-if='!searching'> Search for <b>{{ queryTerm }}</b> from our records. </p>
+                        <p v-show="queryTerm !== ''" v-if='!searching'> Check if <b>{{ queryTerm }}</b> exists in our
+                            records. </p>
                         <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
                         <span v-for='option in options' :key='option.value'>
@@ -25,16 +24,9 @@
                             <b-button type="reset" pill variant="danger">
                                 <b-icon icon="bootstrap-reboot"></b-icon> Reset
                             </b-button>
-
-                            <!-- <router-link to='table'> -->
                             <b-button type="submit" pill variant="primary" class="ml-3" :disabled="!inputVet">
-                                <!-- <b-link> -->
-
                                 <b-icon icon="search"></b-icon> Search
-
-                                <!-- </b-link> -->
                             </b-button>
-                            <!-- </router-link> -->
                         </div>
 
                         <p class="hint"> Ensure you input the right detail. </p>
@@ -48,27 +40,21 @@
 
 
 <script>
-    // import Api from '@/Api'
     import Topnav from '@/components/Topnav'
-    // import { mapGetter } from 'vuex'
 
-    // let numFormat = /^[0-9]{11}*$/
     let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
     let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         components: {
             Topnav,
-            // Table
         },
 
         data() {
             return {
                 infoMessage: '',
                 queryMessage: '',
-                max: '',
 
-                info: false,
                 queryInfo: false,
                 searching: false,
                 show: true,
@@ -96,107 +82,60 @@
         methods: {
             resetAll(e) {
                 e.preventDefault()
-                this.info = false
                 this.queryTerm = ''
                 this.selectedOption = ''
             },
 
             verifications() {
-                if (this.$store.getters.queryTerm === '' && this.$store.getters.selectedOption === '') {
+                if (this.queryTerm === '' && this.selectedOption === '') {
                     this.infoMessage = 'Please select an option and enter a query term.'
-                    // return this.info
-                }
-
-                if (this.$store.getters.selectedOption === '') {
+                    return false
+                } else if (this.selectedOption === '') {
                     this.infoMessage = 'Please select an option.'
-                    // return this.info
-                }
-
-                if (this.$store.getters.queryTerm === '') {
+                    return false
+                } else if (this.queryTerm === '') {
                     this.infoMessage = 'Please enter a query term.'
-                    // return this.info
-                }
-
-                if (this.selectedOption === 'nin') {
+                    return false
+                } else if (this.selectedOption === 'nin') {
                     if (isNaN(this.queryTerm)) {
                         this.infoMessage = 'Invalid NIN, can only be digits'
-                        // return this.info
+                        return false
                     } else if (this.queryTerm.length !== 11) {
-                        this.infoMessage = 'This is not a number, NIN can only be 11 digits.'
-                        // return this.info
-                    }
-
-                    // if (this.queryTerm.match(
-                    //         numFormat)) {
-                    //     this.infoMessage = 'Invalid NIN, can only be digits.'
-                    //     return this.info
-                    // }
-
-                    if (this.$store.getters.selectedOption === 'nin' && (parseInt(this.$store.getters.queryTerm) <
+                        this.infoMessage = 'NIN must be 11 digits.'
+                        return false
+                    } else if (parseInt((this.queryTerm) <
                             12345678901)) {
                         this.infoMessage = 'NIN cannot be less than 12345678901.'
-                        // return this.info
+                        return false
                     }
                 } else if (this.selectedOption === 'issued_date') {
 
                     if (!(this.queryTerm.match(
                             dateFormat))) {
                         this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
-                        return this.info
+                        return false
                     } else if (!((
                                 this.queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
                                 .queryTerm[2] > 12) &&
                             (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date()).getFullYear()))) {
                         this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
-                        // return this.info
+                        return false
                     }
                 } else if (this.selectedOption === 'tracking_id') {
                     if (!(this.queryTerm.match(alphaNumFormat))) {
                         this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                        // return this.info
+                        return false
                     } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
                         this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
-                        // return this.info
+                        return false
                     }
 
-                } else {
-                    this.infoMessage = ''
-                    return true
                 }
-
-                return false
-                // return !this.info
+                return true
             },
 
             submitForm() {
                 this.$router.push(`/search/${this.queryTerm}?filter=${this.selectedOption}`)
-
-                // let ext = ''
-
-                // if (this.selectedOption === 'nin') {
-                //     ext = 'filter_by_nin/' + this.queryTerm
-                // } else if (this.selectedOption === 'issued_date') {
-                //     ext = 'filter_by_date/' + this.queryTerm
-                // } else if (this.selectedOption === 'tracking_id') {
-                //     ext = 'filter_by_id/' + this.queryTerm
-                // }
-
-                // this.searching = true
-                // this.info = true
-
-                // return Api()
-                //     .get(ext)
-                //     .then((response) => {
-                //         // this.$store.commit('queryResult', response.data.query_term)
-                //         this.$store.commit('loadQueryResult', response.data.query_term)
-
-                //         // // eslint-disable-next-line no-console
-                //         // console.log(this.$store.dispatch('loadQueryResult'))
-                //     })
-                // // eslint-disable-next-line no-console
-                // .catch(error => console.log(error))
-                // .finally(() => this.loading = false)
-                // // resetAll()
             },
 
         },
@@ -207,15 +146,8 @@
             },
 
             maxLength() {
-                return this.selectedOption === 'tracking_id' ? 15 : (this.selectedOption === 'nin' ? 11 : 10)
+                return this.selectedOption === 'tracking_id' ? 15 : this.selectedOption === 'nin' ? 11 : 10
             },
-
-            // ...mapGetter([
-            //     'queryTerm',
-            //     'selectedOption',
-            //     'queryResult',
-            //     'loading'
-            // ]),
 
             queryTerm: {
                 set(term) {

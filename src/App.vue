@@ -19,7 +19,7 @@
 
 <script>
   // import Querypage from './components/Querypage'
-  import Sidenav from './components/Sidenav'
+  import Sidenav from '@/components/Sidenav'
 
   export default {
     name: 'app',
