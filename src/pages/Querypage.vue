@@ -6,9 +6,8 @@
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
                         <b-input v-model='queryTerm' size="sm" placeholder='Search...' class="mb-2" :state="inputVet"
-                            :maxlength="maxLength" :required="selectedOption === this.options.value" autofocus />
+                            :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
-                        <!-- <b-form-valid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback> -->
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
                         <p v-show="queryTerm !== ''" v-if='!searching'> Check if <b>{{ queryTerm }}</b> exists in our

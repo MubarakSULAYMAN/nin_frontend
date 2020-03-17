@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="d-flex justify-content-center align-items-center">
-            <b-spinner :style="`width: ${size}rem; height: ${size}rem;`" label="Large Spinner" variant="success">
+            <b-spinner :style="`width: ${size}rem; height: ${size}rem;`" label="Loading..." variant="success">
             </b-spinner>
         </div>
     </div>

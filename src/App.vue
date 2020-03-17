@@ -7,24 +7,20 @@
             <Sidenav />
           </b-col>
           <b-col sm="8" md="9" lg="10" class="section ">
-            <!-- <Querypage /> -->
             <router-view></router-view>
           </b-col>
         </b-row>
       </div>
-      <!-- </div> -->
     </b-container>
   </div>
 </template>
 
 <script>
-  // import Querypage from './components/Querypage'
   import Sidenav from '@/components/Sidenav'
 
   export default {
     name: 'app',
     components: {
-      // Querypage,
       Sidenav
     },
 
@@ -32,12 +28,7 @@
       return {
         loading: false,
       }
-    },
-
-    // props: {
-    //   data_fetched: Array,
-    //   loading_info: Boolean
-    // }
+    }
   }
 
 </script>
@@ -45,17 +36,8 @@
 <style scoped>
   .main_app {
     height: 100vh;
-    /* height:100%; */
     width: 100%;
     position: absolute;
   }
-
-  /* .section {
-  height: 100%;  
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
 
 </style>

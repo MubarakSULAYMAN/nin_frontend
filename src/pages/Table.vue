@@ -4,7 +4,7 @@
 
         <div v-if="loading_info">
             <b-button type="danger" @click="$router.back()">Go back</b-button>
-            <h5>Searching for <strong>{{ nin }}</strong> by {{ filter }}</h5>
+            <h5>Searching for <strong>{{ option.value }}</strong> by {{ filter }}</h5>
             <Spinner :size="2" />
         </div>
 
@@ -45,7 +45,7 @@
                             <b-td variant="primary"> {{ item.nin }} </b-td>
                             <b-td variant="warning"> {{ item.issued_date }} </b-td>
                         </b-tr> -->
-                        <b-tr class="text-center" v-for="(item, index) in $store.getters.outpute" :key="item.anyX">
+                        <b-tr class="text-center" v-for="(item, index) in queryResult" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
                             <b-td> {{ item.last_name }} </b-td>
@@ -58,7 +58,7 @@
                     <b-tfoot>
                         <b-tr>
                             <b-td colspan="7" variant="secondary" class="text-right">
-                                Total Rows: <b> {{ data_fetched.length }} </b>
+                                Total Rows: <b> {{ queryResult.length }} </b>
                             </b-td>
                         </b-tr>
                     </b-tfoot>
@@ -80,11 +80,7 @@
 <script>
     import Spinner from '@/components/Spinner'
     import $api from '@/Api'
-    // var filterMap = {
-    //     nin: 'nin',
-    //     tracking_id: 'id',
-    //     issued_date: 'date'
-    // }
+
     export default {
         components: {
             Spinner,
@@ -97,7 +93,6 @@
         data() {
             return {
                 s_n: 0,
-                last_name: 'Olatunbosun',
                 loading_info: true,
                 matches: []
             }
@@ -112,7 +107,8 @@
         },
         methods: {
             search () {
-                return $api.get(`/filter_by_${this.filter}/${this.options.value}`)
+                // return $api.get(`/filter_by_${this.filter}/${this.options.value}`)
+                return $api.get(`/filter_by_${this.filter}/${this.nin}`)
             }
         }
     }
