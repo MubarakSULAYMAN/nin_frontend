@@ -1,11 +1,11 @@
  
 <template>
-    <div class="container-fluid mt-3">
+    <div class="container-fluid mt-5">
 
         <div v-if="loading_info">
-            <b-button type="danger" @click="$router.back()">Go back</b-button>
-            <h5>Searching for <strong>{{ option.value }}</strong> by {{ filter }}</h5>
-            <Spinner :size="2" />
+            <h5 v-if="loading_info">Searching for <strong>{{ query }}</strong> using {{ filter }}</h5>
+            <Spinner :size="17" />
+            <b-button pill variant="danger" @click="$router.back()" class="back">Go back</b-button>
         </div>
 
         <div v-else>
@@ -36,16 +36,7 @@
                         </b-tr>
                     </b-thead>
                     <b-tbody>
-                        <!-- <b-tr class="text-center" v-for="(item, index) in data_fetched" :key="item.anyX">
-                            <b-td variant="danger"> {{ ++index }} </b-td>
-                            <b-td> {{ item.first_name }} </b-td>
-                            <b-td> {{ item.last_name }} </b-td>
-                            <b-td> {{ item.middle_name }} </b-td>
-                            <b-td variant="success"> {{ item.tracking_id }} </b-td>
-                            <b-td variant="primary"> {{ item.nin }} </b-td>
-                            <b-td variant="warning"> {{ item.issued_date }} </b-td>
-                        </b-tr> -->
-                        <b-tr class="text-center" v-for="(item, index) in queryResult" :key="item.anyX">
+                        <b-tr class="text-center" v-for="(item, index) in this.queryResult" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
                             <b-td> {{ item.last_name }} </b-td>
@@ -88,7 +79,7 @@
         async mounted () {
             var response = await this.search()
             this.matches = response.data.query_term
-            this.loading_info = false
+            this.loading_info = true
         },
         data() {
             return {
@@ -98,8 +89,8 @@
             }
         },
         computed: {
-            nin () {
-                return this.$route.params.nin || ''
+            query () {
+                return this.$route.params.option || ''
             },
             filter () {
                 return this.$route.query.filter || ''
@@ -107,9 +98,15 @@
         },
         methods: {
             search () {
-                // return $api.get(`/filter_by_${this.filter}/${this.options.value}`)
-                return $api.get(`/filter_by_${this.filter}/${this.nin}`)
+                return $api.get(`/filter_by_${this.filter}/${this.query}`)
             }
         }
     }
 </script>
+
+<style scoped>
+.back {
+    display: flex;
+    justify-content: flex-end;
+}
+</style>

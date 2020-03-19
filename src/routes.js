@@ -7,8 +7,7 @@ const routes = [
         component: QueryPage
     },
     {
-        path: '/search/:option.value',
-        // path: '/table/:nin',
+        path: '/search/:option',
         component: Table
     }
 ]

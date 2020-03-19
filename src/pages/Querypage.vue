@@ -108,16 +108,23 @@
                         return false
                     }
                 } else if (this.selectedOption === 'issued_date') {
-
-                    if (!(this.queryTerm.match(
+                    
+                    
+                    if (!Date.prototype.isValid(this.queryTerm)) {
+                        this.infoMessage = 'This is not a date'
+                    }
+                    
+                    
+                    
+                    else if (!(this.queryTerm.match(
                             dateFormat))) {
-                        this.infoMessage === 'Invalid Issued Date, check format as YYYY-MM-DD'
+                        this.infoMessage = 'Invalid Issued Date, check format as YYYY-MM-DD'
                         return false
                     } else if (!((
                                 this.queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
                                 .queryTerm[2] > 12) &&
                             (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date()).getFullYear()))) {
-                        this.infoMessage === 'Invalid Issued Date, date can only range from 2007-01-01 till date'
+                        this.infoMessage = 'Invalid Issued Date, date can only range from 2007-01-01 till date'
                         return false
                     }
                 } else if (this.selectedOption === 'tracking_id') {
