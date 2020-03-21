@@ -36,7 +36,7 @@
                         </b-tr>
                     </b-thead>
                     <b-tbody>
-                        <b-tr class="text-center" v-for="(item, index) in this.queryResult" :key="item.anyX">
+                        <b-tr class="text-center" v-for="(item, index) in matches" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
                             <b-td> {{ item.last_name }} </b-td>
@@ -49,7 +49,7 @@
                     <b-tfoot>
                         <b-tr>
                             <b-td colspan="7" variant="secondary" class="text-right">
-                                Total Rows: <b> {{ queryResult.length }} </b>
+                                <!-- Total Rows: <b> {{ queryResult.length }} </b> -->
                             </b-td>
                         </b-tr>
                     </b-tfoot>
@@ -62,6 +62,8 @@
                     <b-pagination pills align="right"></b-pagination>
                 </div>
             </div>
+
+            <b-button pill variant="danger" @click="$router.back()" class="back">Go back</b-button>
         </div>
 
     </div>
@@ -79,7 +81,9 @@
         async mounted () {
             var response = await this.search()
             this.matches = response.data.query_term
-            this.loading_info = true
+                // eslint-disable-next-line no-console
+                console.log(this.matches)
+            this.loading_info = false
         },
         data() {
             return {
@@ -98,6 +102,7 @@
         },
         methods: {
             search () {
+
                 return $api.get(`/filter_by_${this.filter}/${this.query}`)
             }
         }

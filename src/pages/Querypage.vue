@@ -71,7 +71,7 @@
                     },
                     {
                         text: 'Tracking ID',
-                        value: 'id',
+                        value: 'tracking_id',
                         name: 'tracking_id',
                     }
                 ],
