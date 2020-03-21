@@ -36,35 +36,7 @@
 
 
 <style scoped>
-  /* .main_page {
-    background-size: cover;
-    box-sizing: border-box;
-    color: rgb(133, 135, 150);
-    display: flex;
-    flex-direction: column;
-    font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    list-style-image: none;
-    list-style-position: outside;
-    list-style-type: none;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    min-height: 638px;
-    padding-left: 0px;
-    text-align: left;
-    width: 224px;
-  } */
-
-  /* .logo-icon {
-    display: flex;
-    justify-content: center;
-  } */
-
   .sideNavContainer {
-    /* background: #00933f; */
-    /* font-weight: bold; */
     display: flex;
     flex-direction: column;
   }
@@ -76,15 +48,10 @@
   .nav-pills .nav-link.active,
   .nav-pills .show>.nav-link {
     background: #009340;
-    /* background: #00933f; */
   }
 
   .dropdown-menu-right {
     transition: .9s transform ease-in-out;
   }
-
-  /* .collapsed .fa {
-    transform: rotate(90deg);
-  } */
 
 </style>

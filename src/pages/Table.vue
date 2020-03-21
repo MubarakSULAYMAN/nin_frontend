@@ -16,14 +16,11 @@
             </p>
 
             <div class="card shadow mb-4">
-                <!-- <div class="card-header py-3" v-for="item in data_fetched" :key="item.anything">
-                    <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ item.nin }}" </h6>
-                </div> -->
-
-                <!-- <b-table-simple sticky-header no-border-collapse bordered outlined small hover :items="items" -->
+                <div class="card-header py-3" v-for="item in queryResponse" :key="item.anything">
+                    <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ nin }}" </h6>
+                </div>
                 <b-table-simple sticky-header no-border-collapse bordered outlined small hover head-variant="light"
                     caption-top responsive>
-
                     <b-thead head-variant="dark">
                         <b-tr class="text-center">
                             <b-th> S/N </b-th>
@@ -36,7 +33,7 @@
                         </b-tr>
                     </b-thead>
                     <b-tbody>
-                        <b-tr class="text-center" v-for="(item, index) in matches" :key="item.anyX">
+                        <b-tr class="text-center" v-for="(item, index) in queryResponse" :key="item.anyX">
                             <b-td variant="danger"> {{ ++index }} </b-td>
                             <b-td> {{ item.first_name }} </b-td>
                             <b-td> {{ item.last_name }} </b-td>
@@ -49,18 +46,17 @@
                     <b-tfoot>
                         <b-tr>
                             <b-td colspan="7" variant="secondary" class="text-right">
-                                <!-- Total Rows: <b> {{ queryResult.length }} </b> -->
+                                Total Rows: <b> {{ queryResponse.length }} </b>
                             </b-td>
                         </b-tr>
                     </b-tfoot>
 
                 </b-table-simple>
 
-                <div class="mx-3">
+                <!-- <div class="mx-3">
                     <h6 class="text-right"> More Results </h6>
-                    <!-- <b-pagination v-model="currentPage" pills :total-rows="rows" align="right"></b-pagination> -->
-                    <b-pagination pills align="right"></b-pagination>
-                </div>
+                    <b-pagination v-model="currentPage" pills :total-rows="rows" align="right"></b-pagination>
+                </div> -->
             </div>
 
             <b-button pill variant="danger" @click="$router.back()" class="back">Go back</b-button>
@@ -80,16 +76,13 @@
         },
         async mounted () {
             var response = await this.search()
-            this.matches = response.data.query_term
-                // eslint-disable-next-line no-console
-                console.log(this.matches)
+            this.queryResponse = response.data.query_term
             this.loading_info = false
         },
         data() {
             return {
-                s_n: 0,
                 loading_info: true,
-                matches: []
+                queryResponse: []
             }
         },
         computed: {
@@ -102,7 +95,6 @@
         },
         methods: {
             search () {
-
                 return $api.get(`/filter_by_${this.filter}/${this.query}`)
             }
         }

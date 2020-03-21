@@ -102,22 +102,15 @@
                     } else if (this.queryTerm.length !== 11) {
                         this.infoMessage = 'NIN must be 11 digits.'
                         return false
-                    } else if (parseInt((this.queryTerm) <
-                            12345678901)) {
+                    } else if (parseInt((this.queryTerm) < 12345678901)) {
                         this.infoMessage = 'NIN cannot be less than 12345678901.'
                         return false
                     }
                 } else if (this.selectedOption === 'issued_date') {
-                    
-                    
-                    if (!Date.prototype.isValid(this.queryTerm)) {
-                        this.infoMessage = 'This is not a date'
-                    }
-                    
-                    
-                    
-                    else if (!(this.queryTerm.match(
-                            dateFormat))) {
+                    if (this.queryTerm !== new Date) {
+                        this.infoMessage = 'Invalid date, check input'
+                        return false
+                    } else if (!(this.queryTerm.match(dateFormat))) {
                         this.infoMessage = 'Invalid Issued Date, check format as YYYY-MM-DD'
                         return false
                     } else if (!((
@@ -196,19 +189,6 @@
 </script>
 
 <style scoped>
-    /* .main_page {
-        box-sizing: border-box;
-        color: rgb(133, 135, 150);
-        flex-basis: auto;
-        flex-grow: 1;
-        flex-shrink: 0;
-        font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        text-align: left;
-    } */
-
     .badInput {
         border-color: red
     }
@@ -219,16 +199,11 @@
 
     .hint {
         color: #00933f;
-        /* size: 5px */
     }
 
     .warningInfo {
         color: red
     }
-
-    /* .info {
-        color: blue
-    } */
 
     .buttons {
         display: flex;
@@ -250,7 +225,6 @@
         cursor: pointer;
         line-height: 20px;
         display: inline-block;
-        /* color: #666; */
         color: rgb(24, 22, 22);
         margin-left: 12px
     }
@@ -265,7 +239,6 @@
         height: 20px;
         border: 2px solid #ddd;
         border-radius: 100%;
-        /* background: #fff; */
         margin-left: 5px;
     }
 
@@ -274,7 +247,6 @@
         content: '';
         width: 12px;
         height: 12px;
-        /* background: #F87DA9; */
         background: #009340;
         position: absolute;
         top: 4px;
