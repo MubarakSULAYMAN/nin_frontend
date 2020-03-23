@@ -16,8 +16,8 @@
             </p>
 
             <div class="card shadow mb-4">
-                <div class="card-header py-3" v-for="item in queryResponse" :key="item.anything">
-                    <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ nin }}" </h6>
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ query }}" </h6>
                 </div>
                 <b-table-simple sticky-header no-border-collapse bordered outlined small hover head-variant="light"
                     caption-top responsive>
@@ -43,15 +43,10 @@
                             <b-td variant="warning"> {{ item.issued_date }} </b-td>
                         </b-tr>
                     </b-tbody>
-                    <b-tfoot>
-                        <b-tr>
-                            <b-td colspan="7" variant="secondary" class="text-right">
-                                Total Rows: <b> {{ queryResponse.length }} </b>
-                            </b-td>
-                        </b-tr>
-                    </b-tfoot>
-
                 </b-table-simple>
+                <div class="card-footer text-right">
+                    Total Result Returned: <b> {{ queryResponse.length }} </b>
+                </div>
 
                 <!-- <div class="mx-3">
                     <h6 class="text-right"> More Results </h6>

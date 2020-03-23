@@ -10,7 +10,8 @@
                         <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                         <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
-                        <p v-show="queryTerm !== ''" v-if='!searching'> Check if <b>{{ queryTerm }}</b> exists in our
+                        <p v-show="queryTerm.length > 9" v-if='!searching'> Checking with <b>{{ selectedOption }}</b> if
+                            <b>{{ queryTerm }}</b> exists in our
                             records. </p>
                         <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
@@ -41,7 +42,7 @@
 <script>
     import Topnav from '@/components/Topnav'
 
-    let dateFormat = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    let dateFormat = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
     let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
@@ -66,7 +67,7 @@
                     },
                     {
                         text: 'Issued Date',
-                        value: 'date',
+                        value: 'issued_date',
                         name: 'issued_date',
                     },
                     {
@@ -97,7 +98,7 @@
                     return false
                 } else if (this.selectedOption === 'nin') {
                     if (isNaN(this.queryTerm)) {
-                        this.infoMessage = 'Invalid NIN, can only be digits'
+                        this.infoMessage = 'Invalid NIN, can only be digits.'
                         return false
                     } else if (this.queryTerm.length !== 11) {
                         this.infoMessage = 'NIN must be 11 digits.'
@@ -106,18 +107,35 @@
                         this.infoMessage = 'NIN cannot be less than 12345678901.'
                         return false
                     }
-                } else if (this.selectedOption === 'issued_date') {
-                    if (this.queryTerm !== new Date) {
-                        this.infoMessage = 'Invalid date, check input'
+                }
+                 else if (this.selectedOption === 'issued_date') {
+                    let regs = this.queryTerm.match(dateFormat)
+                    // let leapYear = (regs[3] / 4) ===
+
+                    if (!(this.queryTerm.match(dateFormat))) {
+                        this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
                         return false
-                    } else if (!(this.queryTerm.match(dateFormat))) {
-                        this.infoMessage = 'Invalid Issued Date, check format as YYYY-MM-DD'
+                    } else if (regs[1] < 1 || regs[1] > 31) {
+                        this.infoMessage = 'Invalid day value, day can only range from 1 to 31.'
                         return false
-                    } else if (!((
-                                this.queryTerm[1] < 1 || this.queryTerm[1] > 31) && (this.queryTerm[2] < 1 || this
-                                .queryTerm[2] > 12) &&
-                            (this.queryTerm[3] < 2007 || this.queryTerm[3] > (new Date()).getFullYear()))) {
-                        this.infoMessage = 'Invalid Issued Date, date can only range from 2007-01-01 till date'
+                    } else if (regs[2] < 1 || regs[2] > 12) {
+                        this.infoMessage = 'Invalid month value, month can only range from 1 to 12.'
+                        return false
+                    } else if (regs[1] < 1 || regs[2] < 2 || regs[3] < 2014) {
+                        this.infoMessage = 'Invalid date, date started on 01-02-2014.'
+                        return false
+                    } else if (regs[2] === 2 && regs[1] > 28) {
+                        this.infoMessage = 'Come on, it is February with 28 days'
+                        return false
+                    }
+                    //  else if (regs[2] == 2 && regs[1] )
+                    //  else if (regs[3] < 2014 || regs[3] > (new Date()).getFullYear()) {
+                    //     this.infoMessage = 'Invalid year value, year can only range from 2014 till date.'
+                    //     return false
+                    // }
+                    else if (regs[1] > (new Date()).getDay() || regs[2] > (new Date()).getMonth() || regs[3] > (
+                            new Date().getFullYear())) {
+                        this.infoMessage = 'Come on, date can not be after today.'
                         return false
                     }
                 } else if (this.selectedOption === 'tracking_id') {
@@ -125,7 +143,7 @@
                         this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
                         return false
                     } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
-                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters'
+                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters.'
                         return false
                     }
 
