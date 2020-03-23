@@ -107,35 +107,48 @@
                         this.infoMessage = 'NIN cannot be less than 12345678901.'
                         return false
                     }
-                }
-                 else if (this.selectedOption === 'issued_date') {
+                } else if (this.selectedOption === 'issued_date') {
                     let regs = this.queryTerm.match(dateFormat)
-                    // let leapYear = (regs[3] / 4) ===
+                    let leapYear = ((regs[3] % 4 == 0) && (regs[3] % 100 != 0)) || (regs[3] % 400 == 0)
+                    let commonYear = !leapYear
+                    let month30 = (regs[2] === 4 || regs[1] === 5 || regs[1] === 9 || regs[2 === 11])
+                    let month31 = (regs[2] === 1 || regs[2] === 3 || regs[2] === 5 || regs[2] === 7 || regs[2] === 8 ||
+                        regs[2] === 10 || regs[2] === 12)
 
-                    if (!(this.queryTerm.match(dateFormat))) {
+                    if (!regs) {
                         this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
                         return false
-                    } else if (regs[1] < 1 || regs[1] > 31) {
-                        this.infoMessage = 'Invalid day value, day can only range from 1 to 31.'
+                    } else if (regs[1] < 1) {
+                        this.infoMessage = 'Invalid day value, day can not be less than 1.'
                         return false
+                    } else if (regs[3] === commonYear) {
+                        if (regs[2] === 2 && regs[1] > 28) {
+                            this.infoMessage = 'February of common years are 28 days.'
+                            return false
+                        }
+                    } else if (regs[3] === leapYear) {
+                        if (regs[2] === 2 && regs[1] > 29) {
+                            this.infoMessage = 'February of leap years are 29 days.'
+                            return false
+                        }
+                    } else if (month30) {
+                        if (regs[1] > 30) {
+                            this.infoMessage = 'Invalid day value, days can not exceed 30.'
+                            return false
+                        }
+                    } else if (month31) {
+                        if (regs[1] > 31) {
+                            this.infoMessage = 'Invalid day value, days can not exceed 31.'
+                            return false
+                        }
                     } else if (regs[2] < 1 || regs[2] > 12) {
                         this.infoMessage = 'Invalid month value, month can only range from 1 to 12.'
                         return false
                     } else if (regs[1] < 1 || regs[2] < 2 || regs[3] < 2014) {
                         this.infoMessage = 'Invalid date, date started on 01-02-2014.'
                         return false
-                    } else if (regs[2] === 2 && regs[1] > 28) {
-                        this.infoMessage = 'Come on, it is February with 28 days'
-                        return false
-                    }
-                    //  else if (regs[2] == 2 && regs[1] )
-                    //  else if (regs[3] < 2014 || regs[3] > (new Date()).getFullYear()) {
-                    //     this.infoMessage = 'Invalid year value, year can only range from 2014 till date.'
-                    //     return false
-                    // }
-                    else if (regs[1] > (new Date()).getDay() || regs[2] > (new Date()).getMonth() || regs[3] > (
-                            new Date().getFullYear())) {
-                        this.infoMessage = 'Come on, date can not be after today.'
+                    } else if (regs[1] > ((new Date()).getDay()) || regs[2] > ((new Date()).getMonth()) || regs[3] > ((new Date().getFullYear()))) {
+                        this.infoMessage = 'Invalid date, date can not be after today.'
                         return false
                     }
                 } else if (this.selectedOption === 'tracking_id') {
