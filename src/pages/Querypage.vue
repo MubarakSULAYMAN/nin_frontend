@@ -109,113 +109,119 @@
                     }
                 } else if (this.selectedOption === 'issued_date') {
                     let regs = this.queryTerm.match(dateFormat)
-                    let leapYear = ((regs[3] % 4 == 0) && (regs[3] % 100 != 0)) || (regs[3] % 400 == 0)
-                    let commonYear = !leapYear
-                    let month30 = (regs[2] === 4 || regs[1] === 5 || regs[1] === 9 || regs[2 === 11])
-                    let month31 = (regs[2] === 1 || regs[2] === 3 || regs[2] === 5 || regs[2] === 7 || regs[2] === 8 ||
-                        regs[2] === 10 || regs[2] === 12)
+                    let startDate = new Date("07-01-2013") //MM-DD-YYYY
+                    // let inputDate = `${regs[2]}-${regs[1]}-${regs[3]}`
+                    // let newDate = new Date(inputDate)
+                    let date = new Date()
+                    let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-                    if (!regs) {
+                    // let leapYear = (((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0))
+                    // let commonYear = !leapYear
+                    // let month30 = (regs[2] === 4 || regs[1] === 5 || regs[1] === 9 || regs[2 === 11])
+                    // let month31 = (regs[2] === 1 || regs[2] === 3 || regs[2] === 5 || regs[2] === 7 || regs[2] === 8 ||
+                    //     regs[2] === 10 || regs[2] === 12)
+
+                    if (!(this.queryTerm.match(dateFormat))) {
                         this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
                         return false
                     } else if (regs[1] < 1) {
                         this.infoMessage = 'Invalid day value, day can not be less than 1.'
                         return false
-                    } else if (regs[3] === commonYear) {
-                        if (regs[2] === 2 && regs[1] > 28) {
-                            this.infoMessage = 'February of common years are 28 days.'
-                            return false
-                        }
-                    } else if (regs[3] === leapYear) {
-                        if (regs[2] === 2 && regs[1] > 29) {
-                            this.infoMessage = 'February of leap years are 29 days.'
-                            return false
-                        }
-                    } else if (month30) {
-                        if (regs[1] > 30) {
-                            this.infoMessage = 'Invalid day value, days can not exceed 30.'
-                            return false
-                        }
-                    } else if (month31) {
-                        if (regs[1] > 31) {
+                    }
+                    //  else if (regs[3] === commonYear && (regs[2] === 2 && regs[1] > 28)) {
+                    //     this.infoMessage = 'February of common years are 28 days.'
+                    //     return false
+                    // }
+                    // else if (regs[3] === leapYear && (regs[2] === 2 && regs[1] > 29)) {
+                    //         this.infoMessage = 'February of leap years are 29 days.'
+                    //         return false
+                    // } 
+                    // else if (month30) {
+                    //     if (regs[1] > 30) {
+                    //         this.infoMessage = 'Invalid day value, days can not exceed 30.'
+                    //         return false
+                    //     }
+                    // } 
+                    else if ((regs[2] === 1 || regs[2] === 3 || regs[2] === 5 || regs[2] === 7 || regs[2] === 8 || regs[2] === 10 || regs[2] === 12) && (regs[1] > 31)) {
                             this.infoMessage = 'Invalid day value, days can not exceed 31.'
                             return false
+                        } else if (regs[2] < 1 || regs[2] > 12) {
+                            this.infoMessage = 'Invalid month value, month can only range from 1 to 12.'
+                            return false
+                        } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) < startDate) {
+                            this.infoMessage = 'Date started on 01-07-2013.'
+                            return false
+                        } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) > today) {
+                            this.infoMessage = 'Date can not be after today.'
+                            return false
                         }
-                    } else if (regs[2] < 1 || regs[2] > 12) {
-                        this.infoMessage = 'Invalid month value, month can only range from 1 to 12.'
-                        return false
-                    } else if (regs[1] < 1 || regs[2] < 2 || regs[3] < 2014) {
-                        this.infoMessage = 'Invalid date, date started on 01-02-2014.'
-                        return false
-                    } else if (regs[1] > ((new Date()).getDay()) || regs[2] > ((new Date()).getMonth()) || regs[3] > ((new Date().getFullYear()))) {
-                        this.infoMessage = 'Invalid date, date can not be after today.'
-                        return false
                     }
-                } else if (this.selectedOption === 'tracking_id') {
-                    if (!(this.queryTerm.match(alphaNumFormat))) {
-                        this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
-                        return false
-                    } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
-                        this.infoMessage = 'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters.'
-                        return false
+                    else if (this.selectedOption === 'tracking_id') {
+                        if (!(this.queryTerm.match(alphaNumFormat))) {
+                            this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                            return false
+                        } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
+                            this.infoMessage =
+                                'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters.'
+                            return false
+                        }
+
                     }
-
-                }
-                return true
-            },
-
-            submitForm() {
-                this.$router.push(`/search/${this.queryTerm}?filter=${this.selectedOption}`)
-            },
-
-        },
-
-        computed: {
-            inputVet() {
-                return this.verifications()
-            },
-
-            maxLength() {
-                return this.selectedOption === 'tracking_id' ? 15 : this.selectedOption === 'nin' ? 11 : 10
-            },
-
-            queryTerm: {
-                set(term) {
-                    this.$store.dispatch('setQueryTerm', term)
+                    return true
                 },
-                get() {
-                    return this.$store.getters.queryTerm
-                }
+
+                submitForm() {
+                        this.$router.push(`/search/${this.queryTerm}?filter=${this.selectedOption}`)
+                    },
+
             },
 
-            selectedOption: {
-                set(option) {
-                    this.$store.dispatch('setSelectedOption', option)
+            computed: {
+                inputVet() {
+                    return this.verifications()
                 },
-                get() {
-                    return this.$store.getters.selectedOption
-                }
-            },
 
-            queryResult: {
-                set(result) {
-                    this.$store.dispatch('loadQueryResult', result)
+                maxLength() {
+                    return this.selectedOption === 'tracking_id' ? 15 : this.selectedOption === 'nin' ? 11 : 10
                 },
-                get() {
-                    return this.$store.getters.queryResult
-                }
-            },
 
-            loading: {
-                set(loader) {
-                    this.$store.dispatch('setLoading', loader)
+                queryTerm: {
+                    set(term) {
+                        this.$store.dispatch('setQueryTerm', term)
+                    },
+                    get() {
+                        return this.$store.getters.queryTerm
+                    }
                 },
-                get() {
-                    return this.$store.getters.loading
+
+                selectedOption: {
+                    set(option) {
+                        this.$store.dispatch('setSelectedOption', option)
+                    },
+                    get() {
+                        return this.$store.getters.selectedOption
+                    }
+                },
+
+                queryResult: {
+                    set(result) {
+                        this.$store.dispatch('loadQueryResult', result)
+                    },
+                    get() {
+                        return this.$store.getters.queryResult
+                    }
+                },
+
+                loading: {
+                    set(loader) {
+                        this.$store.dispatch('setLoading', loader)
+                    },
+                    get() {
+                        return this.$store.getters.loading
+                    }
                 }
             }
         }
-    }
 
 </script>
 
