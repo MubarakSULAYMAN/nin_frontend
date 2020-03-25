@@ -114,6 +114,7 @@
                     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
                     let month30 = [4, 6, 9, 11]
                     let month31 = [1, 3, 5, 7, 8, 10, 12]
+                    let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
                     if (!(this.queryTerm.match(dateFormat))) {
                         this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
@@ -123,19 +124,19 @@
                         return false
                     }
                      else if (!(((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(regs[2]) === 2 && parseInt(regs[1]) > 28)) {
-                        this.infoMessage = `February of ${regs[3]} is 28 days.`
+                        this.infoMessage = `February of ${regs[3]} has 28 days, check day value.`
                         return false
                     }
                     else if ((((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(regs[2]) === 2 && parseInt(regs[1]) > 29)) {
-                            this.infoMessage = `February of ${regs[3]} is 29 days.`
+                            this.infoMessage = `February of ${regs[3]} has 29 days, check day value.`
                             return false
                     }
                     else if (month30.includes(parseInt(regs[2])) && regs[1] > 31) {
-                            this.infoMessage = 'Days can not exceed 30 for this month.'
+                            this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 30 days, check month value.`
                             return false
                     } 
                     else if (month31.includes(parseInt(regs[2])) && regs[1] > 31) {
-                        this.infoMessage = 'Days can not exceed 31 for this month.'
+                        this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 31 days, check month value.`
                         return false
                     }
                     else if (regs[2] < 1 || regs[2] > 12) {
@@ -145,7 +146,7 @@
                         this.infoMessage = 'Date started on 01-07-2013.'
                         return false
                     } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) > today) {
-                        this.infoMessage = 'Date can not be after today.'
+                        this.infoMessage = 'Date can not be after today, cross-check values.'
                         return false
                     }
                 } else if (this.selectedOption === 'tracking_id') {
