@@ -110,118 +110,110 @@
                 } else if (this.selectedOption === 'issued_date') {
                     let regs = this.queryTerm.match(dateFormat)
                     let startDate = new Date("07-01-2013") //MM-DD-YYYY
-                    // let inputDate = `${regs[2]}-${regs[1]}-${regs[3]}`
-                    // let newDate = new Date(inputDate)
                     let date = new Date()
                     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
-
-                    // let leapYear = (((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0))
-                    // let commonYear = !leapYear
-                    // let month30 = (regs[2] === 4 || regs[1] === 5 || regs[1] === 9 || regs[2 === 11])
-                    // let month31 = (regs[2] === 1 || regs[2] === 3 || regs[2] === 5 || regs[2] === 7 || regs[2] === 8 ||
-                    //     regs[2] === 10 || regs[2] === 12)
+                    let month30 = [4, 6, 9, 11]
+                    let month31 = [1, 3, 5, 7, 8, 10, 12]
 
                     if (!(this.queryTerm.match(dateFormat))) {
                         this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
                         return false
                     } else if (regs[1] < 1) {
-                        this.infoMessage = 'Invalid day value, day can not be less than 1.'
+                        this.infoMessage = 'Day can not be less than 1.'
                         return false
                     }
-                    //  else if (regs[3] === commonYear && (regs[2] === 2 && regs[1] > 28)) {
-                    //     this.infoMessage = 'February of common years are 28 days.'
-                    //     return false
-                    // }
-                    // else if (regs[3] === leapYear && (regs[2] === 2 && regs[1] > 29)) {
-                    //         this.infoMessage = 'February of leap years are 29 days.'
-                    //         return false
-                    // } 
-                    // else if (month30) {
-                    //     if (regs[1] > 30) {
-                    //         this.infoMessage = 'Invalid day value, days can not exceed 30.'
-                    //         return false
-                    //     }
-                    // } 
-                    else if ((regs[2] === 1 || regs[2] === 3 || regs[2] === 5 || regs[2] === 7 || regs[2] === 8 || regs[2] === 10 || regs[2] === 12) && (regs[1] > 31)) {
-                            this.infoMessage = 'Invalid day value, days can not exceed 31.'
-                            return false
-                        } else if (regs[2] < 1 || regs[2] > 12) {
-                            this.infoMessage = 'Invalid month value, month can only range from 1 to 12.'
-                            return false
-                        } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) < startDate) {
-                            this.infoMessage = 'Date started on 01-07-2013.'
-                            return false
-                        } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) > today) {
-                            this.infoMessage = 'Date can not be after today.'
-                            return false
-                        }
+                     else if (!(((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(regs[2]) === 2 && parseInt(regs[1]) > 28)) {
+                        this.infoMessage = `February of ${regs[3]} is 28 days.`
+                        return false
                     }
-                    else if (this.selectedOption === 'tracking_id') {
-                        if (!(this.queryTerm.match(alphaNumFormat))) {
-                            this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                    else if ((((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(regs[2]) === 2 && parseInt(regs[1]) > 29)) {
+                            this.infoMessage = `February of ${regs[3]} is 29 days.`
                             return false
-                        } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
-                            this.infoMessage =
-                                'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters.'
-                            return false
-                        }
-
                     }
-                    return true
-                },
+                    else if (month30.includes(parseInt(regs[2])) && regs[1] > 31) {
+                            this.infoMessage = 'Days can not exceed 30 for this month.'
+                            return false
+                    } 
+                    else if (month31.includes(parseInt(regs[2])) && regs[1] > 31) {
+                        this.infoMessage = 'Days can not exceed 31 for this month.'
+                        return false
+                    }
+                    else if (regs[2] < 1 || regs[2] > 12) {
+                        this.infoMessage = 'Month only range from 1 to 12.'
+                        return false
+                    } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) < startDate) {
+                        this.infoMessage = 'Date started on 01-07-2013.'
+                        return false
+                    } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) > today) {
+                        this.infoMessage = 'Date can not be after today.'
+                        return false
+                    }
+                } else if (this.selectedOption === 'tracking_id') {
+                    if (!(this.queryTerm.match(alphaNumFormat))) {
+                        this.infoMessage = 'Invalid Tracking ID, can only be alphanumeric.'
+                        return false
+                    } else if (this.selectedOption === 'tracking_id' && (this.queryTerm.length !== 15)) {
+                        this.infoMessage =
+                            'Invalid Tracking ID, Tracking ID can only be 15 alphanumeric characters.'
+                        return false
+                    }
 
-                submitForm() {
-                        this.$router.push(`/search/${this.queryTerm}?filter=${this.selectedOption}`)
-                    },
-
+                }
+                return true
             },
 
-            computed: {
-                inputVet() {
-                    return this.verifications()
-                },
+            submitForm() {
+                this.$router.push(`/search/${this.queryTerm}?filter=${this.selectedOption}`)
+            },
 
-                maxLength() {
-                    return this.selectedOption === 'tracking_id' ? 15 : this.selectedOption === 'nin' ? 11 : 10
-                },
+        },
 
-                queryTerm: {
-                    set(term) {
-                        this.$store.dispatch('setQueryTerm', term)
-                    },
-                    get() {
-                        return this.$store.getters.queryTerm
-                    }
-                },
+        computed: {
+            inputVet() {
+                return this.verifications()
+            },
 
-                selectedOption: {
-                    set(option) {
-                        this.$store.dispatch('setSelectedOption', option)
-                    },
-                    get() {
-                        return this.$store.getters.selectedOption
-                    }
-                },
+            maxLength() {
+                return this.selectedOption === 'tracking_id' ? 15 : this.selectedOption === 'nin' ? 11 : 10
+            },
 
-                queryResult: {
-                    set(result) {
-                        this.$store.dispatch('loadQueryResult', result)
-                    },
-                    get() {
-                        return this.$store.getters.queryResult
-                    }
+            queryTerm: {
+                set(term) {
+                    this.$store.dispatch('setQueryTerm', term)
                 },
+                get() {
+                    return this.$store.getters.queryTerm
+                }
+            },
 
-                loading: {
-                    set(loader) {
-                        this.$store.dispatch('setLoading', loader)
-                    },
-                    get() {
-                        return this.$store.getters.loading
-                    }
+            selectedOption: {
+                set(option) {
+                    this.$store.dispatch('setSelectedOption', option)
+                },
+                get() {
+                    return this.$store.getters.selectedOption
+                }
+            },
+
+            queryResult: {
+                set(result) {
+                    this.$store.dispatch('loadQueryResult', result)
+                },
+                get() {
+                    return this.$store.getters.queryResult
+                }
+            },
+
+            loading: {
+                set(loader) {
+                    this.$store.dispatch('setLoading', loader)
+                },
+                get() {
+                    return this.$store.getters.loading
                 }
             }
         }
+    }
 
 </script>
 
