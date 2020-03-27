@@ -3,7 +3,7 @@
   "clean_urls": true,
   "routes": {
     "/**": "QueryPage.vue",
-    "*/search/:option**": "Table.vue"
+    "/search/:option": "Table.vue"
 
   }
 }
