@@ -2,8 +2,6 @@
   "root": "dist",
   "clean_urls": true,
   "routes": {
-    "/**": "QueryPage.vue",
-    "/search/:option": "Table.vue"
-
+    "/**": "index.html"
   }
 }
