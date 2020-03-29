@@ -7,7 +7,7 @@
              <div class="text-center">
                  <Spinner :size="17" />
              </div>
-             <span class="lead text-center"> Kindly wait, your request may take a while. </span>
+             <span class="lead d-flex justify-content-center mt-3"> Kindly wait, your request may take a while. </span>
 
              <span class="d-flex justify-content-center mt-3">
                  <b-button pill variant="danger" @click="$router.back()" class="back"> Go back </b-button>
@@ -21,7 +21,7 @@
                  <a target="_blank" href="https://">official documentation</a>.
              </p>
 
-             <div class="card shadow">
+             <div class="card shadow mb-3">
                  <div class="card-header py-3">
                      <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ query }}" </h6>
                  </div>
@@ -63,6 +63,8 @@
                  </div>
 
              </div>
+
+            <p class="text-center lead m-0"> Hope you find this useful. </p>
 
              <span class="d-flex justify-content-center mt-3">
                  <b-button pill variant="danger" @click="$router.back()" class="back"> Go back </b-button>
@@ -121,7 +123,7 @@
      .result_area {
          height: 100vh;
          width: 100%;
-         padding-left: 0.5em;
+         padding-left: 0.5rem;
          position: absolute;
      }
 

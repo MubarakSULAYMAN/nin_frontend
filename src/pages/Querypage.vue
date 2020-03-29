@@ -1,10 +1,11 @@
 <template>
     <div>
-        <h1 class="text-center display-4"> Welcome here... </h1>
-        <p class="text-center lead"> The query app uses your input to check if a record exists in our database and gives a picture of it. </p>
+        <p class="text-center lead"> The query app uses your input to check if a record exists in our database and gives
+            a picture of it. </p>
+        <h1 class="text-center lead text-monospace mb-5"> {{today}} </h1>
 
         <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
-            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
+            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3 mb-5">
                 <b-col sm="9" md="7" lg="4" class="mb-3">
                     <b-input v-model='queryTerm' size="sm" placeholder='Search...' class="mb-2" :state="inputVet"
                         :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
@@ -47,11 +48,12 @@
 
     export default {
         components: {
-            
+
         },
 
         data() {
             return {
+                dayMessage: '',
                 infoMessage: '',
                 queryMessage: '',
 
@@ -80,6 +82,29 @@
         },
 
         methods: {
+            checkDay() {
+                var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+                var now = new Date().getHours()
+                var dayDate = new Date().getDay()
+                if (dayDate === 0 || dayDate === 6) {
+                    return this.dayMessage =
+                        `We understand how special your ${days[parseInt(dayDate)]}s are to you, we appreciate your hard work.`
+                } else {
+                    if (now < 8) {
+                        return this.dayMessage =
+                            `Hello, it is quite early to begin work on a ${days[parseInt(dayDate)]} morning.`
+                    }
+                    if (now === 8 || now < 12) {
+                        return this.dayMessage = `Welcome back, it is another ${days[parseInt(dayDate)]}.`
+                    } else if (now === 12 || now < 15) {
+                        return this.dayMessage = `Welcome back, hope you ${days[parseInt(dayDate)]} has been wonderful.`
+                    } else if (now === 15 || now < 17) {
+                        return this.dayMessage = `It is great working with you every ${days[parseInt(dayDate)]}.`
+                    } else {
+                        return this.dayMessage = "It is a great sacrifice to work extra-hours, it is nice meeting you."
+                    }
+                }
+            },
             resetAll(e) {
                 e.preventDefault()
                 this.queryTerm = ''
@@ -169,6 +194,10 @@
         },
 
         computed: {
+            today() {
+                return this.checkDay()
+            },
+
             inputVet() {
                 return this.verifications()
             },
