@@ -2,6 +2,10 @@
     <div>
         <Topnav />
         <div>
+            <h1 class="text-center display-4"> Welcome here... </h1>
+            <p class="text-center lead"> The query app helps you check if a record exists in our database and gives a picture of it. </p>
+            <p class="text-center"> We ensure your activities are safe, ensure your credentials are far away from <span
+                    class="text-danger">attackers</span>. Hope you enjoy your day, happy working.</p>
             <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
                 <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
                     <b-col sm="9" md="7" lg="4">
@@ -103,7 +107,7 @@
                     } else if (this.queryTerm.length !== 11) {
                         this.infoMessage = 'NIN must be 11 digits.'
                         return false
-                    } else if (parseInt(this.queryTerm) < 12345678901   ) {
+                    } else if (parseInt(this.queryTerm) < 12345678901) {
                         this.infoMessage = 'NIN cannot be less than 12345678901.'
                         return false
                     }
@@ -114,7 +118,9 @@
                     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
                     let month30 = [4, 6, 9, 11]
                     let month31 = [1, 3, 5, 7, 8, 10, 12]
-                    let monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+                    let monthName = ["January", "February", "March", "April", "May", "June", "July", "August",
+                        "September", "October", "November", "December"
+                    ]
 
                     if (!(this.queryTerm.match(dateFormat))) {
                         this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
@@ -122,24 +128,21 @@
                     } else if (regs[1] < 1) {
                         this.infoMessage = 'Day can not be less than 1.'
                         return false
-                    }
-                     else if (!(((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(regs[2]) === 2 && parseInt(regs[1]) > 28)) {
+                    } else if (!(((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(
+                            regs[2]) === 2 && parseInt(regs[1]) > 28)) {
                         this.infoMessage = `February of ${regs[3]} has 28 days, check day value.`
                         return false
-                    }
-                    else if ((((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(regs[2]) === 2 && parseInt(regs[1]) > 29)) {
-                            this.infoMessage = `February of ${regs[3]} has 29 days, check day value.`
-                            return false
-                    }
-                    else if (month30.includes(parseInt(regs[2])) && regs[1] > 31) {
-                            this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 30 days, check month value.`
-                            return false
-                    } 
-                    else if (month31.includes(parseInt(regs[2])) && regs[1] > 31) {
+                    } else if ((((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(
+                            regs[2]) === 2 && parseInt(regs[1]) > 29)) {
+                        this.infoMessage = `February of ${regs[3]} has 29 days, check day value.`
+                        return false
+                    } else if (month30.includes(parseInt(regs[2])) && regs[1] > 31) {
+                        this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 30 days, check month value.`
+                        return false
+                    } else if (month31.includes(parseInt(regs[2])) && regs[1] > 31) {
                         this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 31 days, check month value.`
                         return false
-                    }
-                    else if (regs[2] < 1 || regs[2] > 12) {
+                    } else if (regs[2] < 1 || regs[2] > 12) {
                         this.infoMessage = 'Month only range from 1 to 12.'
                         return false
                     } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) < startDate) {

@@ -8,7 +8,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <h5 class="display-5 lead"> Seems you got something wrong and now found in an unknown location. </h5>
+        <h5 class="display-4 lead"> Seems you got something wrong and now found in an unknown location. </h5>
       </b-row>
     </div>
   </div>

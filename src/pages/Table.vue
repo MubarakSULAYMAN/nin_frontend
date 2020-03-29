@@ -1,5 +1,5 @@
  <template>
-     <div class="container-fluid mt-5">
+     <div class="container-fluid mt-5 mb-5">
 
          <div v-if="loading_info"
              class="row m-3 p-3 justify-content-sm-center justify-content-md-center justify-content-lg-center">
@@ -7,7 +7,7 @@
              <b-row class="m-5">
                  <Spinner :size="17" />
              </b-row>
-             <h5 class="display-5 lead text-center"> Kindly wait, your request may take a while. </h5>
+             <h5 class="display-4 lead text-center"> Kindly wait, your request may take a while. </h5>
              <b-row>
                  <b-button pill variant="danger" @click="$router.back()" class="m-5 back">Go back</b-button>
              </b-row>
