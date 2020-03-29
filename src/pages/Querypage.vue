@@ -1,57 +1,53 @@
 <template>
     <div>
-        <Topnav />
-        <div>
-            <h1 class="text-center display-4"> Welcome here... </h1>
-            <p class="text-center lead"> The query app helps you check if a record exists in our database and gives a picture of it. </p>
-            <p class="text-center"> We ensure your activities are safe, ensure your credentials are far away from <span
-                    class="text-danger">attackers</span>. Hope you enjoy your day, happy working.</p>
-            <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
-                <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
-                    <b-col sm="9" md="7" lg="4">
-                        <b-input v-model='queryTerm' size="sm" placeholder='Search...' class="mb-2" :state="inputVet"
-                            :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
-                        <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
-                        <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
+        <h1 class="text-center display-4"> Welcome here... </h1>
+        <p class="text-center lead"> The query app uses your input to check if a record exists in our database and gives a picture of it. </p>
 
-                        <p v-show="queryTerm.length > 9" v-if='!searching'> Checking with <b>{{ selectedOption }}</b> if
-                            <b>{{ queryTerm }}</b> exists in our
-                            records. </p>
-                        <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
+        <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
+            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3">
+                <b-col sm="9" md="7" lg="4" class="mb-3">
+                    <b-input v-model='queryTerm' size="sm" placeholder='Search...' class="mb-2" :state="inputVet"
+                        :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
+                    <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
+                    <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
-                        <span v-for='option in options' :key='option.value'>
-                            <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value'
-                                v-model='selectedOption'>
-                            <label :for='option.name'> {{option.text}} </label>
-                        </span>
-                        <div class="buttons align-center justify-center">
-                            <b-button type="reset" pill variant="danger">
-                                <b-icon icon="bootstrap-reboot"></b-icon> Reset
-                            </b-button>
-                            <b-button type="submit" pill variant="primary" class="ml-3" :disabled="!inputVet">
-                                <b-icon icon="search"></b-icon> Search
-                            </b-button>
-                        </div>
+                    <p v-show="queryTerm.length > 9" v-if='!searching'> Checking with <b>{{ selectedOption }}</b> if
+                        <b>{{ queryTerm }}</b> exists in our
+                        records. </p>
+                    <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
-                        <p class="hint"> Ensure you input the right detail. </p>
-                    </b-col>
-                </b-row>
-            </b-form>
-        </div>
+                    <span v-for='option in options' :key='option.value'>
+                        <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value'
+                            v-model='selectedOption'>
+                        <label :for='option.name'> {{option.text}} </label>
+                    </span>
+                    <div class="buttons align-center justify-center">
+                        <b-button type="reset" pill variant="danger">
+                            <b-icon icon="bootstrap-reboot"></b-icon> Reset
+                        </b-button>
+                        <b-button type="submit" pill variant="primary" class="ml-3" :disabled="!inputVet">
+                            <b-icon icon="search"></b-icon> Search
+                        </b-button>
+                    </div>
+                </b-col>
+            </b-row>
+
+            <p class="text-center text-muted m-0"> We ensure your activities are safe, so keep your credentials
+                away from <span class="text-danger">attackers</span>. </p>
+            <p class="text-center lead m-0"> Happy working, hope you enjoy your day. </p>
+        </b-form>
     </div>
 </template>
 
 
 
 <script>
-    import Topnav from '@/components/Topnav'
-
     let dateFormat = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
     let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
         components: {
-            Topnav,
+            
         },
 
         data() {
@@ -228,10 +224,6 @@
 
     .goodInput {
         border-color: #009340;
-    }
-
-    .hint {
-        color: #00933f;
     }
 
     .warningInfo {

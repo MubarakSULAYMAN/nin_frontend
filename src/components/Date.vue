@@ -1,20 +1,41 @@
 <template>
-  <div>
-
-  </div>
+    <div>
+        <hr>
+        <p class="mb-3 text-muted text-center small m-0 p-0"> Designed and built with all the love in the world.
+            <br>
+            App is optimised for use. While using this, you agree to have
+            read and accepted our terms of use, cookie and privacy policy.
+            <br>
+            &copy; {{ rights }}, National Identity Management Commission (NIMC). All Rights Reserved
+        </p>
+    </div>
 </template>
 
 <script>
-export default {
+    var fromYear = 2013
+    var thisYear = parseInt(new Date().getFullYear())
+    var year_range = fromYear + ((fromYear != thisYear) ? '-' + thisYear : '')
 
-}
+    export default {
+        data() {
+            return {
+                copyrights: ''
+            }
+        },
 
-  var fromYear = 2020; 
-//   thisYear = (int)date('Y'); 
-var thisYear = new Date(date.getFullYear())
-  $present_year = $fromYear . (($fromYear != $thisYear) ? '-' . $thisYear : '');
-?>
-  <p class="mt-5 mb-3 text-muted text-center"> &copy; <?php echo $present_year ?> </p>
+        methods: {
+            copyrightsInfo() {
+                return this.copyrights = year_range
+            }
+        },
+
+        computed: {
+            rights() {
+                return this.copyrightsInfo()
+            }
+        }
+    }
+
 </script>
 
 <style>

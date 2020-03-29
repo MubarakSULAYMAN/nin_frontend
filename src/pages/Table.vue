@@ -1,33 +1,34 @@
  <template>
-     <div class="container-fluid mt-5 mb-5">
+     <div class="container-fluid d-flex justify-content-center">
 
-         <div v-if="loading_info"
-             class="row m-3 p-3 justify-content-sm-center justify-content-md-center justify-content-lg-center">
-             <h5 v-if="loading_info">Searching for <strong>{{ query }}</strong> using {{ filter }}</h5>
-             <b-row class="m-5">
+         <div v-if="loading_info" class="result_area">
+             <h5 v-if="loading_info"> Searching for <strong> {{ query }} </strong> using {{ filter }}. </h5>
+             <Spinnergrow />
+             <div class="text-center">
                  <Spinner :size="17" />
-             </b-row>
-             <h5 class="display-4 lead text-center"> Kindly wait, your request may take a while. </h5>
-             <b-row>
-                 <b-button pill variant="danger" @click="$router.back()" class="m-5 back">Go back</b-button>
-             </b-row>
+             </div>
+             <span class="lead text-center"> Kindly wait, your request may take a while. </span>
+
+             <span class="d-flex justify-content-center mt-3">
+                 <b-button pill variant="danger" @click="$router.back()" class="back"> Go back </b-button>
+             </span>
          </div>
 
-         <div v-else>
+         <div v-else class="result_area">
              <h1 class="h3 mb-2 text-gray-800">Query Result</h1>
-             <p class="mb-4">
+             <p>
                  Results are based on your search. For more information, please visit the
                  <a target="_blank" href="https://">official documentation</a>.
              </p>
 
-             <div class="card shadow mb-4">
+             <div class="card shadow">
                  <div class="card-header py-3">
                      <h6 class="m-0 font-weight-bold text-primary"> Result for the query of "{{ query }}" </h6>
                  </div>
 
                  <div v-if="queryResponse.length < 1"
                      class="row text-center m-3 p-3 justify-content-sm-center justify-content-md-center justify-content-lg-center">
-                             <h3 class="display-3 lead"> <strong> No Result Found </strong> </h3>
+                     <h3 class="display-3 lead"> <strong> No Result Found </strong> </h3>
                  </div>
 
                  <div v-else>
@@ -61,13 +62,11 @@
                      Total Result Returned: <b> {{ queryResponse.length }} </b>
                  </div>
 
-                 <!-- <div class="mx-3">
-                    <h6 class="text-right"> More Results </h6>
-                    <b-pagination v-model="currentPage" pills :total-rows="rows" align="right"></b-pagination>
-                </div> -->
              </div>
 
-             <b-button pill variant="danger" @click="$router.back()" class="back">Go back</b-button>
+             <span class="d-flex justify-content-center mt-3">
+                 <b-button pill variant="danger" @click="$router.back()" class="back"> Go back </b-button>
+             </span>
          </div>
 
      </div>
@@ -76,11 +75,13 @@
 
  <script>
      import Spinner from '@/components/Spinner'
+     import Spinnergrow from '@/components/Spinnergrow'
      import $api from '@/Api'
 
      export default {
          components: {
              Spinner,
+             Spinnergrow,
          },
          async mounted() {
              var response = await this.search()
@@ -115,6 +116,13 @@
      .back {
          display: flex;
          justify-content: flex-end;
+     }
+
+     .result_area {
+         height: 100vh;
+         width: 100%;
+         padding-left: 0.5em;
+         position: absolute;
      }
 
  </style>

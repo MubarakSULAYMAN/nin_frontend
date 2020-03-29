@@ -6,22 +6,30 @@
           <b-col sm="4" md="3" lg="2">
             <Sidenav />
           </b-col>
-          <b-col sm="8" md="9" lg="10" class="section ">
+          <b-col sm="8" md="9" lg="10" class="section">
+            <Topnav/>
             <router-view></router-view>
           </b-col>
         </b-row>
+      </div>
+      <div class="fixed-bottom">
+        <Date />
       </div>
     </b-container>
   </div>
 </template>
 
 <script>
+  import Topnav from '@/components/Topnav'
   import Sidenav from '@/components/Sidenav'
+  import Date from '@/components/Date'
 
   export default {
     name: 'app',
     components: {
-      Sidenav
+      Topnav,
+      Sidenav,
+      Date
     },
 
     data() {

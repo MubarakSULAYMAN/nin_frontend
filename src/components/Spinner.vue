@@ -1,9 +1,7 @@
 <template>
     <div>
-        <div class="d-flex justify-content-center align-items-center">
-            <b-spinner :style="`width: ${size}rem; height: ${size}rem;`" label="Loading..." variant="success">
-            </b-spinner>
-        </div>
+        <b-spinner :style="`width: ${size}rem; height: ${size}rem;`" label="Loading..." variant="success">
+        </b-spinner>
     </div>
 </template>
 
@@ -12,7 +10,7 @@
         props: {
             size: {
                 type: Number,
-                default:17
+                default: 17
             }
         }
     }

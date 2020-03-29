@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="main_page">
+    <div class="shadow-sm mt-1 mb-2 bg-white rounded main_page">
       <b-navbar type="light">
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#">Home</b-nav-item>
