@@ -103,7 +103,7 @@
                     } else if (this.queryTerm.length !== 11) {
                         this.infoMessage = 'NIN must be 11 digits.'
                         return false
-                    } else if (parseInt((this.queryTerm) < 12345678901)) {
+                    } else if (parseInt(this.queryTerm) < 12345678901   ) {
                         this.infoMessage = 'NIN cannot be less than 12345678901.'
                         return false
                     }

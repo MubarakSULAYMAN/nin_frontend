@@ -1,5 +1,6 @@
 import QueryPage from '@/pages/Querypage'
 import Table from '@/pages/Table'
+import NotFound from './components/Errorpage.vue'
 
 const routes = [
     {
@@ -9,6 +10,10 @@ const routes = [
     {
         path: '/search/:option',
         component: Table
+    },
+    {
+        path: '*',
+        component: NotFound
     }
 ]
 

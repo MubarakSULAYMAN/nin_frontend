@@ -3,8 +3,8 @@
   <div>
     <div class="main_page">
       <b-icon icon="archive" rotate="45" class="border rounded-circle bg-success p-1 logo-icon align-items-center mt-3"
-        style="width: 100px; height: 100px;" variant="light"></b-icon>
-      <h4> The Query App </h4>
+        style="width: 100px; height: 100px;" variant="light" @click="$router.push('/')"></b-icon>
+      <h4 @click="$router.push('/')"> The Query App </h4>
 
       <b-nav vertical justified class="w-30 sideNavContainer mt-3" pills>
         <b-nav-item active>
