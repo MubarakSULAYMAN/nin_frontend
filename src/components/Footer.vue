@@ -1,7 +1,7 @@
 <template>
     <div>
         <hr>
-        <p class="mb-3 text-muted text-center small m-0 p-0"> Designed and built with all the love in the world.
+        <p class="text-muted text-center small"> Designed and built with all the love in the world.
             <br>
             App is optimised for use. While using this, you agree to have
             read and accepted our terms of use, cookie and privacy policy.
@@ -12,9 +12,9 @@
 </template>
 
 <script>
-    var fromYear = 2013
+    var startYear = 2007
     var thisYear = parseInt(new Date().getFullYear())
-    var year_range = fromYear + ((fromYear != thisYear) ? '-' + thisYear : '')
+    var year_range = startYear + ((startYear != thisYear) ? '-' + thisYear : '')
 
     export default {
         data() {

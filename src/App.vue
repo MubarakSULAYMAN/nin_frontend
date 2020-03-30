@@ -1,19 +1,19 @@
 <template>
   <div id="app">
     <b-container fluid class="main_app">
-      <div>
+      <div id="content-wrap">
         <b-row class="h-100 w-100" no-gutters>
           <b-col sm="4" md="3" lg="2">
             <Sidenav />
           </b-col>
           <b-col sm="8" md="9" lg="10" class="section">
-            <Topnav/>
+            <Topnav />
             <router-view></router-view>
           </b-col>
         </b-row>
       </div>
-      <div class="fixed-bottom">
-        <Date />
+      <div id="footer">
+        <Footer />
       </div>
     </b-container>
   </div>
@@ -22,14 +22,14 @@
 <script>
   import Topnav from '@/components/Topnav'
   import Sidenav from '@/components/Sidenav'
-  import Date from '@/components/Date'
+  import Footer from '@/components/Footer'
 
   export default {
     name: 'app',
     components: {
       Topnav,
       Sidenav,
-      Date
+      Footer
     },
 
     data() {
@@ -43,9 +43,19 @@
 
 <style scoped>
   .main_app {
-    height: 100vh;
-    width: 100%;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  #content-wrap {
+    padding-bottom: 2.5rem;
+  }
+
+  #footer {
     position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
   }
 
 </style>

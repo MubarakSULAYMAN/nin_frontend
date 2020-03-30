@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="shadow-sm mt-1 mb-2 bg-white rounded main_page">
-      <b-navbar type="light">
+      <b-navbar type="light" class="p-0">
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#">Home</b-nav-item>
 

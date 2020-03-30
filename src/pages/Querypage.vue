@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="text-center lead"> The query app uses your input to check if a record exists in our database and gives
+        <p class="text-center lead mt-3"> The query app uses your input to check if a record exists in our database and gives
             a picture of it. </p>
         <h1 class="text-center lead text-monospace mb-5"> {{today}} </h1>
 
