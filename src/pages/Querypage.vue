@@ -1,6 +1,7 @@
 <template>
     <div>
-        <p class="text-center lead mt-3"> The query app uses your input to check if a record exists in our database and gives
+        <p class="text-center lead mt-3"> The query app uses your input to check if a record exists in our database and
+            gives
             a picture of it. </p>
         <h1 class="text-center lead text-monospace mb-5"> {{today}} </h1>
 
@@ -43,7 +44,7 @@
 
 
 <script>
-    let dateFormat = /^(\d{1,2})-(\d{1,2})-(\d{4})$/;
+    let dateFormat = /^(\d{4})-(\d{1,2})-(\d{1,2})$/; // YYYY-MM-DD
     let alphaNumFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/
 
     export default {
@@ -92,12 +93,12 @@
                 } else {
                     if (now < 8) {
                         return this.dayMessage =
-                            `Hello, it is quite early to begin work on a ${days[parseInt(dayDate)]} morning.`
+                            `Hello, it is quite early to resume work on a ${days[parseInt(dayDate)]} morning.`
                     }
                     if (now === 8 || now < 12) {
-                        return this.dayMessage = `Welcome back, it is another ${days[parseInt(dayDate)]}.`
+                        return this.dayMessage = `Welcome back, it is another beautiful ${days[parseInt(dayDate)]}.`
                     } else if (now === 12 || now < 15) {
-                        return this.dayMessage = `Welcome back, hope you ${days[parseInt(dayDate)]} has been wonderful.`
+                        return this.dayMessage = `Welcome back, hope your ${days[parseInt(dayDate)]} has been wonderful.`
                     } else if (now === 15 || now < 17) {
                         return this.dayMessage = `It is great working with you every ${days[parseInt(dayDate)]}.`
                     } else {
@@ -137,6 +138,9 @@
                     let startDate = new Date("07-01-2013") //MM-DD-YYYY
                     let date = new Date()
                     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+                    let thisMonth = (date.getMonth() + 1)
+                    let thisDay = date.getDate()
+                    let formatted_date = date.getFullYear() + "-" + ((thisMonth.toString().length < 2) ? '0' + thisMonth : thisMonth) + "-" + ((thisDay.toString().length < 2) ? '0' + thisDay : thisDay)
                     let month30 = [4, 6, 9, 11]
                     let month31 = [1, 3, 5, 7, 8, 10, 12]
                     let monthName = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -144,32 +148,32 @@
                     ]
 
                     if (!(this.queryTerm.match(dateFormat))) {
-                        this.infoMessage = 'Invalid Issued Date, check format as DD-MM-YYYY.'
+                        this.infoMessage = `Invalid Issued Date, check format as YYYY-MM-DD (e.g. ${formatted_date}).`
                         return false
-                    } else if (regs[1] < 1) {
+                    } else if (regs[3] < 1) {
                         this.infoMessage = 'Day can not be less than 1.'
                         return false
-                    } else if (!(((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(
-                            regs[2]) === 2 && parseInt(regs[1]) > 28)) {
-                        this.infoMessage = `February of ${regs[3]} has 28 days, check day value.`
+                    } else if (!(((regs[1] % 4 === 0) && (regs[1] % 100 !== 0)) || (regs[1] % 400 === 0)) && (parseInt(
+                            regs[2]) === 2 && parseInt(regs[3]) > 28)) {
+                        this.infoMessage = `February of ${regs[1]} has 28 days, check day value.`
                         return false
-                    } else if ((((regs[3] % 4 === 0) && (regs[3] % 100 !== 0)) || (regs[3] % 400 === 0)) && (parseInt(
-                            regs[2]) === 2 && parseInt(regs[1]) > 29)) {
-                        this.infoMessage = `February of ${regs[3]} has 29 days, check day value.`
+                    } else if ((((regs[1] % 4 === 0) && (regs[1] % 100 !== 0)) || (regs[1] % 400 === 0)) && (parseInt(
+                            regs[2]) === 2 && parseInt(regs[3]) > 29)) {
+                        this.infoMessage = `February of ${regs[1]} has 29 days, check day value.`
                         return false
-                    } else if (month30.includes(parseInt(regs[2])) && regs[1] > 31) {
+                    } else if (month30.includes(parseInt(regs[2])) && regs[3] > 31) {
                         this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 30 days, check month value.`
                         return false
-                    } else if (month31.includes(parseInt(regs[2])) && regs[1] > 31) {
+                    } else if (month31.includes(parseInt(regs[2])) && regs[3] > 31) {
                         this.infoMessage = `${monthName[parseInt(regs[2])-1]} only has 31 days, check month value.`
                         return false
                     } else if (regs[2] < 1 || regs[2] > 12) {
                         this.infoMessage = 'Month only range from 1 to 12.'
                         return false
-                    } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) < startDate) {
+                    } else if (new Date(`${regs[2]}-${regs[3]}-${regs[1]}`) < startDate) {
                         this.infoMessage = 'Date started on 01-07-2013.'
                         return false
-                    } else if (new Date(`${regs[2]}-${regs[1]}-${regs[3]}`) > today) {
+                    } else if (new Date(`${regs[2]}-${regs[3]}-${regs[1]}`) > today) {
                         this.infoMessage = 'Date can not be after today, cross-check values.'
                         return false
                     }

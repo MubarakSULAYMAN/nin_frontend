@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from '@/App.vue'
 import {
   BootstrapVue,
   IconsPlugin
@@ -8,9 +8,9 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import {
   store
-} from './store/store'
+} from '@/store/store'
 import VueRouter from 'vue-router'
-import routes from './routes'
+import routes from '@/routes'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

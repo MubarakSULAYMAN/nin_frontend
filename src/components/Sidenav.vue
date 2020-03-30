@@ -8,24 +8,24 @@
 
       <b-nav vertical justified class="w-30 sideNavContainer mt-3" pills>
         <b-nav-item active>
-          <b-icon icon="columns-gutters"></b-icon> Activities
+          <b-icon icon="columns-gutters" @click="$router.push('/my-activities')"></b-icon> Activities
         </b-nav-item>
         <b-nav-item>
-          <b-icon icon="brush"></b-icon> Report
+          <b-icon icon="brush" @click="$router.push('/overview-report')"></b-icon> Report
         </b-nav-item>
         <b-nav-item>
-          <b-icon icon="chat"></b-icon> Comments
+          <b-icon icon="chat" @click="$router.push('/overview-comments')"></b-icon> Comments
         </b-nav-item>
         <b-nav-item-dropdown id="my-nav-dropdown" text="Analysis" toggle-class="nav-link-custom" right>
           <b-dropdown-item>
-            <b-icon icon="graph-up"></b-icon> Graph
+            <b-icon icon="graph-up" @click="$router.push('/overview-graph')"></b-icon> Graph
           </b-dropdown-item>
           <b-dropdown-item>
-            <b-icon icon="pie-chart"></b-icon> Pie Chart
+            <b-icon icon="pie-chart" @click="$router.push('/overview-pie-chart')"></b-icon> Pie Chart
           </b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item>
-            <b-icon icon="bar-chart"></b-icon> Bar Chart
+            <b-icon icon="bar-chart" @click="$router.push('/overview-bar-chart')"></b-icon> Bar Chart
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-nav>
