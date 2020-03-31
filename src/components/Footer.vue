@@ -1,12 +1,14 @@
 <template>
-    <div>
+    <div class="footer">
         <hr>
         <p class="text-muted text-center small"> Designed and built with all the love in the world.
             <br>
             App is optimised for use. While using this, you agree to have
             read and accepted our terms of use, cookie and privacy policy.
             <br>
-            &copy; {{ rights }}, National Identity Management Commission (NIMC). All Rights Reserved
+            Copyright &copy; {{ rights }}, National Identity Management Commission (NIMC). All Rights Reserved.
+            <br>
+            <pre> About | Privacy Policy | Term of Use | Terms &amp; Conditions | Help </pre>
         </p>
     </div>
 </template>
@@ -38,6 +40,6 @@
 
 </script>
 
-<style>
+<style scoped>
 
-</style>
+</style>>

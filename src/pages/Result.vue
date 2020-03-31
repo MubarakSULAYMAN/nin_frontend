@@ -120,11 +120,5 @@
          justify-content: flex-end;
      }
 
-     .result_area {
-         height: 100vh;
-         width: 100%;
-         padding-left: 0.5rem;
-         position: absolute;
-     }
 
  </style>

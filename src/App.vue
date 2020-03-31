@@ -49,6 +49,7 @@
 
   #content-wrap {
     padding-bottom: 2.5rem;
+    /* margin-bottom: -2.5rem; */
   }
 
   #footer {

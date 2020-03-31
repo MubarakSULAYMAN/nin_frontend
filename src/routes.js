@@ -1,21 +1,21 @@
-import QueryPage from '@/pages/Querypage'
-import Table from '@/pages/Table'
+import Query from '@/pages/Query'
+import Result from '@/pages/Result'
 import Activities from '@/components/Activities.vue'
 import Report from '@/components/Report.vue'
 import Comments from '@/components/Comments.vue'
 import Graph from '@/components/Graph.vue'
 import Pie from '@/components/PieChart.vue'
 import Bar from '@/components/BarChart.vue'
-import NotFound from '@/components/Errorpage.vue'
+import NotFound from '@/components/Error.vue'
 
 const routes = [
     {
         path: '/',
-        component: QueryPage
+        component: Query
     },
     {
         path: '/search/:option',
-        component: Table
+        component: Result
     },
     {
         path: '/my-activities',

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Topnav />
     <div class="row text-center m-3 p-3 justify-content-sm-center justify-content-md-center justify-content-lg-center">
       <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center">
         <b-col sm="9" md="7" lg="4">
@@ -15,11 +14,9 @@
 </template>
 
 <script>
-  import Topnav from '@/components/Topnav'
-
   export default {
     components: {
-      Topnav,
+
     },
   }
 
