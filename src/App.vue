@@ -4,7 +4,7 @@
       <div id="content-wrap">
         <b-row class="h-100 w-100" no-gutters>
           <b-col sm="4" md="3" lg="2">
-            <Sidenav />
+            <!-- <Sidenav /> -->
           </b-col>
           <b-col sm="8" md="9" lg="10" class="section">
             <Topnav />
@@ -21,14 +21,14 @@
 
 <script>
   import Topnav from '@/components/Topnav'
-  import Sidenav from '@/components/Sidenav'
+  // import Sidenav from '@/components/Sidenav'
   import Footer from '@/components/Footer'
 
   export default {
     name: 'app',
     components: {
       Topnav,
-      Sidenav,
+      // Sidenav,
       Footer
     },
 

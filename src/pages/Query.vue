@@ -1,22 +1,17 @@
 <template>
     <div>
-        <p class="text-center lead mt-3"> The query app uses your input to check if a record exists in our database and
+        <p class="text-center lead pt-3"> The query app uses your input to check if a record exists in our database and
             gives
             a picture of it. </p>
-        <h1 class="text-center lead text-monospace mb-5"> {{today}} </h1>
+        <h1 class="text-center lead text-monospace mt-5 mb-5"> {{hourMessage}} </h1>
 
         <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
-            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-3 mb-5">
-                <b-col sm="9" md="7" lg="4" class="mb-3">
-                    <b-input v-model='queryTerm' size="sm" placeholder='Search...' class="mb-2" :state="inputVet"
+            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center pt-3 pb-5">
+                <b-col sm="9" md="7" lg="4">
+                    <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
                         :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
                     <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                     <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
-
-                    <p v-show="queryTerm.length > 9" v-if='!searching'> Checking with <b>{{ selectedOption }}</b> if
-                        <b>{{ queryTerm }}</b> exists in our
-                        records. </p>
-                    <p v-else> Searching for <b>{{ queryTerm }}</b> from our records. </p>
 
                     <span v-for='option in options' :key='option.value'>
                         <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value'
@@ -34,9 +29,9 @@
                 </b-col>
             </b-row>
 
-            <p class="text-center text-muted m-0"> We ensure your activities are safe, so keep your credentials
+            <p class="text-center text-muted pt-5 pb-3"> We ensure your activities are safe, so keep your credentials
                 away from <span class="text-danger">attackers</span>. </p>
-            <p class="text-center lead m-0"> Happy working, hope you enjoy your day. </p>
+            <p class="text-center lead pt-3"> Happy working, hope you enjoy your day. </p>
         </b-form>
     </div>
 </template>
@@ -171,7 +166,7 @@
                         this.infoMessage = 'Month only range from 1 to 12.'
                         return false
                     } else if (new Date(`${regs[2]}-${regs[3]}-${regs[1]}`) < startDate) {
-                        this.infoMessage = 'Date started on 01-07-2013.'
+                        this.infoMessage = 'Date started on 2013-07-01.'
                         return false
                     } else if (new Date(`${regs[2]}-${regs[3]}-${regs[1]}`) > today) {
                         this.infoMessage = 'Date can not be after today, cross-check values.'
@@ -198,7 +193,7 @@
         },
 
         computed: {
-            today() {
+            hourMessage() {
                 return this.checkDay()
             },
 
