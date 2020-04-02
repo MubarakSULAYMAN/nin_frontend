@@ -44,12 +44,11 @@
 <style scoped>
   .main_app {
     position: relative;
-    min-height: 100vh;
+    min-height: 100%;
   }
 
   #content-wrap {
     padding-bottom: 2.5rem;
-    /* margin-bottom: -2.5rem; */
   }
 
   #footer {

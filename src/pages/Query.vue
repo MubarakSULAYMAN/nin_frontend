@@ -1,21 +1,17 @@
 <template>
     <div>
-        <p class="text-center lead pt-3"> The query app uses your input to check if a record exists in our database and
-            gives
-            a picture of it. </p>
-        <h1 class="text-center lead text-monospace mt-5 mb-5"> {{hourMessage}} </h1>
+        <p class="text-center lead text-muted mt-3 mb-5"> The query app uses your input to check if a record exists in our database and gives a picture of it. </p>
+        <h5 class="greetings text-success"> {{hourMessage}} </h5>
 
         <b-form @reset="resetAll" v-if="show" @submit.prevent="submitForm">
-            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center pt-3 pb-5">
+            <b-row class="justify-content-sm-center justify-content-md-center justify-content-lg-center mt-5 mb-5">
                 <b-col sm="9" md="7" lg="4">
-                    <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet"
-                        :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
+                    <b-input v-model='queryTerm' size="sm" placeholder='Search...' :state="inputVet" :maxlength="maxLength" :required="selectedOption === 'option.value'" autofocus />
                     <b-form-invalid-feedback :state="inputVet"> {{ infoMessage }} </b-form-invalid-feedback>
                     <b-form-valid-feedback :state="inputVet"> Input seems Good. </b-form-valid-feedback>
 
                     <span v-for='option in options' :key='option.value'>
-                        <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value'
-                            v-model='selectedOption'>
+                        <input type='radio' :id='option.name' class="radioBtn" name='eradio' :value='option.value' v-model='selectedOption'>
                         <label :for='option.name'> {{option.text}} </label>
                     </span>
                     <div class="buttons align-center justify-center">
@@ -29,9 +25,8 @@
                 </b-col>
             </b-row>
 
-            <p class="text-center text-muted pt-5 pb-3"> We ensure your activities are safe, so keep your credentials
-                away from <span class="text-danger">attackers</span>. </p>
-            <p class="text-center lead pt-3"> Happy working, hope you enjoy your day. </p>
+            <p class="text-center text-muted mt-5 mb-4 pt-4"> We ensure your activities are safe, so keep your credentials away from <span class="text-danger">attackers</span>. </p>
+            <p class="text-center lead mt-4 goodWill"> Happy working, hope you enjoy your day. </p>
         </b-form>
     </div>
 </template>
@@ -93,7 +88,8 @@
                     if (now === 8 || now < 12) {
                         return this.dayMessage = `Welcome back, it is another beautiful ${days[parseInt(dayDate)]}.`
                     } else if (now === 12 || now < 15) {
-                        return this.dayMessage = `Welcome back, hope your ${days[parseInt(dayDate)]} has been wonderful.`
+                        return this.dayMessage =
+                            `Welcome back, hope your ${days[parseInt(dayDate)]} has been wonderful.`
                     } else if (now === 15 || now < 17) {
                         return this.dayMessage = `It is great working with you every ${days[parseInt(dayDate)]}.`
                     } else {
@@ -135,7 +131,8 @@
                     let today = new Date(date.getFullYear(), date.getMonth(), date.getDate())
                     let thisMonth = (date.getMonth() + 1)
                     let thisDay = date.getDate()
-                    let formatted_date = date.getFullYear() + "-" + ((thisMonth.toString().length < 2) ? '0' + thisMonth : thisMonth) + "-" + ((thisDay.toString().length < 2) ? '0' + thisDay : thisDay)
+                    let formatted_date = date.getFullYear() + "-" + ((thisMonth.toString().length < 2) ? '0' +
+                        thisMonth : thisMonth) + "-" + ((thisDay.toString().length < 2) ? '0' + thisDay : thisDay)
                     let month30 = [4, 6, 9, 11]
                     let month31 = [1, 3, 5, 7, 8, 10, 12]
                     let monthName = ["January", "February", "March", "April", "May", "June", "July", "August",
@@ -241,11 +238,51 @@
                 }
             }
         }
+
+
     }
 
 </script>
 
 <style scoped>
+/* .safety, .goodwill{} */
+    .greetings {
+        font-family: monospace;
+        overflow: hidden;
+        border-right: .15em solid #28a745;
+        width: fit-content;
+        white-space: nowrap;
+        margin: 0 auto;
+        /* letter-spacing: .15em; */
+        animation:
+            typing 5s steps(50, end),
+            blinking-cursor 1s step-end infinite;
+    }
+
+    /* The typing effect */
+    @keyframes typing {
+        from {
+            width: 0
+        }
+
+        to {
+            width: 43%;
+        }
+    }
+
+    /* The greetings cursor effect */
+    @keyframes blinking-cursor {
+
+        from,
+        to {
+            border-color: transparent
+        }
+
+        50% {
+            border-color: #28a745;
+        }
+    }
+
     .badInput {
         border-color: red
     }
