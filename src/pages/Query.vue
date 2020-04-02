@@ -251,7 +251,8 @@
         overflow: hidden;
         border-right: .15em solid #28a745;
         width: fit-content;
-        white-space: nowrap;
+        /* white-space: nowrap; */
+        white-space: pre; 
         margin: 0 auto;
         /* letter-spacing: .15em; */
         animation:
